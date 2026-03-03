@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>泽林生物科技 · 委托代工制造合同 (双签名精装版)</title>
+    <title>泽林生物科技 · 委托代工制造合同 (证据包版)</title>
     <!-- 引入Google Font & Font Awesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- 引入 JSZip 和 CryptoJS 用于打包和哈希 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
     <style>
         /* ========== 全局重置与字体 ========== */
         * {
@@ -177,6 +180,7 @@
             padding: 1rem 1rem;
             border: 1px solid #c8e6c9;
             box-shadow: 0 8px 16px -12px rgba(0,60,0,0.2);
+            page-break-inside: avoid;
         }
         .company-card h3 {
             color: #1B5E20;
@@ -243,6 +247,7 @@
             overflow: hidden;
             box-shadow: 0 8px 16px -14px #1B5E20;
             min-width: 750px;
+            page-break-inside: avoid;
         }
         th {
             background: #c8e6c9;
@@ -296,6 +301,7 @@
             float: right;
             box-shadow: 0 4px 10px rgba(0,80,0,0.1);
             border: 1px solid #c8e6c9;
+            page-break-inside: avoid;
         }
 
         .clause-box {
@@ -314,7 +320,7 @@
             box-shadow: inset 0 2px 6px rgba(0,30,0,0.02);
         }
 
-        /* 页脚签名区 (双印章 + 双签名并排) */
+        /* 页脚签名区 (双印章 + 双签名上传) */
         .signature-footer {
             position: relative;
             margin: 1rem 0 0.5rem;
@@ -397,11 +403,9 @@
         .stamp-placeholder:hover {
             background: #d4e6d4;
         }
-        /* 隐藏文件输入 */
         .stamp-file-input {
             display: none;
         }
-        /* 上传后显示的印章图片 */
         .stamp-uploaded-img {
             width: 90px;
             height: 90px;
@@ -413,7 +417,7 @@
             cursor: pointer;
         }
 
-        /* 双签名行 */
+        /* 签名区域 (上传图片) */
         .signatures-row {
             display: flex;
             flex-wrap: wrap;
@@ -428,6 +432,7 @@
             border: 1px solid #c8e6c9;
             box-shadow: 0 4px 10px -6px #1B5E20;
             min-width: 220px;
+            page-break-inside: avoid;
         }
         .signature-area p {
             font-weight: 600;
@@ -435,16 +440,48 @@
             font-size: 0.95rem;
             color: #1B5E20;
         }
-        .signature-area canvas {
-            border: 1px solid #a5d6a7;
-            border-radius: 14px;
-            background: #fff;
-            touch-action: none;
+        .signature-area .signature-upload-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .signature-area .signature-preview {
             width: 100%;
-            height: auto;
-            max-width: 240px;
-            display: block;
-            margin: 0 auto;
+            max-width: 200px;
+            min-height: 80px;
+            border: 1px dashed #a5d6a7;
+            border-radius: 12px;
+            background: #f9fff9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .signature-area .signature-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .signature-area .signature-placeholder {
+            color: #1B5E20;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 1rem;
+        }
+        .signature-area .signature-upload-btn {
+            background: #e8f5e9;
+            border: 1px solid #a5d6a7;
+            color: #1B5E20;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .signature-area .signature-upload-btn:hover {
+            background: #c8e6c9;
         }
         .signature-controls {
             margin-top: 0.4rem;
@@ -474,6 +511,52 @@
             font-size: 0.85rem;
             flex: 1;
             min-width: 120px;
+            width: auto;
+        }
+
+        /* 证据包相关样式 */
+        .email-section {
+            margin: 1rem 0 0.5rem;
+            padding: 0.8rem 1rem;
+            background: #f0f8f0;
+            border-radius: 16px;
+            border: 1px solid #c8e6c9;
+        }
+        .email-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+            align-items: center;
+        }
+        .email-row label {
+            font-weight: 600;
+            color: #1B5E20;
+            min-width: 80px;
+        }
+        .email-row input {
+            flex: 1;
+            min-width: 200px;
+            border: 1px solid #a5d6a7;
+            border-radius: 30px;
+            padding: 0.3rem 1rem;
+            background: white;
+            font-size: 0.9rem;
+        }
+        .hash-display {
+            background: #e8f5e9;
+            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            word-break: break-all;
+            border: 1px solid #a5d6a7;
+            margin-top: 0.5rem;
+        }
+        .evidence-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
         }
 
         /* 其他合同链接 */
@@ -535,23 +618,124 @@
             box-shadow: 0 4px 10px #c8e6c9;
         }
         .btn:hover { background: #1B5E20; transform: translateY(-2px); }
+        .btn-evidence {
+            background: #FFB300;
+            color: #1B5E20;
+        }
+        .btn-evidence:hover {
+            background: #ffa000;
+        }
 
-        /* 打印样式 */
+        /* ========== 打印样式强化 ========== */
         @media print {
-            body { background: white; padding: 0.15in; }
-            .contract-container { box-shadow: none; border: 1px solid #aaa; padding: 0.15in; border-radius: 0; background: white; }
-            .no-print, .btn, #addRowBtn, .delete-btn, .action-buttons, .role-switch, .other-contracts-links,
-            .signature-controls button { display: none !important; }
-            td:last-child, th:last-child { display: none; }
-            input, select, textarea { border: none !important; background: transparent !important; border-bottom: 1px solid #333 !important; }
-            th { background: #eaeaea !important; }
-            .company-name { -webkit-text-fill-color: #1B5E20; color: #1B5E20; background: none; }
-            .stamp-box img, .stamp-placeholder, .stamp-uploaded-img { max-width: 80px; }
-            .stamp-placeholder { border: 1px solid #000; background: #f9f9f9; }
-            .stamp-uploaded-img { border: 1px solid #000; }
-            .signature-area canvas { border: 1px solid #000; }
-            .signature-area input[type="date"] { border: none; border-bottom: 1px solid #333; background: transparent; }
-            .clause-box textarea { height: auto; overflow: visible; border: 1px solid #333 !important; }
+            body {
+                background: white;
+                padding: 0.2in;
+            }
+            .contract-container {
+                box-shadow: none;
+                border: 1px solid #aaa;
+                padding: 0.2in;
+                border-radius: 0;
+                background: white;
+                max-width: 100%;
+            }
+            /* 隐藏非打印元素 */
+            .no-print,
+            .btn,
+            #addRowBtn,
+            .delete-btn,
+            .action-buttons,
+            .role-switch,
+            .other-contracts-links,
+            .signature-upload-btn,
+            .signature-controls button,
+            .email-section,
+            .evidence-buttons {
+                display: none !important;
+            }
+            td:last-child,
+            th:last-child {
+                display: none;
+            }
+            /* 输入框、选择框只保留文字边框 */
+            input,
+            select,
+            textarea {
+                border: none !important;
+                background: transparent !important;
+                border-bottom: 1px solid #333 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            th {
+                background: #eaeaea !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .company-card,
+            .bank-info {
+                border: 1px solid #aaa;
+                background: #f9f9f9 !important;
+            }
+            .brand-logo {
+                filter: grayscale(0.2);
+                opacity: 1;
+            }
+            .company-name {
+                -webkit-text-fill-color: #1B5E20;
+                color: #1B5E20;
+                background: none;
+            }
+            /* 强制条款区域展开，无滚动条 */
+            .clause-box textarea {
+                height: auto !important;
+                max-height: none !important;
+                min-height: 0 !important;
+                overflow: visible !important;
+                resize: none !important;
+                border: 1px solid #333 !important;
+                background: transparent;
+                white-space: pre-wrap;
+                box-shadow: none;
+                padding: 0.2rem;
+                font-size: 0.9rem !important;
+                line-height: 1.2 !important;
+            }
+            /* 防止签名区跨页 */
+            .signature-footer,
+            .stamp-box,
+            .signature-area {
+                page-break-inside: avoid;
+            }
+            .stamp-box img,
+            .stamp-placeholder,
+            .stamp-uploaded-img {
+                max-width: 80px;
+            }
+            .stamp-placeholder {
+                border: 1px solid #000;
+                background: #f9f9f9;
+            }
+            .stamp-uploaded-img {
+                border: 1px solid #000;
+            }
+            .signature-area .signature-preview {
+                border: 1px solid #000;
+            }
+            .signature-area input[type="date"] {
+                border: none;
+                border-bottom: 1px solid #333;
+                background: transparent;
+            }
+            /* 表格打印时保留边框 */
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+            th, td {
+                border: 1px solid #000;
+            }
         }
 
         /* 移动端优化 */
@@ -564,7 +748,8 @@
             .total-row { font-size: 1.4rem; }
             .stamp-box img, .stamp-placeholder, .stamp-uploaded-img { width: 70px; height: 70px; }
             .signature-area { flex: 1 1 100%; }
-            .signature-area canvas { max-width: 200px; }
+            .signature-area .signature-preview { max-width: 180px; }
+            .signature-controls input[type="date"] { min-width: 100px; }
         }
     </style>
 </head>
@@ -634,55 +819,12 @@
         <!-- 总代工金额 -->
         <div class="total-row" id="grandTotalSpan">¥ 0.00</div>
 
-        <!-- 合同条款 (rows=25 确保无滚动条) 参考OEM范本及民法典承揽合同条款[citation:1][citation:8] -->
+        <!-- 合同条款 (动态内容由JS控制，rows=25确保无滚动条) -->
         <div class="clause-box">
-            <textarea id="contractClauses" rows="25">
-一、代工内容及要求
-1. 甲方委托乙方加工本合同项下产品，具体规格、型号、数量、单价及总价详见上表。乙方应按照甲方提供的技术标准、工艺文件及双方确认的样品进行生产[citation:8]。
-2. 乙方作为承揽人，应以自己的设备、技术和劳力独立完成工作，未经甲方书面同意不得将主要加工任务转委托给第三方[citation:1]。
-
-二、原材料供应
-1. 双方确认采用以下第（ ）种方式：①甲方提供主要原材料，乙方负责辅料及生产；②乙方包工包料，自行采购符合约定的全部材料，并将供应商名录及材质证明提交甲方备案。
-2. 若因原材料质量问题导致产品不符合约定，由材料提供方承担相应责任。
-
-三、质量与验收
-1. 质量标准：以双方共同封存的样品及书面技术参数为准，包括但不限于外观、纯度、微生物指标等[citation:6]。
-2. 验收期限：甲方收到货物后 5 个工作日内完成数量与外观验收；内在质量问题应在 15 日内书面提出，否则视为验收合格[citation:2]。对产品有质量保证期的，适用质量保证期[citation:6]。
-3. 质量异议：如发现产品不符合约定，甲方应立即书面通知乙方，乙方应在 7 日内予以更换或退货；逾期未处理的，甲方有权自行处理并由乙方承担费用[citation:2]。
-
-四、价格与结算
-1. 代工单价详见上表，该价格含材料费、加工费、包装费及运抵甲方指定仓库的运费。
-2. 付款方式：合同签订后 3 日内支付总金额的 30% 作为预付款；货到验收合格并收到全额增值税专用发票后 15 日内付清余款[citation:8]。
-
-五、交付与运输
-1. 交货时间：自收到预付款之日起 15 个工作日内发货，或按双方另行书面确认的交期执行。
-2. 交货地点：甲方指定仓库（厦门市）。运输方式由乙方代办，运费由乙方承担；货物毁损、灭失的风险自交付承运人时转移。
-
-六、知识产权与保密
-1. 甲方提供的技术图纸、配方、设计文件、商标等知识产权归甲方所有，乙方不得擅自使用、复制或泄露给任何第三方[citation:3]。
-2. 乙方在加工过程中产生的与产品相关的改进技术成果归甲方所有。
-3. 双方对本合同内容及合作中知悉的商业秘密承担永久保密义务，保密信息包括但不限于客户信息、技术资料、采购渠道等[citation:3]。本条款在本合同终止后持续有效[citation:3]。
-
-七、违约责任
-1. 乙方逾期交货，每逾一日按未交付货物价值的 0.5% 支付违约金；逾期超过 15 日，甲方有权解除合同。
-2. 产品质量不符合约定，乙方应承担修理、重作、减少价款或赔偿损失等责任[citation:1]。
-3. 甲方逾期付款，每逾一日按应付未付款项的 0.5% 支付违约金；逾期超过 15 日，乙方有权停止发货并解除合同。
-4. 任何一方擅自解除合同，应承担合同总金额 20% 的违约金。
-
-八、免责条款
-因不可抗力（如自然灾害、战争、疫情、政府行为等）导致不能履行合同的，受影响方应及时通知对方并提供证明，可免除相应违约责任[citation:8]。
-
-九、争议解决
-因本合同引起的任何争议，双方应友好协商；协商不成时，提交厦门仲裁委员会按照申请仲裁时该会现行有效的仲裁规则进行仲裁。仲裁裁决是终局的，对双方均有约束力[citation:8][citation:10]。
-
-十、其他
-1. 本合同自双方签字盖章之日起生效，一式两份，双方各执一份，具有同等法律效力。
-2. 任何未尽事宜，可签订补充协议，补充协议与本合同具有同等效力[citation:8]。
-3. 双方确认的送达地址为法律文书送达地址，按该地址邮寄即视为送达[citation:8]。
-            </textarea>
+            <textarea id="contractClauses" rows="25"></textarea>
         </div>
 
-        <!-- 页脚签名区：双印章 + 双签名 -->
+        <!-- 页脚签名区：双印章 + 双签名上传 -->
         <div class="signature-footer">
             <div class="logo-watermark-footer">
                 <img src="images/xmzelin-logo.png" alt="厦门泽林水印" onerror="this.onerror=null; this.src='https://via.placeholder.com/220x110?text=Zelin';">
@@ -697,25 +839,26 @@
                     </div>
                     <!-- 对方合同章 (可上传) -->
                     <div class="stamp-box" id="opponentStampBox">
-                        <!-- 隐藏文件输入 -->
                         <input type="file" id="stampUpload" accept="image/*" class="stamp-file-input">
-                        <!-- 占位符（可点击上传） -->
-                        <div class="stamp-placeholder" id="stampPlaceholder">
-                            点击上传<br>对方合同章
-                        </div>
-                        <!-- 上传后显示的图片（初始隐藏） -->
+                        <div class="stamp-placeholder" id="stampPlaceholder">点击上传<br>对方合同章</div>
                         <img class="stamp-uploaded-img" id="stampUploadedImg" src="#" alt="对方合同章" style="display: none;">
                         <p style="font-size:0.7rem; margin-top:0.1rem;">（委托方/代工方盖章处）</p>
                     </div>
                 </div>
-                <!-- 双签名行 -->
+                <!-- 双签名行 (上传签名图片) -->
                 <div class="signatures-row">
                     <!-- 甲方签名区 -->
                     <div class="signature-area" id="signature-area1">
                         <p>甲方代表签名：</p>
-                        <canvas id="signatureCanvas1" width="280" height="100" style="touch-action: none;"></canvas>
+                        <div class="signature-upload-container">
+                            <div class="signature-preview" id="signaturePreview1">
+                                <div class="signature-placeholder">未上传签名</div>
+                            </div>
+                            <input type="file" id="signatureUpload1" accept="image/*" class="stamp-file-input" style="display:none;">
+                            <button type="button" class="signature-upload-btn" id="signatureUploadBtn1">上传签名图片</button>
+                        </div>
                         <div class="signature-controls">
-                            <button type="button" class="clear-signature" data-canvas="signatureCanvas1">清除</button>
+                            <button type="button" class="clear-signature" id="clearSignature1">清除</button>
                             <span>签字日期：</span>
                             <input type="date" id="signatureDate1" value="2025-03-03">
                         </div>
@@ -723,15 +866,38 @@
                     <!-- 乙方签名区 -->
                     <div class="signature-area" id="signature-area2">
                         <p>乙方代表签名：</p>
-                        <canvas id="signatureCanvas2" width="280" height="100" style="touch-action: none;"></canvas>
+                        <div class="signature-upload-container">
+                            <div class="signature-preview" id="signaturePreview2">
+                                <div class="signature-placeholder">未上传签名</div>
+                            </div>
+                            <input type="file" id="signatureUpload2" accept="image/*" class="stamp-file-input" style="display:none;">
+                            <button type="button" class="signature-upload-btn" id="signatureUploadBtn2">上传签名图片</button>
+                        </div>
                         <div class="signature-controls">
-                            <button type="button" class="clear-signature" data-canvas="signatureCanvas2">清除</button>
+                            <button type="button" class="clear-signature" id="clearSignature2">清除</button>
                             <span>签字日期：</span>
                             <input type="date" id="signatureDate2" value="2025-03-03">
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- 证据包与邮件发送区域 -->
+        <div class="email-section no-print">
+            <div class="email-row">
+                <label>甲方邮箱：</label>
+                <input type="email" id="emailPartyA" placeholder="请输入甲方邮箱" value="partyA@example.com">
+            </div>
+            <div class="email-row">
+                <label>乙方邮箱：</label>
+                <input type="email" id="emailPartyB" placeholder="请输入乙方邮箱" value="partyB@example.com">
+            </div>
+            <div class="evidence-buttons">
+                <button class="btn btn-evidence" id="generateEvidenceBtn">📦 生成证据包</button>
+                <button class="btn btn-evidence" id="sendEmailBtn">📧 发送邮件</button>
+            </div>
+            <div class="hash-display" id="hashDisplay">尚未生成证据包哈希值</div>
         </div>
 
         <!-- 其他合同链接 -->
@@ -761,6 +927,92 @@
                 accountName: '厦门泽林生物科技有限公司'
             };
 
+            // 条款文本 - 泽林为委托方（优先保护泽林）
+            const CLAUSES_CLIENT = `一、代工内容及要求
+1. 产品明细见上表，乙方按甲方提供的技术标准、工艺文件及确认样品生产。
+2. 乙方应以自己设备、技术独立完成，未经书面同意不得转委托。
+
+二、原材料供应
+1. 双方确认方式：□甲方供料 □乙方包工包料（二选一）。
+2. 若原材料质量问题导致产品不符，由提供方担责。
+
+三、质量与验收
+1. 质量以封样及书面参数为准。
+2. 验收期限：收货后3日内数量/外观验收；内在质量7日内书面提出，否则视为合格。
+3. 质量异议：乙方应在7日内更换或退货，费用乙方承担。
+
+四、价格与结算
+1. 单价见上表，含材料、加工、包装、运费。
+2. 付款：合同签订后3日内付30%预付款；货到验收合格并收发票后15日内付清余款。
+
+五、交付与运输
+1. 交货时间：预付款到账后15个工作日内发货。
+2. 交货地点：甲方指定仓库（厦门），运费乙方承担，风险自交付承运人转移。
+
+六、知识产权与保密
+1. 甲方提供的技术、配方等知识产权归甲方，乙方不得泄露。
+2. 改进技术成果归甲方。
+3. 永久保密义务，合同终止后持续有效。
+
+七、违约责任
+1. 乙方逾期交货：每日0.5%违约金；超15日甲方有权解约。
+2. 质量不符：乙方应修理、重作、减价或赔偿。
+3. 甲方逾期付款：每日0.5%违约金；超15日乙方有权停止发货并解约。
+4. 擅自解约：支付总金额20%违约金。
+
+八、免责条款
+不可抗力及时通知并提供证明，可免责。
+
+九、争议解决
+协商不成，提交厦门仲裁委员会仲裁，裁决为终局。
+
+十、其他
+1. 生效：签字盖章之日起生效，一式两份，同等效力。
+2. 补充协议具同等效力。
+3. 送达地址邮寄即视为送达。`;
+
+            // 条款文本 - 泽林为代工方（优先保护泽林）
+            const CLAUSES_MANUFACTURER = `一、代工内容及要求
+1. 产品明细见上表，乙方严格按甲方技术文件生产。
+2. 乙方独立完成，未经同意不得转委托。
+
+二、原材料供应
+1. 双方确认方式：□甲方供料 □乙方包工包料。
+2. 若因甲方供料质量问题导致产品不符，甲方承担责任。
+
+三、质量与验收
+1. 质量以封样及书面参数为准。
+2. 验收期限：收货后5日内数量/外观验收；内在质量15日内书面提出，否则视为合格。
+3. 质量异议：确属乙方责任的，乙方负责更换或退货。
+
+四、价格与结算
+1. 单价见上表，含材料、加工、包装、运费。
+2. 付款：合同签订后3日内付30%预付款；货到验收合格并收发票后15日内付清余款。
+
+五、交付与运输
+1. 交货时间：预付款到账后15个工作日内发货。
+2. 交货地点：甲方指定仓库，运费乙方承担。
+
+六、知识产权与保密
+1. 甲方提供的技术、配方等知识产权归甲方。
+2. 乙方对商业秘密永久保密。
+
+七、违约责任
+1. 乙方逾期交货：每日0.5%违约金；超15日甲方可解约。
+2. 甲方逾期付款：每日0.5%违约金；超15日乙方有权停止发货并解约。
+3. 擅自解约：支付总金额20%违约金。
+
+八、免责条款
+不可抗力可免责。
+
+九、争议解决
+厦门仲裁委员会仲裁。
+
+十、其他
+1. 生效：签字盖章生效。
+2. 补充协议具同等效力。
+3. 送达地址邮寄即视为送达。`;
+
             const roleClient = document.getElementById('roleClient');
             const roleManufacturer = document.getElementById('roleManufacturer');
             const clientTitle = document.getElementById('clientTitle');
@@ -768,6 +1020,7 @@
             const clientContent = document.getElementById('clientContent');
             const manufacturerContent = document.getElementById('manufacturerContent');
             const contractTitle = document.getElementById('contractTitle');
+            const contractClauses = document.getElementById('contractClauses');
 
             const itemsBody = document.getElementById('itemsBody');
             const addRowBtn = document.getElementById('addRowBtn');
@@ -782,12 +1035,14 @@
                     manufacturerTitle.innerText = '代工方（乙方）';
                     manufacturerContent.innerHTML = buildManufacturerEditableHTML();
                     contractTitle.innerText = '委托代工制造合同 (委托)';
+                    contractClauses.value = CLAUSES_CLIENT;
                 } else {
                     clientTitle.innerText = '委托方（甲方）';
                     clientContent.innerHTML = buildClientEditableHTML();
                     manufacturerTitle.innerText = '代工方（乙方）· 厦门泽林';
                     manufacturerContent.innerHTML = buildZelinManufacturerHTML();
                     contractTitle.innerText = '委托代工制造合同 (代工)';
+                    contractClauses.value = CLAUSES_MANUFACTURER;
                 }
             }
 
@@ -986,90 +1241,17 @@
             renderCompanyCards();
             initTable();
 
-            // 签名画布初始化函数
-            function initSignatureCanvas(canvasId, clearBtnSelector) {
-                const canvas = document.getElementById(canvasId);
-                if (!canvas) return;
-                let drawing = false;
-                const ctx = canvas.getContext('2d');
-                ctx.lineWidth = 2;
-                ctx.lineCap = 'round';
-                ctx.strokeStyle = '#000';
-
-                function getCoords(e) {
-                    const rect = canvas.getBoundingClientRect();
-                    const scaleX = canvas.width / rect.width;
-                    const scaleY = canvas.height / rect.height;
-                    let clientX, clientY;
-                    if (e.touches) {
-                        clientX = e.touches[0].clientX;
-                        clientY = e.touches[0].clientY;
-                        e.preventDefault();
-                    } else {
-                        clientX = e.clientX;
-                        clientY = e.clientY;
-                    }
-                    return {
-                        x: (clientX - rect.left) * scaleX,
-                        y: (clientY - rect.top) * scaleY
-                    };
-                }
-
-                function startDrawing(e) {
-                    drawing = true;
-                    ctx.beginPath();
-                    const coords = getCoords(e);
-                    ctx.moveTo(coords.x, coords.y);
-                }
-
-                function draw(e) {
-                    if (!drawing) return;
-                    e.preventDefault();
-                    const coords = getCoords(e);
-                    ctx.lineTo(coords.x, coords.y);
-                    ctx.stroke();
-                }
-
-                function stopDrawing() {
-                    drawing = false;
-                    ctx.closePath();
-                }
-
-                canvas.addEventListener('mousedown', startDrawing);
-                canvas.addEventListener('mousemove', draw);
-                canvas.addEventListener('mouseup', stopDrawing);
-                canvas.addEventListener('mouseleave', stopDrawing);
-
-                canvas.addEventListener('touchstart', startDrawing, { passive: false });
-                canvas.addEventListener('touchmove', draw, { passive: false });
-                canvas.addEventListener('touchend', stopDrawing);
-                canvas.addEventListener('touchcancel', stopDrawing);
-
-                const clearBtn = typeof clearBtnSelector === 'string' ? document.querySelector(clearBtnSelector) : clearBtnSelector;
-                if (clearBtn) {
-                    clearBtn.addEventListener('click', function() {
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    });
-                }
-            }
-
-            initSignatureCanvas('signatureCanvas1', '#signature-area1 .clear-signature');
-            initSignatureCanvas('signatureCanvas2', '#signature-area2 .clear-signature');
-
-            // ---------- 对方合同章上传功能 ----------
+            // ---------- 对方合同章上传 ----------
             const stampUpload = document.getElementById('stampUpload');
             const stampPlaceholder = document.getElementById('stampPlaceholder');
             const stampUploadedImg = document.getElementById('stampUploadedImg');
 
-            stampPlaceholder.addEventListener('click', function() {
-                stampUpload.click();
-            });
-
+            stampPlaceholder.addEventListener('click', () => stampUpload.click());
             stampUpload.addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (file) {
                     const reader = new FileReader();
-                    reader.onload = function(ev) {
+                    reader.onload = (ev) => {
                         stampUploadedImg.src = ev.target.result;
                         stampUploadedImg.style.display = 'block';
                         stampPlaceholder.style.display = 'none';
@@ -1077,9 +1259,112 @@
                     reader.readAsDataURL(file);
                 }
             });
+            stampUploadedImg.addEventListener('click', () => stampUpload.click());
 
-            stampUploadedImg.addEventListener('click', function() {
-                stampUpload.click();
+            // ---------- 签名上传功能 ----------
+            function initSignatureUpload(sigId, previewId, clearBtnId, uploadBtnId) {
+                const fileInput = document.getElementById(sigId);
+                const previewDiv = document.getElementById(previewId);
+                const clearBtn = document.getElementById(clearBtnId);
+                const uploadBtn = document.getElementById(uploadBtnId);
+
+                uploadBtn.addEventListener('click', () => fileInput.click());
+
+                fileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (ev) => {
+                            previewDiv.innerHTML = `<img src="${ev.target.result}" style="max-width:100%; max-height:100%;">`;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                clearBtn.addEventListener('click', function() {
+                    previewDiv.innerHTML = '<div class="signature-placeholder">未上传签名</div>';
+                    fileInput.value = '';
+                });
+            }
+
+            initSignatureUpload('signatureUpload1', 'signaturePreview1', 'clearSignature1', 'signatureUploadBtn1');
+            initSignatureUpload('signatureUpload2', 'signaturePreview2', 'clearSignature2', 'signatureUploadBtn2');
+
+            // ---------- 证据包生成与邮件发送 ----------
+            const generateBtn = document.getElementById('generateEvidenceBtn');
+            const sendBtn = document.getElementById('sendEmailBtn');
+            const hashDisplay = document.getElementById('hashDisplay');
+            let currentHash = '';
+
+            function dataURLtoBlob(dataurl) {
+                const arr = dataurl.split(',');
+                const mime = arr[0].match(/:(.*?);/)[1];
+                const bstr = atob(arr[1]);
+                let n = bstr.length;
+                const u8arr = new Uint8Array(n);
+                while (n--) {
+                    u8arr[n] = bstr.charCodeAt(n);
+                }
+                return new Blob([u8arr], { type: mime });
+            }
+
+            generateBtn.addEventListener('click', async function() {
+                try {
+                    const contractData = collectFormData();
+
+                    const sig1Preview = document.querySelector('#signaturePreview1 img');
+                    const sig2Preview = document.querySelector('#signaturePreview2 img');
+                    const stampImg = document.getElementById('stampUploadedImg');
+
+                    let sig1Blob = null, sig2Blob = null, stampBlob = null;
+                    if (sig1Preview) sig1Blob = dataURLtoBlob(sig1Preview.src);
+                    if (sig2Preview) sig2Blob = dataURLtoBlob(sig2Preview.src);
+                    if (stampImg && stampImg.style.display !== 'none') stampBlob = dataURLtoBlob(stampImg.src);
+
+                    const zip = new JSZip();
+                    zip.file('contract.json', JSON.stringify(contractData, null, 2));
+                    if (sig1Blob) zip.file('signature_A.png', sig1Blob);
+                    if (sig2Blob) zip.file('signature_B.png', sig2Blob);
+                    if (stampBlob) zip.file('stamp_opponent.png', stampBlob);
+                    zip.file('signature_timestamp.txt', new Date().toISOString());
+
+                    const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+                    const buffer = await zipBlob.arrayBuffer();
+                    const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+                    const hashArray = Array.from(new Uint8Array(hashBuffer));
+                    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                    currentHash = hashHex;
+                    hashDisplay.innerText = '证据包哈希值 (SHA-256): ' + hashHex;
+
+                    const url = URL.createObjectURL(zipBlob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `contract_evidence_${contractData.contractNo}.zip`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                } catch (error) {
+                    alert('生成证据包失败：' + error.message);
+                }
+            });
+
+            sendBtn.addEventListener('click', function() {
+                const emailA = document.getElementById('emailPartyA').value.trim();
+                const emailB = document.getElementById('emailPartyB').value.trim();
+                if (!emailA || !emailB) {
+                    alert('请输入双方邮箱地址');
+                    return;
+                }
+                if (!currentHash) {
+                    alert('请先生成证据包');
+                    return;
+                }
+                const subject = '合同证据包 - ' + document.getElementById('contractNo').value;
+                const body = `尊敬的双方，\n\n请查收附件中的合同证据包。\n证据包哈希值 (SHA-256): ${currentHash}\n\n您可以使用该哈希值验证文件的完整性。\n\n本邮件由系统自动生成，请勿回复。`;
+                const mailtoLink = `mailto:${emailA},${emailB}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                window.location.href = mailtoLink;
             });
         })();
     </script>
