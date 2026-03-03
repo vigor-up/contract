@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>厦门泽林 · 生技原料买卖合同 (双签名精装版)</title>
+    <title>厦门泽林 · 生技原料买卖合同 (优先保护版)</title>
     <!-- 引入Google Font & Font Awesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -312,10 +312,9 @@
             background: #fefefe;
             resize: vertical;
             box-shadow: inset 0 2px 6px rgba(0,30,0,0.02);
-            /* 移除min-height，由rows控制高度 */
         }
 
-        /* 页脚签名区 (双印章 + 双签名并排) */
+        /* 页脚签名区 (双印章 + 双签名上传) */
         .signature-footer {
             position: relative;
             margin: 1rem 0 0.5rem;
@@ -398,11 +397,9 @@
         .stamp-placeholder:hover {
             background: #d4e6d4;
         }
-        /* 隐藏文件输入 */
         .stamp-file-input {
             display: none;
         }
-        /* 上传后显示的印章图片 */
         .stamp-uploaded-img {
             width: 90px;
             height: 90px;
@@ -414,7 +411,7 @@
             cursor: pointer;
         }
 
-        /* 双签名行 */
+        /* 签名区域 (改为上传图片) */
         .signatures-row {
             display: flex;
             flex-wrap: wrap;
@@ -436,16 +433,48 @@
             font-size: 0.95rem;
             color: #1B5E20;
         }
-        .signature-area canvas {
-            border: 1px solid #a5d6a7;
-            border-radius: 14px;
-            background: #fff;
-            touch-action: none;
+        .signature-area .signature-upload-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .signature-area .signature-preview {
             width: 100%;
-            height: auto;
-            max-width: 240px;
-            display: block;
-            margin: 0 auto;
+            max-width: 200px;
+            min-height: 80px;
+            border: 1px dashed #a5d6a7;
+            border-radius: 12px;
+            background: #f9fff9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .signature-area .signature-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .signature-area .signature-placeholder {
+            color: #1B5E20;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 1rem;
+        }
+        .signature-area .signature-upload-btn {
+            background: #e8f5e9;
+            border: 1px solid #a5d6a7;
+            color: #1B5E20;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .signature-area .signature-upload-btn:hover {
+            background: #c8e6c9;
         }
         .signature-controls {
             margin-top: 0.4rem;
@@ -475,6 +504,7 @@
             font-size: 0.85rem;
             flex: 1;
             min-width: 120px;
+            width: auto; /* 确保单行 */
         }
 
         /* 其他合同链接 */
@@ -542,7 +572,7 @@
             body { background: white; padding: 0.15in; }
             .contract-container { box-shadow: none; border: 1px solid #aaa; padding: 0.15in; border-radius: 0; background: white; }
             .no-print, .btn, #addRowBtn, .delete-btn, .action-buttons, .role-switch, .other-contracts-links,
-            .signature-controls button { display: none !important; }
+            .signature-controls button, .signature-upload-btn { display: none !important; }
             td:last-child, th:last-child { display: none; }
             input, select, textarea { border: none !important; background: transparent !important; border-bottom: 1px solid #333 !important; }
             th { background: #eaeaea !important; }
@@ -550,8 +580,9 @@
             .stamp-box img, .stamp-placeholder, .stamp-uploaded-img { max-width: 80px; }
             .stamp-placeholder { border: 1px solid #000; background: #f9f9f9; }
             .stamp-uploaded-img { border: 1px solid #000; }
-            .signature-area canvas { border: 1px solid #000; }
+            .signature-area .signature-preview { border: 1px solid #000; }
             .signature-area input[type="date"] { border: none; border-bottom: 1px solid #333; background: transparent; }
+            .clause-box textarea { height: auto; overflow: visible; border: 1px solid #333 !important; }
         }
 
         /* 移动端优化 */
@@ -564,7 +595,8 @@
             .total-row { font-size: 1.4rem; }
             .stamp-box img, .stamp-placeholder, .stamp-uploaded-img { width: 70px; height: 70px; }
             .signature-area { flex: 1 1 100%; }
-            .signature-area canvas { max-width: 200px; }
+            .signature-area .signature-preview { max-width: 180px; }
+            .signature-controls input[type="date"] { min-width: 100px; }
         }
     </style>
 </head>
@@ -625,45 +657,12 @@
         <!-- 总计金额 -->
         <div class="total-row" id="grandTotalSpan">¥ 0.00</div>
 
-        <!-- 合同条款 (rows=25 确保无滚动条) -->
+        <!-- 合同条款 (动态内容由JS控制，rows=25确保无滚动条) -->
         <div class="clause-box">
-            <textarea id="contractClauses" rows="25">
-一、产品与质量标准
-1. 产品名称、规格、数量、单价及总价详见上表。
-2. 质量要求：按供方企业标准（Q/XL 001-2025）或双方确认的样品/技术资料执行，产品应符合国家相关法规及行业标准。
-3. 包装要求：采用适合长途运输的防潮、防污染包装，包装物不回收。
-
-二、交货与运输
-1. 交货时间：买方支付预付款后 15 个工作日内发货，或按双方另行书面确认的交期执行。
-2. 交货地点：厦门港 / 供方仓库（以卖方通知为准）。
-3. 运输方式及费用：供方负责代办运输，运费由供方承担；若买方指定物流，费用由买方承担。
-
-三、验收与异议
-1. 验收期限：买方收到货物后 5 个工作日内完成数量与外观验收；内在质量问题应在 15 日内书面提出，否则视为合格。
-2. 质量异议：如发现产品不符合约定，买方应立即通知供方，双方协商处理；供方应在 7 日内予以更换或退货。
-
-四、结算方式
-1. 合同签订后 3 日内预付总金额的 30%，货到验收合格并收到全额增值税专用发票后 15 日内付清余款。
-2. 所有款项以银行转账支付至本合同载明的供方账户。
-
-五、违约责任
-1. 供方逾期交货，每逾一日按未交付货物价值的 0.5% 支付违约金；逾期超过 15 日，买方有权解除合同。
-2. 买方逾期付款，每逾一日按应付未付款项的 0.5% 支付违约金；逾期超过 15 日，供方有权停止发货并解除合同。
-3. 任何一方擅自解除合同，应承担合同总金额 20% 的违约金。
-
-六、免责条款
-因不可抗力（如自然灾害、战争、疫情、政府行为等）导致不能履行合同的，受影响方应及时通知对方并提供证明，可免除相应违约责任。
-
-七、争议解决
-因本合同引起的任何争议，双方应友好协商；协商不成时，提交厦门仲裁委员会按照申请仲裁时该会现行有效的仲裁规则进行仲裁。
-
-八、其他
-1. 本合同自双方签字盖章之日起生效，一式两份，双方各执一份，具有同等法律效力。
-2. 任何未尽事宜，可签订补充协议，补充协议与本合同具有同等效力。
-            </textarea>
+            <textarea id="contractClauses" rows="25"></textarea>
         </div>
 
-        <!-- 页脚签名区：双印章 + 双签名 -->
+        <!-- 页脚签名区：双印章 + 双签名上传 -->
         <div class="signature-footer">
             <div class="logo-watermark-footer">
                 <img src="images/xmzelin-logo.png" alt="厦门泽林水印" onerror="this.onerror=null; this.src='https://via.placeholder.com/220x110?text=Zelin';">
@@ -678,25 +677,26 @@
                     </div>
                     <!-- 对方合同章 (可上传) -->
                     <div class="stamp-box" id="opponentStampBox">
-                        <!-- 隐藏文件输入 -->
                         <input type="file" id="stampUpload" accept="image/*" class="stamp-file-input">
-                        <!-- 占位符（可点击上传） -->
-                        <div class="stamp-placeholder" id="stampPlaceholder">
-                            点击上传<br>对方合同章
-                        </div>
-                        <!-- 上传后显示的图片（初始隐藏） -->
+                        <div class="stamp-placeholder" id="stampPlaceholder">点击上传<br>对方合同章</div>
                         <img class="stamp-uploaded-img" id="stampUploadedImg" src="#" alt="对方合同章" style="display: none;">
                         <p style="font-size:0.7rem; margin-top:0.1rem;">（买方/卖方盖章处）</p>
                     </div>
                 </div>
-                <!-- 双签名行 -->
+                <!-- 双签名行 (改为上传签名图片) -->
                 <div class="signatures-row">
                     <!-- 甲方签名区 -->
                     <div class="signature-area" id="signature-area1">
                         <p>甲方代表签名：</p>
-                        <canvas id="signatureCanvas1" width="280" height="100" style="touch-action: none;"></canvas>
+                        <div class="signature-upload-container">
+                            <div class="signature-preview" id="signaturePreview1">
+                                <div class="signature-placeholder">未上传签名</div>
+                            </div>
+                            <input type="file" id="signatureUpload1" accept="image/*" class="stamp-file-input" style="display:none;">
+                            <button type="button" class="signature-upload-btn" id="signatureUploadBtn1">上传签名图片</button>
+                        </div>
                         <div class="signature-controls">
-                            <button type="button" class="clear-signature" data-canvas="signatureCanvas1">清除</button>
+                            <button type="button" class="clear-signature" id="clearSignature1">清除</button>
                             <span>签字日期：</span>
                             <input type="date" id="signatureDate1" value="2025-03-03">
                         </div>
@@ -704,9 +704,15 @@
                     <!-- 乙方签名区 -->
                     <div class="signature-area" id="signature-area2">
                         <p>乙方代表签名：</p>
-                        <canvas id="signatureCanvas2" width="280" height="100" style="touch-action: none;"></canvas>
+                        <div class="signature-upload-container">
+                            <div class="signature-preview" id="signaturePreview2">
+                                <div class="signature-placeholder">未上传签名</div>
+                            </div>
+                            <input type="file" id="signatureUpload2" accept="image/*" class="stamp-file-input" style="display:none;">
+                            <button type="button" class="signature-upload-btn" id="signatureUploadBtn2">上传签名图片</button>
+                        </div>
                         <div class="signature-controls">
-                            <button type="button" class="clear-signature" data-canvas="signatureCanvas2">清除</button>
+                            <button type="button" class="clear-signature" id="clearSignature2">清除</button>
                             <span>签字日期：</span>
                             <input type="date" id="signatureDate2" value="2025-03-03">
                         </div>
@@ -742,6 +748,76 @@
                 accountName: '厦门泽林生物科技有限公司'
             };
 
+            // 条款文本（优先保护泽林）
+            const CLAUSES_SELLER = `一、产品与质量标准
+1. 产品名称、规格、数量、单价及总价详见上表。
+2. 质量要求：按供方（厦门泽林）企业标准（Q/XL 001-2025）或双方确认的样品/技术资料执行，产品应符合国家相关法规及行业标准。
+3. 包装要求：采用适合长途运输的防潮、防污染包装，包装物不回收。
+
+二、交货与运输
+1. 交货时间：买方付清全部货款后 5 个工作日内发货，具体发货时间以买方实际付款到账时间为准。
+2. 交货地点：厦门港 / 供方仓库（以卖方通知为准）。
+3. 运输方式及费用：供方负责代办运输，运费由供方承担；若买方指定物流，费用由买方承担。
+
+三、验收与异议
+1. 验收期限：买方收到货物后 3 个工作日内完成数量与外观验收；内在质量问题应在 7 日内书面提出，否则视为验收合格且产品无任何瑕疵。
+2. 质量异议：如发现产品不符合约定，买方应立即书面通知供方，并提供第三方权威检测报告，供方确认后予以更换或退货；逾期未通知视为产品完全合格。
+
+四、结算方式
+1. 买方应于合同签订后 3 日内支付合同总金额的 30% 作为定金，剩余 70% 款项应在发货前一次性付清，供方收到全款后方可安排发货。
+2. 定金适用定金罚则：买方违约无权请求返还定金，供方违约双倍返还定金。
+3. 所有款项以银行转账支付至本合同载明的供方账户，供方收到全款后开具全额增值税专用发票。
+
+五、违约责任
+1. 供方逾期交货，每逾一日按已收款项的 0.5% 支付违约金；逾期超过 15 日，买方有权解除合同，供方应返还全部款项并支付合同总金额 20% 的违约金。
+2. 买方逾期付款，每逾一日按应付未付款项的 0.5% 支付违约金；逾期超过 7 日，供方有权解除合同，没收定金并追究买方违约责任。
+3. 任何一方擅自解除合同，应承担合同总金额 20% 的违约金。
+
+六、免责条款
+因不可抗力（如自然灾害、战争、疫情、政府行为等）导致不能履行合同的，受影响方应及时通知对方并提供证明，可免除相应违约责任。
+
+七、争议解决
+因本合同引起的任何争议，双方应友好协商；协商不成时，提交厦门仲裁委员会按照申请仲裁时该会现行有效的仲裁规则进行仲裁。仲裁地为厦门，使用简体中文。
+
+八、其他
+1. 本合同自双方签字盖章之日起生效，一式两份，双方各执一份，具有同等法律效力。
+2. 任何未尽事宜，可签订补充协议，补充协议与本合同具有同等效力。
+3. 双方确认的送达地址为法律文书送达地址，按该地址邮寄即视为送达。`;
+
+            const CLAUSES_BUYER = `一、产品与质量标准
+1. 产品名称、规格、数量、单价及总价详见上表。
+2. 质量要求：按供方企业标准或双方确认的样品/技术资料执行，产品应符合国家相关法规及行业标准；如供方提供的产品不符合约定，买方有权拒收且不承担任何责任。
+3. 包装要求：采用适合长途运输的防潮、防污染包装，包装物不回收。
+
+二、交货与运输
+1. 交货时间：卖方应在合同签订后 10 个工作日内发货，具体发货时间以卖方通知为准。
+2. 交货地点：买方指定仓库（厦门市）。运输由卖方负责，运费由卖方承担；货物毁损、灭失的风险自买方验收合格后转移。
+
+三、验收与异议
+1. 验收期限：买方收到货物后 10 个工作日内进行验收，包括数量、外观及内在质量。如发现任何问题，买方有权在 15 日内书面提出异议，卖方必须无条件接受。
+2. 质量异议：产品不符合约定时，买方有权要求卖方在 5 日内更换、退货或降价处理，卖方应承担由此产生的全部费用。
+
+四、结算方式
+1. 买方在货物到达并验收合格后 10 日内支付全部货款。
+2. 卖方应于买方付款前提供合法有效的全额增值税专用发票，否则买方有权顺延付款且不承担违约责任。
+3. 所有款项以银行转账支付至本合同载明的卖方账户。
+
+五、违约责任
+1. 卖方逾期交货，每逾一日按未交付货物价值的 0.5% 支付违约金；逾期超过 10 日，买方有权解除合同，卖方应赔偿买方全部损失。
+2. 产品质量不符合约定，卖方应承担修理、重作、减少价款或赔偿损失等责任，买方有权直接从货款中扣除相应金额。
+3. 买方逾期付款，每逾一日按应付未付款项的 0.5% 支付违约金；逾期超过 15 日，卖方有权解除合同，但应返还已收货款。
+
+六、免责条款
+因不可抗力导致不能履行合同的，受影响方应及时通知对方并提供证明，可免除相应违约责任。
+
+七、争议解决
+因本合同引起的任何争议，双方应友好协商；协商不成时，提交厦门仲裁委员会按照申请仲裁时该会现行有效的仲裁规则进行仲裁。仲裁裁决是终局的，对双方均有约束力。
+
+八、其他
+1. 本合同自双方签字盖章之日起生效，一式两份，双方各执一份，具有同等法律效力。
+2. 任何未尽事宜，可签订补充协议，补充协议与本合同具有同等效力。
+3. 双方确认的送达地址为法律文书送达地址，按该地址邮寄即视为送达。`;
+
             const roleSeller = document.getElementById('roleSeller');
             const roleBuyer = document.getElementById('roleBuyer');
             const sellerTitle = document.getElementById('sellerTitle');
@@ -749,6 +825,7 @@
             const sellerContent = document.getElementById('sellerContent');
             const buyerContent = document.getElementById('buyerContent');
             const contractTitle = document.getElementById('contractTitle');
+            const contractClauses = document.getElementById('contractClauses');
 
             const itemsBody = document.getElementById('itemsBody');
             const addRowBtn = document.getElementById('addRowBtn');
@@ -763,12 +840,14 @@
                     buyerTitle.innerText = '买方（需方）';
                     buyerContent.innerHTML = buildBuyerEditableHTML();
                     contractTitle.innerText = '生技原料销售合同';
+                    contractClauses.value = CLAUSES_SELLER;
                 } else {
                     sellerTitle.innerText = '卖方（供方）';
                     sellerContent.innerHTML = buildSellerEditableHTML();
                     buyerTitle.innerText = '买方（需方）· 厦门泽林';
                     buyerContent.innerHTML = buildZelinBuyerHTML();
                     contractTitle.innerText = '生技原料采购合同';
+                    contractClauses.value = CLAUSES_BUYER;
                 }
             }
 
@@ -962,106 +1041,54 @@
             renderCompanyCards();
             initTable();
 
-            // 签名画布初始化函数
-            function initSignatureCanvas(canvasId, clearBtnSelector) {
-                const canvas = document.getElementById(canvasId);
-                if (!canvas) return;
-                let drawing = false;
-                const ctx = canvas.getContext('2d');
-                ctx.lineWidth = 2;
-                ctx.lineCap = 'round';
-                ctx.strokeStyle = '#000';
-
-                function getCoords(e) {
-                    const rect = canvas.getBoundingClientRect();
-                    const scaleX = canvas.width / rect.width;
-                    const scaleY = canvas.height / rect.height;
-                    let clientX, clientY;
-                    if (e.touches) {
-                        clientX = e.touches[0].clientX;
-                        clientY = e.touches[0].clientY;
-                        e.preventDefault();
-                    } else {
-                        clientX = e.clientX;
-                        clientY = e.clientY;
-                    }
-                    return {
-                        x: (clientX - rect.left) * scaleX,
-                        y: (clientY - rect.top) * scaleY
-                    };
-                }
-
-                function startDrawing(e) {
-                    drawing = true;
-                    ctx.beginPath();
-                    const coords = getCoords(e);
-                    ctx.moveTo(coords.x, coords.y);
-                }
-
-                function draw(e) {
-                    if (!drawing) return;
-                    e.preventDefault();
-                    const coords = getCoords(e);
-                    ctx.lineTo(coords.x, coords.y);
-                    ctx.stroke();
-                }
-
-                function stopDrawing() {
-                    drawing = false;
-                    ctx.closePath();
-                }
-
-                canvas.addEventListener('mousedown', startDrawing);
-                canvas.addEventListener('mousemove', draw);
-                canvas.addEventListener('mouseup', stopDrawing);
-                canvas.addEventListener('mouseleave', stopDrawing);
-
-                canvas.addEventListener('touchstart', startDrawing, { passive: false });
-                canvas.addEventListener('touchmove', draw, { passive: false });
-                canvas.addEventListener('touchend', stopDrawing);
-                canvas.addEventListener('touchcancel', stopDrawing);
-
-                // 清除按钮
-                const clearBtn = typeof clearBtnSelector === 'string' ? document.querySelector(clearBtnSelector) : clearBtnSelector;
-                if (clearBtn) {
-                    clearBtn.addEventListener('click', function() {
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    });
-                }
-            }
-
-            // 初始化两个签名画布
-            initSignatureCanvas('signatureCanvas1', '#signature-area1 .clear-signature');
-            initSignatureCanvas('signatureCanvas2', '#signature-area2 .clear-signature');
-
-            // ---------- 对方合同章上传功能 ----------
+            // ---------- 对方合同章上传 ----------
             const stampUpload = document.getElementById('stampUpload');
             const stampPlaceholder = document.getElementById('stampPlaceholder');
             const stampUploadedImg = document.getElementById('stampUploadedImg');
 
-            // 点击占位符触发文件选择
-            stampPlaceholder.addEventListener('click', function() {
-                stampUpload.click();
-            });
-
-            // 文件选择后处理
+            stampPlaceholder.addEventListener('click', () => stampUpload.click());
             stampUpload.addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (file) {
                     const reader = new FileReader();
-                    reader.onload = function(ev) {
+                    reader.onload = (ev) => {
                         stampUploadedImg.src = ev.target.result;
                         stampUploadedImg.style.display = 'block';
-                        stampPlaceholder.style.display = 'none'; // 隐藏占位符
+                        stampPlaceholder.style.display = 'none';
                     };
                     reader.readAsDataURL(file);
                 }
             });
+            stampUploadedImg.addEventListener('click', () => stampUpload.click());
 
-            // 点击已上传图片可重新上传
-            stampUploadedImg.addEventListener('click', function() {
-                stampUpload.click();
-            });
+            // ---------- 签名上传功能 ----------
+            function initSignatureUpload(sigId, previewId, clearBtnId, uploadBtnId) {
+                const fileInput = document.getElementById(sigId);
+                const previewDiv = document.getElementById(previewId);
+                const clearBtn = document.getElementById(clearBtnId);
+                const uploadBtn = document.getElementById(uploadBtnId);
+
+                uploadBtn.addEventListener('click', () => fileInput.click());
+
+                fileInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (ev) => {
+                            previewDiv.innerHTML = `<img src="${ev.target.result}" style="max-width:100%; max-height:100%;">`;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                clearBtn.addEventListener('click', function() {
+                    previewDiv.innerHTML = '<div class="signature-placeholder">未上传签名</div>';
+                    fileInput.value = '';
+                });
+            }
+
+            initSignatureUpload('signatureUpload1', 'signaturePreview1', 'clearSignature1', 'signatureUploadBtn1');
+            initSignatureUpload('signatureUpload2', 'signaturePreview2', 'clearSignature2', 'signatureUploadBtn2');
         })();
     </script>
 </body>
