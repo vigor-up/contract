@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>厦门泽林 · 生技原料买卖合同 (优先保护版)</title>
+    <title>厦门泽林 · 生技原料买卖合同 (打印优化版)</title>
     <!-- 引入Google Font & Font Awesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -177,6 +177,7 @@
             padding: 1rem 1rem;
             border: 1px solid #c8e6c9;
             box-shadow: 0 8px 16px -12px rgba(0,60,0,0.2);
+            page-break-inside: avoid;
         }
         .company-card h3 {
             color: #1B5E20;
@@ -243,6 +244,7 @@
             overflow: hidden;
             box-shadow: 0 8px 16px -14px #1B5E20;
             min-width: 650px;
+            page-break-inside: avoid;
         }
         th {
             background: #c8e6c9;
@@ -296,6 +298,7 @@
             float: right;
             box-shadow: 0 4px 10px rgba(0,80,0,0.1);
             border: 1px solid #c8e6c9;
+            page-break-inside: avoid;
         }
 
         .clause-box {
@@ -411,7 +414,7 @@
             cursor: pointer;
         }
 
-        /* 签名区域 (改为上传图片) */
+        /* 签名区域 (上传图片) */
         .signatures-row {
             display: flex;
             flex-wrap: wrap;
@@ -426,6 +429,7 @@
             border: 1px solid #c8e6c9;
             box-shadow: 0 4px 10px -6px #1B5E20;
             min-width: 220px;
+            page-break-inside: avoid;
         }
         .signature-area p {
             font-weight: 600;
@@ -504,7 +508,7 @@
             font-size: 0.85rem;
             flex: 1;
             min-width: 120px;
-            width: auto; /* 确保单行 */
+            width: auto;
         }
 
         /* 其他合同链接 */
@@ -567,22 +571,112 @@
         }
         .btn:hover { background: #1B5E20; transform: translateY(-2px); }
 
-        /* 打印样式 */
+        /* 打印样式强化 */
         @media print {
-            body { background: white; padding: 0.15in; }
-            .contract-container { box-shadow: none; border: 1px solid #aaa; padding: 0.15in; border-radius: 0; background: white; }
-            .no-print, .btn, #addRowBtn, .delete-btn, .action-buttons, .role-switch, .other-contracts-links,
-            .signature-controls button, .signature-upload-btn { display: none !important; }
-            td:last-child, th:last-child { display: none; }
-            input, select, textarea { border: none !important; background: transparent !important; border-bottom: 1px solid #333 !important; }
-            th { background: #eaeaea !important; }
-            .company-name { -webkit-text-fill-color: #1B5E20; color: #1B5E20; background: none; }
-            .stamp-box img, .stamp-placeholder, .stamp-uploaded-img { max-width: 80px; }
-            .stamp-placeholder { border: 1px solid #000; background: #f9f9f9; }
-            .stamp-uploaded-img { border: 1px solid #000; }
-            .signature-area .signature-preview { border: 1px solid #000; }
-            .signature-area input[type="date"] { border: none; border-bottom: 1px solid #333; background: transparent; }
-            .clause-box textarea { height: auto; overflow: visible; border: 1px solid #333 !important; }
+            body {
+                background: white;
+                padding: 0.2in;
+            }
+            .contract-container {
+                box-shadow: none;
+                border: 1px solid #aaa;
+                padding: 0.2in;
+                border-radius: 0;
+                background: white;
+                max-width: 100%;
+            }
+            /* 隐藏非打印元素 */
+            .no-print,
+            .btn,
+            #addRowBtn,
+            .delete-btn,
+            .action-buttons,
+            .role-switch,
+            .other-contracts-links,
+            .signature-upload-btn,
+            .signature-controls button {
+                display: none !important;
+            }
+            td:last-child,
+            th:last-child {
+                display: none;
+            }
+            /* 输入框、选择框只保留文字边框 */
+            input,
+            select,
+            textarea {
+                border: none !important;
+                background: transparent !important;
+                border-bottom: 1px solid #333 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            th {
+                background: #eaeaea !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .company-card,
+            .bank-info {
+                border: 1px solid #aaa;
+                background: #f9f9f9 !important;
+            }
+            .brand-logo {
+                filter: grayscale(0.2);
+                opacity: 1;
+            }
+            .company-name {
+                -webkit-text-fill-color: #1B5E20;
+                color: #1B5E20;
+                background: none;
+            }
+            /* 条款区域强制展开 */
+            .clause-box textarea {
+                height: auto !important;
+                overflow: visible !important;
+                border: 1px solid #333 !important;
+                background: transparent;
+                white-space: pre-wrap;
+                resize: none;
+                box-shadow: none;
+                padding: 0.2rem;
+                max-height: none;
+                min-height: 0;
+            }
+            /* 防止签名区跨页 */
+            .signature-footer,
+            .stamp-box,
+            .signature-area {
+                page-break-inside: avoid;
+            }
+            .stamp-box img,
+            .stamp-placeholder,
+            .stamp-uploaded-img {
+                max-width: 80px;
+            }
+            .stamp-placeholder {
+                border: 1px solid #000;
+                background: #f9f9f9;
+            }
+            .stamp-uploaded-img {
+                border: 1px solid #000;
+            }
+            .signature-area .signature-preview {
+                border: 1px solid #000;
+            }
+            .signature-area input[type="date"] {
+                border: none;
+                border-bottom: 1px solid #333;
+                background: transparent;
+            }
+            /* 表格打印时保留边框 */
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+            th, td {
+                border: 1px solid #000;
+            }
         }
 
         /* 移动端优化 */
@@ -683,7 +777,7 @@
                         <p style="font-size:0.7rem; margin-top:0.1rem;">（买方/卖方盖章处）</p>
                     </div>
                 </div>
-                <!-- 双签名行 (改为上传签名图片) -->
+                <!-- 双签名行 (上传签名图片) -->
                 <div class="signatures-row">
                     <!-- 甲方签名区 -->
                     <div class="signature-area" id="signature-area1">
