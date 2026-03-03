@@ -242,7 +242,7 @@
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 8px 16px -14px #1B5E20;
-            min-width: 900px; /* 适应经销表格列数 */
+            min-width: 900px;
         }
         th {
             background: #c8e6c9;
@@ -312,7 +312,7 @@
             background: #fefefe;
             resize: vertical;
             box-shadow: inset 0 2px 6px rgba(0,30,0,0.02);
-            min-height: 300px; /* 确保所有条款可见 */
+            /* min-height removed to allow rows to control height */
         }
 
         /* 页脚签名区 (双印章 + 双签名) */
@@ -367,6 +367,7 @@
         .stamp-box {
             text-align: center;
             flex: 0 1 auto;
+            position: relative;
         }
         .stamp-box img {
             width: 90px;
@@ -391,6 +392,25 @@
             text-align: center;
             padding: 0.2rem;
             margin: 0 auto;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .stamp-placeholder:hover {
+            background: #d4e6d4;
+        }
+        /* 隐藏文件输入 */
+        .stamp-file-input {
+            display: none;
+        }
+        /* 上传后显示的印章图片 */
+        .stamp-uploaded-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #FFB300;
+            box-shadow: 0 6px 12px -6px rgba(0,0,0,0.2);
+            display: none;
         }
 
         /* 双签名行 */
@@ -528,6 +548,7 @@
             .company-name { -webkit-text-fill-color: #1B5E20; color: #1B5E20; background: none; }
             .stamp-box img, .stamp-placeholder { max-width: 80px; }
             .stamp-placeholder { border: 1px solid #000; background: #f9f9f9; }
+            .stamp-uploaded-img { max-width: 80px; border: 1px solid #000; }
             .signature-area canvas { border: 1px solid #000; }
             .signature-area input[type="date"] { border: none; border-bottom: 1px solid #333; background: transparent; }
             .clause-box textarea { height: auto; overflow: visible; border: 1px solid #333 !important; }
@@ -541,7 +562,7 @@
             .doc-meta-header input { width: 90px; }
             .role-switch label { padding: 0.3rem 1rem; font-size: 0.85rem; }
             .total-row { font-size: 1.4rem; }
-            .stamp-box img, .stamp-placeholder { width: 70px; height: 70px; }
+            .stamp-box img, .stamp-placeholder, .stamp-uploaded-img { width: 70px; height: 70px; }
             .signature-area { flex: 1 1 100%; }
             .signature-area canvas { max-width: 200px; }
         }
@@ -613,38 +634,39 @@
         <!-- 总佣金金额 -->
         <div class="total-row" id="grandTotalSpan">¥ 0.00</div>
 
-        <!-- 合同条款 (完整八项，展开无滚动) -->
+        <!-- 合同条款 (rows=25 确保无滚动条) -->
         <div class="clause-box">
-            <textarea id="contractClauses" rows="12">
+            <textarea id="contractClauses" rows="25">
 一、代理区域及产品
-乙方在指定区域代理销售甲方产品，具体产品名称、规格、代理区域及销售目标以本合同明细表为准。
+乙方在指定区域代理销售甲方产品，具体产品名称、规格、代理区域及销售目标以本合同明细表为准。未经甲方书面同意，乙方不得变更销售区域或产品。
 
 二、代理期限
-自______年__月__日起至______年__月__日止。期满前30日双方协商续约事宜。
+代理期限自______年__月__日起至______年__月__日止。期满前30日，双方可协商续约事宜；逾期未续约的，本合同自动终止。
 
 三、销售目标与佣金
 1. 乙方承诺年度销售额不低于人民币______万元，具体分解见上表。
-2. 佣金按上表约定比例计算，于每季度结束后15日内结算。佣金金额以甲方实际收到货款为计算基础。
+2. 佣金按上表约定比例计算，于每季度结束后15日内结算。佣金金额以甲方实际收到客户货款为计算基础，乙方需提供合法佣金发票。
+3. 若乙方超额完成年度目标，甲方可给予额外奖励，具体另行约定。
 
 四、市场管理
-1. 乙方不得跨区域销售，不得低价倾销，须维护甲方价格体系。
-2. 未经甲方书面授权，乙方不得使用甲方商标、商号进行除销售以外的任何活动。
+1. 乙方不得跨区域销售，不得以低于甲方指导价的价格倾销，不得在公开网络平台销售，维护甲方价格体系。
+2. 未经甲方书面授权，乙方不得使用甲方商标、商号进行除销售以外的任何活动，不得擅自改变产品包装。
 
 五、订单与交付
 1. 乙方应提前 5 个工作日向甲方下达书面订单，并支付相应货款；甲方在收到货款后 10 个工作日内发货。
-2. 运输方式及运费由双方在订单中确认。
+2. 运输方式及运费由双方在订单中确认。货物风险自交付承运人时转移。
 
 六、质量与售后
-1. 产品质量按甲方企业标准执行，乙方在收到货物后 3 日内进行验收，如有质量问题应立即通知甲方。
-2. 因乙方保管不善导致的产品质量问题，甲方不承担责任。
+1. 产品质量按甲方企业标准执行，乙方在收到货物后 3 日内进行验收，如有质量问题应立即书面通知甲方。
+2. 因乙方保管不善导致的产品质量问题，甲方不承担责任。产品质保期为交货后12个月。
 
 七、违约责任
 1. 任何一方违约，应赔偿对方因此遭受的全部损失。
-2. 乙方若连续两个季度未完成销售目标的 80%，甲方有权解除合同。
-3. 任何一方擅自解除合同，应承担合同年度目标总额 20% 的违约金。
+2. 乙方若连续两个季度未完成销售目标的80%，甲方有权解除合同，并要求乙方支付违约金。
+3. 任何一方擅自解除合同，应承担合同年度目标总额20%的违约金。
 
 八、争议解决与其他
-1. 因本合同引起的任何争议，双方应友好协商；协商不成时，提交厦门仲裁委员会仲裁。
+1. 因本合同引起的任何争议，双方应友好协商；协商不成时，提交厦门仲裁委员会按照申请仲裁时该会现行有效的仲裁规则进行仲裁。
 2. 本合同自双方签字盖章之日起生效，一式两份，双方各执一份，具有同等法律效力。
 3. 未尽事宜可签订补充协议，补充协议与本合同具有同等效力。
             </textarea>
@@ -658,14 +680,21 @@
             <div class="signature-block">
                 <!-- 双印章行 -->
                 <div class="stamps-row">
+                    <!-- 泽林方印章 -->
                     <div class="stamp-box">
                         <img src="images/stamp.png" alt="公司印章" onerror="this.onerror=null; this.src='https://via.placeholder.com/90x90?text=Seal';">
                         <p style="font-size:0.7rem; margin-top:0.1rem;">厦门泽林生物科技<br>合同专用章</p>
                     </div>
-                    <div class="stamp-box">
-                        <div class="stamp-placeholder">
-                            对方<br>合同章
+                    <!-- 对方合同章 (可上传) -->
+                    <div class="stamp-box" id="opponentStampBox">
+                        <!-- 隐藏文件输入 -->
+                        <input type="file" id="stampUpload" accept="image/*" class="stamp-file-input">
+                        <!-- 占位符（可点击上传） -->
+                        <div class="stamp-placeholder" id="stampPlaceholder">
+                            点击上传<br>对方合同章
                         </div>
+                        <!-- 上传后显示的图片（初始隐藏） -->
+                        <img class="stamp-uploaded-img" id="stampUploadedImg" src="#" alt="对方合同章" style="display: none;">
                         <p style="font-size:0.7rem; margin-top:0.1rem;">（委托方/代理方盖章处）</p>
                     </div>
                 </div>
@@ -1010,6 +1039,47 @@
 
             initSignatureCanvas('signatureCanvas1', '#signature-area1 .clear-signature');
             initSignatureCanvas('signatureCanvas2', '#signature-area2 .clear-signature');
+
+            // ---------- 对方合同章上传功能 ----------
+            const stampUpload = document.getElementById('stampUpload');
+            const stampPlaceholder = document.getElementById('stampPlaceholder');
+            const stampUploadedImg = document.getElementById('stampUploadedImg');
+
+            // 点击占位符触发文件选择
+            stampPlaceholder.addEventListener('click', function() {
+                stampUpload.click();
+            });
+
+            // 文件选择后处理
+            stampUpload.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        stampUploadedImg.src = ev.target.result;
+                        stampUploadedImg.style.display = 'block';
+                        stampPlaceholder.style.display = 'none'; // 隐藏占位符
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // 如果用户想重新上传，可以再次点击图片（因为图片没有点击事件，需要把点击事件绑在容器上？）
+            // 为了简化，我们让整个stamp-box都可点击触发上传，但要注意不要干扰图片显示。
+            // 将点击事件绑定到stamp-box上，但需要排除点击图片本身触发重新上传（可能用户想保存图片）。
+            // 更合理：点击占位符或图片都触发上传（重新选择），但图片被替换后点击图片也触发上传，这样用户可以更换。
+            // 我们统一将点击事件绑定到stamp-box内的可视区域（占位符或图片）。
+            const opponentStampBox = document.getElementById('opponentStampBox');
+            opponentStampBox.addEventListener('click', function(e) {
+                // 如果点击的是图片或占位符，都触发上传
+                stampUpload.click();
+            });
+            // 但这样点击图片也会触发，用户如果想保存图片可能误操作。为了更好的体验，我们保持原样：只点击占位符触发上传，图片不可点击。
+            // 上面已经绑定了占位符的点击，现在如果上传后占位符隐藏，则无法再次上传。我们需要让图片也可点击触发上传。
+            // 因此给图片也添加点击事件
+            stampUploadedImg.addEventListener('click', function() {
+                stampUpload.click();
+            });
         })();
     </script>
 </body>
