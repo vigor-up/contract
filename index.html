@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
     <title>厦门泽林 · 生技原料买卖合同 (绿金精装版)</title>
-    <!-- 引入Google Font (参考倍力素页面) -->
+    <!-- 引入Google Font & Font Awesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome (用于图标) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* ========== 全局重置与字体 (融合倍力素风格) ========== */
+        /* ========== 全局重置与字体 ========== */
         * {
             margin: 0;
             padding: 0;
@@ -25,32 +24,32 @@
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
-            padding: 2rem 1.5rem;
+            padding: 1rem 0.8rem;  /* 缩小外边距 */
         }
 
         /* 主合同卡片 */
         .contract-container {
-            max-width: 1350px;
+            max-width: 1300px;
             width: 100%;
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(4px);
-            border-radius: 32px;
+            border-radius: 24px;
             box-shadow: 0 20px 40px -12px rgba(0, 55, 100, 0.25), 0 0 0 1px rgba(46, 125, 50, 0.15);
-            padding: 2.2rem 2.5rem 2rem;
+            padding: 1.5rem 1.8rem 1.2rem;  /* 缩减内边距 */
             transition: all 0.3s;
             position: relative;
         }
 
-        /* ========== 页眉区域 (放大Logo + 粗体公司名) ========== */
+        /* ========== 页眉区域 ========== */
         .header {
             position: relative;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 1.8rem;
-            padding: 1rem 1.5rem;
-            border-radius: 24px 24px 0 0;
+            margin-bottom: 1.2rem;  /* 缩小间距 */
+            padding: 0.8rem 1rem;
+            border-radius: 20px 20px 0 0;
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(4px);
             border-bottom: 3px solid #2E7D32;
@@ -62,7 +61,7 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            gap: 0.5rem;
+            gap: 0.3rem;
         }
 
         .brand-row {
@@ -70,27 +69,28 @@
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            gap: 1rem 1.5rem;
+            gap: 0.8rem 1rem;
             width: 100%;
         }
 
         .logo-title-group {
             display: flex;
             align-items: center;
-            gap: 1.2rem;
+            gap: 1rem;
             flex-wrap: wrap;
         }
 
+        /* 页眉Logo高度120px */
         .brand-logo {
-            height: 90px;
+            height: 100px;  /* 稍缩小以适应紧凑布局，但仍醒目 */
             width: auto;
             max-width: 160px;
             object-fit: contain;
             opacity: 1;
             filter: drop-shadow(0 4px 8px rgba(46,125,50,0.3));
-            border-radius: 20px;
+            border-radius: 16px;
             background: white;
-            padding: 0.4rem;
+            padding: 0.3rem;
             border: 1px solid #2E7D32;
             transition: transform 0.2s;
         }
@@ -98,7 +98,7 @@
 
         .company-name {
             font-weight: 900;
-            font-size: 2rem;
+            font-size: 1.8rem;  /* 稍微缩小以适应紧凑布局 */
             color: #1B5E20;
             line-height: 1.2;
             letter-spacing: 1px;
@@ -112,17 +112,17 @@
 
         .doc-meta-header {
             display: flex;
-            gap: 1rem;
+            gap: 0.8rem;
             flex-wrap: wrap;
             background: #e8f5e9;
-            padding: 0.5rem 1.5rem;
+            padding: 0.4rem 1.2rem;
             border-radius: 40px;
             box-shadow: 0 2px 8px rgba(0,35,0,0.05);
         }
         .doc-meta-header label {
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.3rem;
             font-size: 0.9rem;
             color: #1B5E20;
             font-weight: 500;
@@ -130,8 +130,8 @@
         .doc-meta-header input {
             border: 1px solid #a5d6a7;
             border-radius: 40px;
-            padding: 0.4rem 1.2rem;
-            width: 150px;
+            padding: 0.3rem 1rem;
+            width: 130px;
             background: white;
             font-size: 0.9rem;
             transition: 0.15s;
@@ -143,7 +143,7 @@
         }
 
         .title-header h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;  /* 缩小标题 */
             font-weight: 800;
             background: linear-gradient(145deg, #1B5E20, #2E7D32);
             -webkit-background-clip: text;
@@ -159,16 +159,16 @@
             background: #ffffff;
             border-radius: 60px;
             display: inline-flex;
-            padding: 0.4rem;
-            margin: 0 0 2rem 1rem;
-            gap: 0.4rem;
+            padding: 0.3rem;
+            margin: 0 0 1.5rem 0.5rem;  /* 缩小外边距 */
+            gap: 0.3rem;
             border: 1px solid #c8e6c9;
             box-shadow: 0 4px 10px rgba(0,40,0,0.1);
         }
         .role-switch label {
-            padding: 0.6rem 2.2rem;
+            padding: 0.5rem 1.8rem;
             border-radius: 60px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             color: #1B5E20;
@@ -185,45 +185,46 @@
         .company-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 1.8rem;
-            margin-bottom: 2.2rem;
+            gap: 1.2rem;  /* 缩小卡片间距 */
+            margin-bottom: 1.5rem;
         }
         .company-card {
-            flex: 1 1 340px;
+            flex: 1 1 300px;
             background: #fafdfa;
-            border-radius: 24px;
-            padding: 1.8rem 1.8rem;
+            border-radius: 20px;
+            padding: 1.2rem 1.2rem;  /* 缩小内边距 */
             border: 1px solid #c8e6c9;
             box-shadow: 0 12px 24px -12px rgba(0,60,0,0.2);
         }
         .company-card h3 {
             color: #1B5E20;
-            font-size: 1.3rem;
-            border-left: 8px solid #FFB300;
-            padding-left: 1rem;
-            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+            border-left: 6px solid #FFB300;
+            padding-left: 0.8rem;
+            margin-bottom: 1rem;
             background: linear-gradient(to right, #ffffff, #e8f5e9);
             border-radius: 0 16px 16px 0;
-            line-height: 2;
+            line-height: 1.8;
         }
         .company-card p {
-            margin: 0.8rem 0;
+            margin: 0.6rem 0;  /* 缩小段落间距 */
             display: flex;
             align-items: baseline;
+            font-size: 0.95rem;  /* 放大字体 */
         }
         .company-card p strong {
-            width: 130px;
+            width: 120px;
             color: #1B5E20;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
         .company-card input {
             border: 1px solid #a5d6a7;
             border-radius: 30px;
-            padding: 0.5rem 1.2rem;
+            padding: 0.4rem 1rem;
             width: 100%;
             background: white;
-            font-size: 0.9rem;
+            font-size: 0.95rem;  /* 放大输入框字体 */
             transition: 0.15s;
         }
         .company-card input:focus {
@@ -233,21 +234,22 @@
         }
         .bank-info {
             background: #e8f5e9;
-            border-radius: 20px;
-            padding: 1rem 1.5rem;
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
+            border-radius: 16px;
+            padding: 0.8rem 1.2rem;
+            margin-top: 1rem;
+            font-size: 0.95rem;
             border-left: 4px solid #FFB300;
         }
 
         /* 表格区域 */
         .items-section {
-            margin: 2rem 0 1.8rem;
+            margin: 1.5rem 0 1.2rem;
+            overflow-x: auto;  /* 移动端表格可横向滚动 */
         }
         .items-section h3 {
             color: #1B5E20;
-            font-size: 1.6rem;
-            margin-bottom: 1.2rem;
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -256,21 +258,23 @@
             width: 100%;
             border-collapse: collapse;
             background: white;
-            border-radius: 24px;
+            border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 12px 24px -14px #1B5E20;
+            min-width: 700px;  /* 保证表头不换行，窄屏时滚动 */
         }
         th {
             background: #c8e6c9;
             color: #1B5E20;
             font-weight: 700;
-            padding: 0.9rem 0.4rem;
-            font-size: 0.85rem;
+            padding: 0.7rem 0.3rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            white-space: nowrap;
         }
         td {
-            padding: 0.7rem 0.4rem;
+            padding: 0.5rem 0.3rem;
             border-bottom: 1px solid #e0f2e0;
             vertical-align: middle;
         }
@@ -278,8 +282,8 @@
             width: 100%;
             border: 1px solid #c8e6c9;
             border-radius: 30px;
-            padding: 0.5rem 0.8rem;
-            font-size: 0.85rem;
+            padding: 0.4rem 0.6rem;
+            font-size: 0.95rem;  /* 放大表格内字体 */
             background: #f9fff9;
             transition: 0.15s;
         }
@@ -295,19 +299,19 @@
             font-size: 1.4rem;
             cursor: pointer;
             color: #b71c1c;
-            padding: 0 0.3rem;
+            padding: 0 0.2rem;
             transition: 0.1s;
         }
         .delete-btn:hover { color: #d32f2f; transform: scale(1.15); }
 
         .total-row {
             text-align: right;
-            margin: 1.2rem 0 2rem;
-            font-size: 2rem;
+            margin: 1rem 0 1.5rem;
+            font-size: 1.8rem;
             font-weight: 800;
             color: #1B5E20;
             background: linear-gradient(to right, #f1f8e9, #ffffff);
-            padding: 0.6rem 2rem;
+            padding: 0.4rem 1.8rem;
             border-radius: 60px;
             display: inline-block;
             float: right;
@@ -317,35 +321,36 @@
 
         .clause-box {
             clear: both;
-            margin: 2rem 0 2rem;
+            margin: 1.5rem 0 1.5rem;
         }
         .clause-box textarea {
             width: 100%;
             border: 1px solid #c8e6c9;
-            border-radius: 24px;
-            padding: 1.2rem 1.8rem;
-            font-size: 0.95rem;
-            line-height: 1.7;
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;  /* 放大条款字体 */
+            line-height: 1.5;  /* 缩小行距 */
             background: #fefefe;
             resize: vertical;
             box-shadow: inset 0 2px 6px rgba(0,30,0,0.02);
         }
 
-        /* 页脚签名区 */
+        /* 页脚签名区 (双印章并排) */
         .signature-footer {
             position: relative;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: flex-end;
-            margin: 2rem 0 1.5rem;
-            padding: 1.8rem 1.5rem 1.2rem;
+            margin: 1.5rem 0 1rem;
+            padding: 1.2rem 1rem 1rem;
             border-top: 2px dashed #a5d6a7;
             background: rgba(255, 255, 255, 0.5);
-            border-radius: 32px;
+            border-radius: 24px;
             overflow: hidden;
         }
 
+        /* 页脚水印高度120px（稍缩小以适应紧凑） */
         .logo-watermark-footer {
             position: absolute;
             bottom: 0;
@@ -360,41 +365,71 @@
             opacity: 0.15;
         }
         .logo-watermark-footer img {
-            height: 100px;
+            height: 120px;
             width: auto;
             object-fit: contain;
-            margin-right: 1rem;
-            margin-bottom: 0.5rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.3rem;
         }
 
         .signature-block {
             position: relative;
             z-index: 2;
             display: flex;
-            gap: 2rem;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        /* 双印章并排行 */
+        .stamps-row {
+            display: flex;
             flex-wrap: wrap;
+            justify-content: space-around;
             align-items: center;
+            gap: 1rem;
         }
 
         .stamp-box {
             text-align: center;
+            flex: 0 1 auto;
         }
         .stamp-box img {
-            width: 120px;
+            width: 100px;  /* 缩小印章尺寸 */
             height: auto;
             border-radius: 50%;
             background: #fff;
-            padding: 0.3rem;
+            padding: 0.2rem;
             box-shadow: 0 8px 18px -6px rgba(0,0,0,0.2), 0 0 0 1px #FFB300 inset;
             object-fit: contain;
+        }
+        .stamp-placeholder {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #eeeeee;
+            border: 2px dashed #2E7D32;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1B5E20;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 0.3rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin: 0 auto;
         }
 
         .signature-area {
             background: #fafdfa;
-            border-radius: 24px;
-            padding: 1rem 1.8rem;
+            border-radius: 20px;
+            padding: 0.8rem 1.5rem;
             border: 1px solid #c8e6c9;
             box-shadow: 0 4px 12px -6px #1B5E20;
+            width: 100%;
+            max-width: 450px;
+            align-self: center;
         }
         .signature-area canvas {
             border: 1px solid #a5d6a7;
@@ -403,20 +438,21 @@
             touch-action: none;
             width: 100%;
             height: auto;
-            max-width: 300px;
+            max-width: 280px;
         }
         .signature-controls {
-            margin-top: 0.7rem;
+            margin-top: 0.5rem;
             display: flex;
-            gap: 0.8rem;
+            gap: 0.6rem;
             align-items: center;
             flex-wrap: wrap;
+            font-size: 0.95rem;
         }
         .signature-controls button {
             background: #e8f5e9;
             border: none;
             color: #1B5E20;
-            padding: 0.3rem 1.2rem;
+            padding: 0.2rem 1rem;
             border-radius: 40px;
             font-weight: 500;
             cursor: pointer;
@@ -426,29 +462,29 @@
         .signature-controls input[type="date"] {
             border: 1px solid #a5d6a7;
             border-radius: 40px;
-            padding: 0.3rem 1rem;
+            padding: 0.2rem 0.8rem;
             background: white;
         }
 
-        /* ===== 新增的兩個合同連結按鈕 (參考倍力素產品連結樣式) ===== */
+        /* 其他合同链接按钮 */
         .other-contracts-links {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 18px;
-            margin: 20px 0 20px;
+            gap: 12px;
+            margin: 15px 0 10px;
         }
         .other-contracts-links a {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             background: white;
             color: #1B5E20;
             text-decoration: none;
-            padding: 12px 32px;
-            border-radius: 50px;
+            padding: 8px 20px;
+            border-radius: 40px;
             font-weight: 700;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             border: 2px solid #2E7D32;
             transition: 0.2s;
             box-shadow: 0 4px 12px rgba(46,125,50,0.15);
@@ -460,7 +496,7 @@
             transform: translateY(-3px);
         }
         .other-contracts-links i {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #FFB300;
         }
         .other-contracts-links a:hover i {
@@ -470,17 +506,17 @@
         /* 操作按钮 */
         .action-buttons {
             display: flex;
-            gap: 1.8rem;
+            gap: 1.2rem;
             justify-content: center;
-            margin: 1.5rem 0 0.5rem;
+            margin: 1.2rem 0 0.2rem;
             flex-wrap: wrap;
         }
         .btn {
             border: none;
             background: #2E7D32;
             color: white;
-            font-size: 1.1rem;
-            padding: 0.9rem 3rem;
+            font-size: 1rem;
+            padding: 0.7rem 2.2rem;
             border-radius: 60px;
             font-weight: 600;
             cursor: pointer;
@@ -507,14 +543,34 @@
             th { background: #eaeaea !important; }
             .brand-logo { filter: grayscale(1); opacity: 0.8; }
             .company-name { -webkit-text-fill-color: #1B5E20; color: #1B5E20; background: none; }
-            .stamp-box img { max-width: 90px; }
+            .stamp-box img, .stamp-placeholder { max-width: 80px; }
+            .stamp-placeholder { border: 1px solid #000; background: #f9f9f9; }
         }
 
+        /* 移动端优化 */
         @media (max-width: 700px) {
-            .brand-logo { height: 70px; }
-            .company-name { font-size: 1.6rem; white-space: normal; }
-            .total-row { font-size: 1.6rem; }
-            .other-contracts-links a { padding: 10px 20px; font-size: 0.9rem; }
+            body { padding: 0.5rem; }
+            .contract-container { padding: 1rem 1rem 0.8rem; }
+            .brand-logo { height: 80px; }
+            .company-name { font-size: 1.5rem; white-space: normal; }
+            .title-header h1 { font-size: 1.5rem; }
+            .doc-meta-header label { font-size: 0.8rem; }
+            .doc-meta-header input { width: 100px; padding: 0.2rem 0.6rem; }
+            .role-switch label { padding: 0.4rem 1.2rem; font-size: 0.9rem; }
+            .company-card p { font-size: 0.9rem; }
+            .company-card p strong { width: 100px; }
+            .total-row { font-size: 1.5rem; padding: 0.3rem 1.2rem; }
+            .clause-box textarea { font-size: 0.95rem; padding: 0.8rem 1rem; }
+            .stamp-box img, .stamp-placeholder { width: 80px; height: 80px; }
+            .stamp-placeholder { font-size: 0.7rem; }
+            .signature-area { padding: 0.6rem 1rem; }
+            .signature-area canvas { max-width: 240px; }
+            .other-contracts-links a { padding: 6px 14px; font-size: 0.85rem; }
+            .btn { padding: 0.6rem 1.8rem; font-size: 0.95rem; }
+        }
+        /* 确保表格在小屏可滚动 */
+        .items-section {
+            -webkit-overflow-scrolling: touch;
         }
     </style>
 </head>
@@ -569,34 +625,74 @@
                 </thead>
                 <tbody id="itemsBody"></tbody>
             </table>
-            <button class="btn-light no-print" id="addRowBtn" style="margin-top:1rem;">➕ 增加一行</button>
+            <button class="btn-light no-print" id="addRowBtn" style="margin-top:0.8rem;">➕ 增加一行</button>
         </div>
 
         <!-- 总计金额 -->
         <div class="total-row" id="grandTotalSpan">¥ 0.00</div>
 
-        <!-- 合同条款 -->
+        <!-- 合同条款 (已完善且无引用标记) -->
         <div class="clause-box">
-            <textarea id="contractClauses" rows="6">一、质量标准：按供方企业标准或双方确认的样品/技术资料执行。
-二、交货地点及方式：厦门港 / 供方仓库，运费由供方承担。
-三、结算方式及期限：合同签订后预付30%，货到验收合格付清余款。
-四、违约责任：按《中华人民共和国民法典》执行。
-五、争议解决：协商不成提交厦门仲裁委员会仲裁。
-六、本合同一式两份，双方各执一份，盖章生效。</textarea>
+            <textarea id="contractClauses" rows="7">
+一、产品与质量标准
+1. 产品名称、规格、数量、单价及总价详见上表。
+2. 质量要求：按供方企业标准（Q/XL 001-2025）或双方确认的样品/技术资料执行，产品应符合国家相关法规及行业标准。
+3. 包装要求：采用适合长途运输的防潮、防污染包装，包装物不回收。
+
+二、交货与运输
+1. 交货时间：买方支付预付款后 15 个工作日内发货，或按双方另行书面确认的交期执行。
+2. 交货地点：厦门港 / 供方仓库（以卖方通知为准）。
+3. 运输方式及费用：供方负责代办运输，运费由供方承担；若买方指定物流，费用由买方承担。
+
+三、验收与异议
+1. 验收期限：买方收到货物后 5 个工作日内完成数量与外观验收；内在质量问题应在 15 日内书面提出，否则视为合格。
+2. 质量异议：如发现产品不符合约定，买方应立即通知供方，双方协商处理；供方应在 7 日内予以更换或退货。
+
+四、结算方式
+1. 合同签订后 3 日内预付总金额的 30%，货到验收合格并收到全额增值税专用发票后 15 日内付清余款。
+2. 所有款项以银行转账支付至本合同载明的供方账户。
+
+五、违约责任
+1. 供方逾期交货，每逾一日按未交付货物价值的 0.5% 支付违约金；逾期超过 15 日，买方有权解除合同。
+2. 买方逾期付款，每逾一日按应付未付款项的 0.5% 支付违约金；逾期超过 15 日，供方有权停止发货并解除合同。
+3. 任何一方擅自解除合同，应承担合同总金额 20% 的违约金。
+
+六、免责条款
+因不可抗力（如自然灾害、战争、疫情、政府行为等）导致不能履行合同的，受影响方应及时通知对方并提供证明，可免除相应违约责任。
+
+七、争议解决
+因本合同引起的任何争议，双方应友好协商；协商不成时，提交厦门仲裁委员会按照申请仲裁时该会现行有效的仲裁规则进行仲裁。
+
+八、其他
+1. 本合同自双方签字盖章之日起生效，一式两份，双方各执一份，具有同等法律效力。
+2. 任何未尽事宜，可签订补充协议，补充协议与本合同具有同等效力。
+            </textarea>
         </div>
 
-        <!-- 页脚签名区 + 水印 -->
+        <!-- 页脚签名区 + 水印 (双印章并排) -->
         <div class="signature-footer">
             <div class="logo-watermark-footer">
-                <img src="images/xmzelin-logo.png" alt="厦门泽林水印" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x80?text=Zelin';">
+                <img src="images/xmzelin-logo.png" alt="厦门泽林水印" onerror="this.onerror=null; this.src='https://via.placeholder.com/240x120?text=Zelin';">
             </div>
             <div class="signature-block">
-                <div class="stamp-box">
-                    <img src="images/stamp.png" alt="公司印章" onerror="this.onerror=null; this.src='https://via.placeholder.com/130x130?text=Seal';">
-                    <p style="font-size:0.8rem; margin-top:0.2rem;">厦门泽林生物科技<br>合同专用章</p>
+                <!-- 双印章行 -->
+                <div class="stamps-row">
+                    <!-- 泽林方印章 -->
+                    <div class="stamp-box">
+                        <img src="images/stamp.png" alt="公司印章" onerror="this.onerror=null; this.src='https://via.placeholder.com/100x100?text=Seal';">
+                        <p style="font-size:0.75rem; margin-top:0.2rem;">厦门泽林生物科技<br>合同专用章</p>
+                    </div>
+                    <!-- 对方合同章占位 -->
+                    <div class="stamp-box">
+                        <div class="stamp-placeholder">
+                            对方<br>合同章
+                        </div>
+                        <p style="font-size:0.75rem; margin-top:0.2rem;">（买方/卖方盖章处）</p>
+                    </div>
                 </div>
+                <!-- 签名区域 -->
                 <div class="signature-area">
-                    <p style="font-weight: 600; margin-bottom: 0.4rem;">授权代表签名：</p>
+                    <p style="font-weight: 600; margin-bottom: 0.3rem;">授权代表签名：</p>
                     <canvas id="signatureCanvas" width="320" height="130" style="width: 100%; height: auto; border: 1px solid #a5d6a7; border-radius: 16px; background: #fff; touch-action: none;"></canvas>
                     <div class="signature-controls">
                         <button type="button" id="clearSignatureBtn">清除</button>
@@ -607,10 +703,10 @@
             </div>
         </div>
 
-        <!-- ===== 新增：其他合同链接 (两个按钮) ===== -->
+        <!-- 其他合同链接 (简体) -->
         <div class="other-contracts-links no-print">
-            <a href="distribution-agreement.html" target="_blank" rel="noopener"><i class="fa-solid fa-file-signature"></i> 澤林生技委託代理區域經銷合同</a>
-            <a href="toll-manufacturing-agreement.html" target="_blank" rel="noopener"><i class="fa-solid fa-industry"></i> 澤林生技委託代工製造合同</a>
+            <a href="distribution-agreement.html" target="_blank" rel="noopener"><i class="fa-solid fa-file-signature"></i> 泽林生技委托代理区域经销合同</a>
+            <a href="toll-manufacturing-agreement.html" target="_blank" rel="noopener"><i class="fa-solid fa-industry"></i> 泽林生技委托代工制造合同</a>
         </div>
 
         <!-- 操作按钮 -->
@@ -632,7 +728,6 @@
                 bankName: '中国工商银行股份有限公司厦门海沧支行',
                 bankAccount: '4100026009200404571',
                 accountName: '厦门泽林生物科技有限公司'
-                // 已删除 accountNo: 'J9033009110101'
             };
 
             const roleSeller = document.getElementById('roleSeller');
@@ -665,7 +760,6 @@
                 }
             }
 
-            // 泽林卖方卡片 (移除存款编号，统一代码 → 统一社会信用代码)
             function buildZelinSellerHTML() {
                 return `
                     <p><strong>公司名称</strong> <input type="text" value="${ZELIN_INFO.name}" placeholder="公司全称"></p>
@@ -677,12 +771,10 @@
                         <p><strong>开户行</strong> ${ZELIN_INFO.bankName}</p>
                         <p><strong>账号</strong> ${ZELIN_INFO.bankAccount}</p>
                         <p><strong>账户名</strong> ${ZELIN_INFO.accountName}</p>
-                        <!-- 存款编号已删除 -->
                     </div>
                 `;
             }
 
-            // 泽林买方卡片 (统一代码 → 统一社会信用代码)
             function buildZelinBuyerHTML() {
                 return `
                     <p><strong>公司名称</strong> <input type="text" value="${ZELIN_INFO.name}" placeholder="公司全称"></p>
@@ -693,7 +785,6 @@
                 `;
             }
 
-            // 卖方可编辑 (统一代码 → 统一社会信用代码)
             function buildSellerEditableHTML() {
                 return `
                     <p><strong>公司名称</strong> <input type="text" value="浙江华发生物" placeholder="卖方公司全称"></p>
@@ -706,7 +797,6 @@
                 `;
             }
 
-            // 买方可编辑 (统一代码 → 统一社会信用代码)
             function buildBuyerEditableHTML() {
                 return `
                     <p><strong>公司名称</strong> <input type="text" value="江苏正大生物" placeholder="买方公司全称"></p>
@@ -781,7 +871,6 @@
                 refreshRowsAndTotal();
             }
 
-            // 导出 JSON 功能 (与之前相同)
             function collectFormData() {
                 const contractNo = document.getElementById('contractNo').value;
                 const contractDate = document.getElementById('contractDate').value;
@@ -852,7 +941,6 @@
                 URL.revokeObjectURL(url);
             }
 
-            // 事件绑定
             roleSeller.addEventListener('change', renderCompanyCards);
             roleBuyer.addEventListener('change', renderCompanyCards);
             addRowBtn.addEventListener('click', addNewRow);
@@ -862,7 +950,6 @@
             renderCompanyCards();
             initTable();
 
-            // 电子签名画布
             const canvas = document.getElementById('signatureCanvas');
             if (canvas) {
                 let drawing = false;
