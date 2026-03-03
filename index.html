@@ -367,6 +367,7 @@
         .stamp-box {
             text-align: center;
             flex: 0 1 auto;
+            position: relative;
         }
         .stamp-box img {
             width: 90px;
@@ -391,6 +392,26 @@
             text-align: center;
             padding: 0.2rem;
             margin: 0 auto;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .stamp-placeholder:hover {
+            background: #d4e6d4;
+        }
+        /* 隐藏文件输入 */
+        .stamp-file-input {
+            display: none;
+        }
+        /* 上传后显示的印章图片 */
+        .stamp-uploaded-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #FFB300;
+            box-shadow: 0 6px 12px -6px rgba(0,0,0,0.2);
+            display: none;
+            cursor: pointer;
         }
 
         /* 双签名行 */
@@ -526,8 +547,9 @@
             input, select, textarea { border: none !important; background: transparent !important; border-bottom: 1px solid #333 !important; }
             th { background: #eaeaea !important; }
             .company-name { -webkit-text-fill-color: #1B5E20; color: #1B5E20; background: none; }
-            .stamp-box img, .stamp-placeholder { max-width: 80px; }
+            .stamp-box img, .stamp-placeholder, .stamp-uploaded-img { max-width: 80px; }
             .stamp-placeholder { border: 1px solid #000; background: #f9f9f9; }
+            .stamp-uploaded-img { border: 1px solid #000; }
             .signature-area canvas { border: 1px solid #000; }
             .signature-area input[type="date"] { border: none; border-bottom: 1px solid #333; background: transparent; }
         }
@@ -540,7 +562,7 @@
             .doc-meta-header input { width: 90px; }
             .role-switch label { padding: 0.3rem 1rem; font-size: 0.85rem; }
             .total-row { font-size: 1.4rem; }
-            .stamp-box img, .stamp-placeholder { width: 70px; height: 70px; }
+            .stamp-box img, .stamp-placeholder, .stamp-uploaded-img { width: 70px; height: 70px; }
             .signature-area { flex: 1 1 100%; }
             .signature-area canvas { max-width: 200px; }
         }
@@ -649,14 +671,21 @@
             <div class="signature-block">
                 <!-- 双印章行 -->
                 <div class="stamps-row">
+                    <!-- 泽林方印章 -->
                     <div class="stamp-box">
                         <img src="images/stamp.png" alt="公司印章" onerror="this.onerror=null; this.src='https://via.placeholder.com/90x90?text=Seal';">
                         <p style="font-size:0.7rem; margin-top:0.1rem;">厦门泽林生物科技<br>合同专用章</p>
                     </div>
-                    <div class="stamp-box">
-                        <div class="stamp-placeholder">
-                            对方<br>合同章
+                    <!-- 对方合同章 (可上传) -->
+                    <div class="stamp-box" id="opponentStampBox">
+                        <!-- 隐藏文件输入 -->
+                        <input type="file" id="stampUpload" accept="image/*" class="stamp-file-input">
+                        <!-- 占位符（可点击上传） -->
+                        <div class="stamp-placeholder" id="stampPlaceholder">
+                            点击上传<br>对方合同章
                         </div>
+                        <!-- 上传后显示的图片（初始隐藏） -->
+                        <img class="stamp-uploaded-img" id="stampUploadedImg" src="#" alt="对方合同章" style="display: none;">
                         <p style="font-size:0.7rem; margin-top:0.1rem;">（买方/卖方盖章处）</p>
                     </div>
                 </div>
@@ -1004,6 +1033,35 @@
             // 初始化两个签名画布
             initSignatureCanvas('signatureCanvas1', '#signature-area1 .clear-signature');
             initSignatureCanvas('signatureCanvas2', '#signature-area2 .clear-signature');
+
+            // ---------- 对方合同章上传功能 ----------
+            const stampUpload = document.getElementById('stampUpload');
+            const stampPlaceholder = document.getElementById('stampPlaceholder');
+            const stampUploadedImg = document.getElementById('stampUploadedImg');
+
+            // 点击占位符触发文件选择
+            stampPlaceholder.addEventListener('click', function() {
+                stampUpload.click();
+            });
+
+            // 文件选择后处理
+            stampUpload.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        stampUploadedImg.src = ev.target.result;
+                        stampUploadedImg.style.display = 'block';
+                        stampPlaceholder.style.display = 'none'; // 隐藏占位符
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // 点击已上传图片可重新上传
+            stampUploadedImg.addEventListener('click', function() {
+                stampUpload.click();
+            });
         })();
     </script>
 </body>
