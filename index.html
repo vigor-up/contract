@@ -24,7 +24,7 @@
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
-            padding: 0.5rem 0.5rem;  /* 进一步缩小外边距 */
+            padding: 0.5rem 0.5rem;
         }
 
         .contract-container {
@@ -34,7 +34,7 @@
             backdrop-filter: blur(4px);
             border-radius: 20px;
             box-shadow: 0 20px 40px -12px rgba(0, 55, 100, 0.25), 0 0 0 1px rgba(46, 125, 50, 0.15);
-            padding: 1rem 1.2rem 0.8rem;  /* 更紧凑的内边距 */
+            padding: 1rem 1.2rem 0.8rem;
             transition: all 0.3s;
         }
 
@@ -72,7 +72,7 @@
         }
 
         .brand-logo {
-            height: 90px;  /* 保持醒目但紧凑 */
+            height: 90px;
             width: auto;
             max-width: 140px;
             object-fit: contain;
@@ -308,11 +308,11 @@
             border-radius: 16px;
             padding: 0.8rem 1.2rem;
             font-size: 1rem;
-            line-height: 1.45;  /* 紧凑行距 */
+            line-height: 1.45;
             background: #fefefe;
             resize: vertical;
             box-shadow: inset 0 2px 6px rgba(0,30,0,0.02);
-            min-height: 300px;  /* 确保八项条款可见 */
+            /* 移除min-height，由rows控制高度 */
         }
 
         /* 页脚签名区 (双印章 + 双签名并排) */
@@ -603,9 +603,9 @@
         <!-- 总计金额 -->
         <div class="total-row" id="grandTotalSpan">¥ 0.00</div>
 
-        <!-- 合同条款 (完整八项) -->
+        <!-- 合同条款 (rows=25 确保无滚动条) -->
         <div class="clause-box">
-            <textarea id="contractClauses" rows="12">
+            <textarea id="contractClauses" rows="25">
 一、产品与质量标准
 1. 产品名称、规格、数量、单价及总价详见上表。
 2. 质量要求：按供方企业标准（Q/XL 001-2025）或双方确认的样品/技术资料执行，产品应符合国家相关法规及行业标准。
