@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>厦门泽林 · 生技原料买卖合同 (打印优化版)</title>
+    <title>厦门泽林 · 生技原料买卖合同 (证据包版)</title>
     <!-- 引入Google Font & Font Awesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- 引入 JSZip 和 CryptoJS 用于打包和哈希 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
     <style>
         /* ========== 全局重置与字体 ========== */
         * {
@@ -511,6 +514,51 @@
             width: auto;
         }
 
+        /* 证据包相关样式 */
+        .email-section {
+            margin: 1rem 0 0.5rem;
+            padding: 0.8rem 1rem;
+            background: #f0f8f0;
+            border-radius: 16px;
+            border: 1px solid #c8e6c9;
+        }
+        .email-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+            align-items: center;
+        }
+        .email-row label {
+            font-weight: 600;
+            color: #1B5E20;
+            min-width: 80px;
+        }
+        .email-row input {
+            flex: 1;
+            min-width: 200px;
+            border: 1px solid #a5d6a7;
+            border-radius: 30px;
+            padding: 0.3rem 1rem;
+            background: white;
+            font-size: 0.9rem;
+        }
+        .hash-display {
+            background: #e8f5e9;
+            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            word-break: break-all;
+            border: 1px solid #a5d6a7;
+            margin-top: 0.5rem;
+        }
+        .evidence-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
         /* 其他合同链接 */
         .other-contracts-links {
             display: flex;
@@ -570,6 +618,13 @@
             box-shadow: 0 4px 10px #c8e6c9;
         }
         .btn:hover { background: #1B5E20; transform: translateY(-2px); }
+        .btn-evidence {
+            background: #FFB300;
+            color: #1B5E20;
+        }
+        .btn-evidence:hover {
+            background: #ffa000;
+        }
 
         /* ========== 打印样式强化 ========== */
         @media print {
@@ -594,7 +649,9 @@
             .role-switch,
             .other-contracts-links,
             .signature-upload-btn,
-            .signature-controls button {
+            .signature-controls button,
+            .email-section,
+            .evidence-buttons {
                 display: none !important;
             }
             td:last-child,
@@ -816,6 +873,23 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- 证据包与邮件发送区域 (新增) -->
+        <div class="email-section no-print">
+            <div class="email-row">
+                <label>甲方邮箱：</label>
+                <input type="email" id="emailPartyA" placeholder="请输入甲方邮箱" value="partyA@example.com">
+            </div>
+            <div class="email-row">
+                <label>乙方邮箱：</label>
+                <input type="email" id="emailPartyB" placeholder="请输入乙方邮箱" value="partyB@example.com">
+            </div>
+            <div class="evidence-buttons">
+                <button class="btn btn-evidence" id="generateEvidenceBtn">📦 生成证据包</button>
+                <button class="btn btn-evidence" id="sendEmailBtn">📧 发送邮件</button>
+            </div>
+            <div class="hash-display" id="hashDisplay">尚未生成证据包哈希值</div>
         </div>
 
         <!-- 其他合同链接 -->
@@ -1187,6 +1261,104 @@
 
             initSignatureUpload('signatureUpload1', 'signaturePreview1', 'clearSignature1', 'signatureUploadBtn1');
             initSignatureUpload('signatureUpload2', 'signaturePreview2', 'clearSignature2', 'signatureUploadBtn2');
+
+            // ---------- 新增：证据包生成与邮件发送 ----------
+            const generateBtn = document.getElementById('generateEvidenceBtn');
+            const sendBtn = document.getElementById('sendEmailBtn');
+            const hashDisplay = document.getElementById('hashDisplay');
+            let currentHash = '';
+
+            // 辅助函数：将DataURL转换为Blob
+            function dataURLtoBlob(dataurl) {
+                const arr = dataurl.split(',');
+                const mime = arr[0].match(/:(.*?);/)[1];
+                const bstr = atob(arr[1]);
+                let n = bstr.length;
+                const u8arr = new Uint8Array(n);
+                while (n--) {
+                    u8arr[n] = bstr.charCodeAt(n);
+                }
+                return new Blob([u8arr], { type: mime });
+            }
+
+            // 生成证据包
+            generateBtn.addEventListener('click', async function() {
+                try {
+                    // 收集所有数据
+                    const contractData = collectFormData();
+
+                    // 获取签名图片的Blob
+                    const sig1Preview = document.querySelector('#signaturePreview1 img');
+                    const sig2Preview = document.querySelector('#signaturePreview2 img');
+                    const stampImg = document.getElementById('stampUploadedImg');
+
+                    let sig1Blob = null, sig2Blob = null, stampBlob = null;
+                    if (sig1Preview) {
+                        const dataURL = sig1Preview.src;
+                        sig1Blob = dataURLtoBlob(dataURL);
+                    }
+                    if (sig2Preview) {
+                        const dataURL = sig2Preview.src;
+                        sig2Blob = dataURLtoBlob(dataURL);
+                    }
+                    if (stampImg && stampImg.style.display !== 'none') {
+                        const dataURL = stampImg.src;
+                        stampBlob = dataURLtoBlob(dataURL);
+                    }
+
+                    // 创建ZIP
+                    const zip = new JSZip();
+                    // 添加合同JSON
+                    zip.file('contract.json', JSON.stringify(contractData, null, 2));
+                    // 添加签名图片
+                    if (sig1Blob) zip.file('signature_A.png', sig1Blob);
+                    if (sig2Blob) zip.file('signature_B.png', sig2Blob);
+                    if (stampBlob) zip.file('stamp_opponent.png', stampBlob);
+                    // 添加签署时间
+                    zip.file('signature_timestamp.txt', new Date().toISOString());
+
+                    // 生成ZIP文件
+                    const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+                    // 计算哈希值 (SHA-256)
+                    const buffer = await zipBlob.arrayBuffer();
+                    const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+                    const hashArray = Array.from(new Uint8Array(hashBuffer));
+                    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                    currentHash = hashHex;
+                    hashDisplay.innerText = '证据包哈希值 (SHA-256): ' + hashHex;
+
+                    // 下载ZIP文件
+                    const url = URL.createObjectURL(zipBlob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `contract_evidence_${contractData.contractNo}.zip`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                } catch (error) {
+                    alert('生成证据包失败：' + error.message);
+                }
+            });
+
+            // 发送邮件
+            sendBtn.addEventListener('click', function() {
+                const emailA = document.getElementById('emailPartyA').value.trim();
+                const emailB = document.getElementById('emailPartyB').value.trim();
+                if (!emailA || !emailB) {
+                    alert('请输入双方邮箱地址');
+                    return;
+                }
+                if (!currentHash) {
+                    alert('请先生成证据包');
+                    return;
+                }
+                const subject = '合同证据包 - ' + document.getElementById('contractNo').value;
+                const body = `尊敬的双方，\n\n请查收附件中的合同证据包。\n证据包哈希值 (SHA-256): ${currentHash}\n\n您可以使用该哈希值验证文件的完整性。\n\n本邮件由系统自动生成，请勿回复。`;
+                const mailtoLink = `mailto:${emailA},${emailB}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                window.location.href = mailtoLink;
+            });
         })();
     </script>
 </body>
