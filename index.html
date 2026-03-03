@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>厦门泽林 · 生技原料买卖合同 (电子签名版)</title>
+    <title>厦门泽林 · 生技原料买卖合同 (水印精装版)</title>
     <style>
-        /* ========== 全局样式 ========== */
+        /* ========== 全局重置与字体 ========== */
         * {
             margin: 0;
             padding: 0;
@@ -14,7 +14,7 @@
         }
 
         body {
-            background: linear-gradient(145deg, #d4e6f5 0%, #eef5fa 100%);
+            background: linear-gradient(135deg, #d9ebf7 0%, #f0f9ff 100%);
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -22,40 +22,69 @@
             padding: 2rem 1.5rem;
         }
 
+        /* 主合同卡片 */
         .contract-container {
-            max-width: 1300px;
+            max-width: 1350px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(4px);
-            border-radius: 42px;
-            box-shadow: 0 30px 55px -15px rgba(0, 60, 100, 0.4), inset 0 1px 3px rgba(255,255,255,0.8);
-            padding: 2.2rem 2.5rem 2rem;
-            border: 1px solid rgba(0, 120, 200, 0.25);
-            transition: all 0.25s;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(6px);
+            border-radius: 48px;
+            box-shadow: 0 40px 70px -20px rgba(0, 55, 100, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            padding: 2.5rem 2.8rem 2.2rem;
+            border: 1px solid rgba(0, 100, 170, 0.15);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* ========== 页眉 ========== */
+        /* ========== 页眉区域（水印Logo）========= */
         .header {
+            position: relative;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 2rem;
-            padding-bottom: 1.2rem;
-            border-bottom: 3px solid #2f89c0;
-            background: linear-gradient(to right, #f8fcff, #ffffff);
-            border-radius: 30px 30px 0 0;
-            padding: 1.2rem 1.5rem;
+            padding: 1.5rem 1.8rem;
+            border-radius: 40px 40px 0 0;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(4px);
+            border-bottom: 2px solid #2f89c0;
+            box-shadow: 0 8px 20px -10px #003b5e33;
+            z-index: 1;
         }
 
-        .logo-header img {
-            max-height: 80px;
-            width: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 4px 6px rgba(0,70,120,0.15));
-            transition: transform 0.2s;
+        .logo-watermark-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 0;
         }
-        .logo-header img:hover { transform: scale(1.02); }
+
+        .logo-watermark-header img {
+            height: 120px;          /* 放大水印 */
+            width: auto;
+            opacity: 0.25;           /* 半透明水印 */
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(0,80,130,0.2));
+            transform: scale(1);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
 
         .title-header h1 {
             font-size: 2.4rem;
@@ -66,7 +95,7 @@
             background-clip: text;
             letter-spacing: 1.2px;
             margin-bottom: 0.2rem;
-            text-shadow: 2px 2px 4px rgba(0,50,80,0.1);
+            text-shadow: 2px 2px 8px rgba(0,70,120,0.15);
         }
 
         .doc-meta-header {
@@ -74,8 +103,9 @@
             gap: 1.5rem;
             flex-wrap: wrap;
             background: #ecf5fc;
-            padding: 0.6rem 1.4rem;
-            border-radius: 50px;
+            padding: 0.7rem 1.8rem;
+            border-radius: 60px;
+            box-shadow: 0 4px 10px rgba(0,35,60,0.1);
         }
         .doc-meta-header label {
             display: flex;
@@ -102,58 +132,59 @@
 
         /* ========== 角色切换 ========== */
         .role-switch {
-            background: #ffffffd9;
+            background: #ffffff;
             border-radius: 60px;
             display: inline-flex;
-            padding: 0.4rem;
-            margin: 0 0 2rem 1rem;
+            padding: 0.5rem;
+            margin: 0 0 2.2rem 1rem;
             gap: 0.4rem;
-            border: 1px solid #b0d0eb;
-            box-shadow: 0 6px 12px rgba(0,40,70,0.1);
+            border: 1px solid #b8d6f0;
+            box-shadow: 0 8px 16px -8px #00305533;
         }
         .role-switch label {
-            padding: 0.5rem 2.2rem;
+            padding: 0.6rem 2.4rem;
             border-radius: 60px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             color: #1e4a72;
-            transition: 0.15s;
+            transition: 0.2s;
         }
         .role-switch input[type="radio"] { display: none; }
         .role-switch input:checked + label {
             background: #0b4970;
             color: white;
-            box-shadow: 0 4px 10px #003c6e66;
+            box-shadow: 0 6px 14px #003c6e80;
         }
 
         /* ========== 公司信息卡片 ========== */
         .company-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 2rem;
-            margin-bottom: 2.2rem;
+            gap: 2.2rem;
+            margin-bottom: 2.5rem;
         }
         .company-card {
             flex: 1 1 340px;
-            background: #f5fafd;
-            border-radius: 28px;
-            padding: 1.8rem 1.8rem;
-            border: 1px solid #cde4f5;
-            box-shadow: 0 12px 24px -12px rgba(0,70,120,0.2);
+            background: #f8fcff;
+            border-radius: 32px;
+            padding: 2rem 2rem;
+            border: 1px solid #d4e9fa;
+            box-shadow: 0 18px 35px -16px #00345e33;
+            backdrop-filter: blur(2px);
         }
         .company-card h3 {
             color: #103f60;
             font-size: 1.3rem;
             border-left: 8px solid #2f89c0;
             padding-left: 1rem;
-            margin-bottom: 1.4rem;
+            margin-bottom: 1.5rem;
             background: linear-gradient(to right, #ffffff, #f0f8ff);
             border-radius: 0 20px 20px 0;
-            line-height: 2;
+            line-height: 2.2;
         }
         .company-card p {
-            margin: 0.7rem 0;
+            margin: 0.8rem 0;
             display: flex;
             align-items: baseline;
         }
@@ -164,8 +195,8 @@
         }
         .company-card input {
             border: 1px solid #c0d8ee;
-            border-radius: 30px;
-            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            padding: 0.6rem 1.4rem;
             width: 100%;
             background: white;
             font-size: 0.95rem;
@@ -173,26 +204,26 @@
         }
         .company-card input:focus {
             border-color: #2f89c0;
-            box-shadow: 0 0 0 3px rgba(47,137,192,0.15);
+            box-shadow: 0 0 0 4px rgba(47,137,192,0.15);
             outline: none;
         }
         .bank-info {
             background: #e7f0f9;
-            border-radius: 20px;
-            padding: 1rem 1.3rem;
-            margin-top: 1.2rem;
+            border-radius: 24px;
+            padding: 1rem 1.5rem;
+            margin-top: 1.5rem;
             font-size: 0.9rem;
             border-left: 4px solid #1d6fa5;
         }
 
         /* ========== 原料明细表格 ========== */
         .items-section {
-            margin: 2rem 0 1.8rem;
+            margin: 2.5rem 0 2rem;
         }
         .items-section h3 {
             color: #154f78;
-            font-size: 1.5rem;
-            margin-bottom: 1.2rem;
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -201,29 +232,29 @@
             width: 100%;
             border-collapse: collapse;
             background: white;
-            border-radius: 30px;
+            border-radius: 36px;
             overflow: hidden;
-            box-shadow: 0 10px 25px -8px #002d4640;
+            box-shadow: 0 16px 32px -14px #002d4666;
         }
         th {
             background: #c7e2f5;
             color: #0c3b57;
             font-weight: 600;
-            padding: 0.9rem 0.4rem;
+            padding: 1rem 0.4rem;
             font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.5px;
         }
         td {
-            padding: 0.7rem 0.4rem;
+            padding: 0.8rem 0.5rem;
             border-bottom: 1px solid #d9eaf7;
             vertical-align: middle;
         }
         td input, td select {
             width: 100%;
             border: 1px solid #b8d6f0;
-            border-radius: 30px;
-            padding: 0.5rem 0.8rem;
+            border-radius: 40px;
+            padding: 0.6rem 1rem;
             font-size: 0.9rem;
             background: #f9fcff;
             transition: 0.15s;
@@ -232,96 +263,133 @@
             border-color: #2f89c0;
             outline: none;
             background: white;
+            box-shadow: 0 0 0 3px rgba(47,137,192,0.1);
         }
         .delete-btn {
             background: none;
             border: none;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             cursor: pointer;
             color: #a13d3d;
-            padding: 0 0.4rem;
+            padding: 0 0.5rem;
             transition: 0.1s;
         }
         .delete-btn:hover { color: #c00; transform: scale(1.2); }
 
         .total-row {
             text-align: right;
-            margin: 1.2rem 0 1.5rem;
-            font-size: 2rem;
+            margin: 1.5rem 0 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
             color: #07426b;
             background: linear-gradient(to right, #e6f2fa, #ffffff);
-            padding: 0.8rem 2rem;
+            padding: 0.8rem 2.5rem;
             border-radius: 60px;
             display: inline-block;
             float: right;
-            box-shadow: 0 4px 10px rgba(0,50,80,0.1);
+            box-shadow: 0 8px 20px rgba(0,50,80,0.15);
         }
 
         /* ========== 条款区域 ========== */
         .clause-box {
             clear: both;
-            margin: 2rem 0 2rem;
+            margin: 2.5rem 0 2.5rem;
         }
         .clause-box textarea {
             width: 100%;
-            border: 1px solid #bcd3e9;
-            border-radius: 28px;
-            padding: 1.3rem 1.8rem;
+            border: 1px solid #c0d8ee;
+            border-radius: 32px;
+            padding: 1.5rem 2rem;
             font-size: 0.95rem;
-            line-height: 1.7;
+            line-height: 1.8;
             background: #fcfdff;
             resize: vertical;
-            box-shadow: inset 0 2px 6px rgba(0,30,50,0.05);
+            box-shadow: inset 0 4px 10px rgba(0,30,50,0.05);
         }
 
-        /* ========== 页脚：印章 + 电子签名 + 日期 + 页脚logo ========== */
+        /* ========== 页脚：印章 + 电子签名 + 日期 + 页脚水印Logo ========== */
         .signature-footer {
+            position: relative;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: flex-end;
-            margin: 2rem 0 1.5rem;
-            padding-top: 1rem;
+            margin: 2.5rem 0 1.8rem;
+            padding: 2rem 1.5rem 1.5rem;
             border-top: 2px dashed #a0c4e2;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 40px;
+            overflow: hidden;
         }
-        .signature-block {
+
+        .logo-watermark-footer {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
-            gap: 2rem;
+            align-items: flex-end;
+            justify-content: flex-end;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.25;
+        }
+
+        .logo-watermark-footer img {
+            height: 120px;
+            width: auto;
+            object-fit: contain;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 12px rgba(0,80,140,0.3));
+        }
+
+        .signature-block {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            gap: 2.5rem;
             flex-wrap: wrap;
             align-items: center;
         }
+
+        /* 印章放大到标准尺寸 (1:1 比例) */
         .stamp-box {
             text-align: center;
-            width: 150px;
+            width: auto;
         }
         .stamp-box img {
-            max-width: 130px;
+            width: 130px;            /* 标准尺寸，可根据实际调整 */
+            height: auto;
             max-height: 130px;
-            border-radius: 12px;
+            border-radius: 50%;       /* 圆形印章 */
             background: #fff;
-            padding: 0.3rem;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            padding: 0.4rem;
+            box-shadow: 0 12px 24px -8px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,215,0,0.5) inset;
+            object-fit: contain;
         }
+
         .signature-area {
             background: #fafdff;
-            border-radius: 20px;
-            padding: 1rem 1.5rem;
+            border-radius: 28px;
+            padding: 1.2rem 2rem;
             border: 1px solid #cde4f5;
+            box-shadow: 0 8px 18px -8px #00305540;
         }
         .signature-area canvas {
-            border: 1px solid #aaa;
-            border-radius: 12px;
+            border: 1px solid #8bb9d9;
+            border-radius: 16px;
             background: #fff;
             touch-action: none;
             width: 100%;
             height: auto;
-            max-width: 300px;
+            max-width: 320px;
         }
         .signature-controls {
-            margin-top: 0.5rem;
+            margin-top: 0.8rem;
             display: flex;
-            gap: 0.5rem;
+            gap: 0.8rem;
             align-items: center;
             flex-wrap: wrap;
         }
@@ -329,8 +397,8 @@
             background: #eef5fb;
             border: none;
             color: #154f78;
-            padding: 0.3rem 1.2rem;
-            border-radius: 30px;
+            padding: 0.4rem 1.5rem;
+            border-radius: 40px;
             font-weight: 500;
             cursor: pointer;
             transition: 0.15s;
@@ -341,59 +409,45 @@
         }
         .signature-controls input[type="date"] {
             border: 1px solid #bcd3e9;
-            border-radius: 30px;
-            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            padding: 0.4rem 1.2rem;
             background: white;
             font-size: 0.9rem;
-        }
-        .footer-logo {
-            text-align: right;
-        }
-        .footer-logo img {
-            max-height: 70px;
-            width: auto;
-            opacity: 0.9;
-            filter: drop-shadow(0 4px 6px rgba(0,70,100,0.2));
-        }
-        .footer-logo p {
-            font-size: 0.8rem;
-            color: #597b9b;
-            margin-top: 0.2rem;
         }
 
         /* ========== 操作按钮 ========== */
         .action-buttons {
             display: flex;
-            gap: 1.5rem;
+            gap: 1.8rem;
             justify-content: center;
-            margin-top: 2.5rem;
+            margin-top: 2.8rem;
             flex-wrap: wrap;
         }
         .btn {
             border: none;
             background: #1d5f8c;
             color: white;
-            font-size: 1.05rem;
-            padding: 0.9rem 2.8rem;
+            font-size: 1.1rem;
+            padding: 1rem 3rem;
             border-radius: 60px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 12px 22px -6px #004678b3;
+            box-shadow: 0 16px 28px -8px #004678cc;
             transition: 0.2s;
             border: 1px solid rgba(255,255,255,0.2);
         }
         .btn-light {
             background: #eef5fb;
             color: #154f78;
-            box-shadow: 0 6px 14px #00305440;
+            box-shadow: 0 8px 18px #0030544d;
         }
-        .btn:hover { background: #0e4468; transform: translateY(-3px); }
-        .btn-light:hover { background: #d5e6f5; transform: translateY(-2px); }
+        .btn:hover { background: #0e4468; transform: translateY(-4px); }
+        .btn-light:hover { background: #d5e6f5; transform: translateY(-3px); }
 
         /* ========== 打印样式 ========== */
         @media print {
-            body { background: white; padding: 0.15in; }
-            .contract-container { box-shadow: none; border: 1px solid #aaa; padding: 0.2in; border-radius: 0; }
+            body { background: white; padding: 0.2in; }
+            .contract-container { box-shadow: none; border: 1px solid #aaa; padding: 0.25in; border-radius: 0; background: white; }
             .no-print, .btn, #addRowBtn, .delete-btn, .action-buttons, .role-switch, .signature-controls button {
                 display: none !important;
             }
@@ -404,44 +458,41 @@
             }
             th { background: #eaeaea !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .company-card, .bank-info { border: 1px solid #aaa; background: #f9f9f9 !important; }
-            .logo-header img, .footer-logo img { max-height: 60px; opacity: 0.8; }
-            .signature-footer { border-top: 2px solid #333; }
-            .signature-area canvas {
-                border: 1px solid #000 !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
+            .logo-watermark-header img, .logo-watermark-footer img {
+                opacity: 0.15 !important;  /* 打印时更淡，避免遮盖文字 */
+                max-height: 100px;
             }
-            .signature-area input[type="date"] {
-                border: none;
-                border-bottom: 1px solid #333 !important;
-                background: transparent;
-            }
+            .stamp-box img { max-width: 100px; opacity: 0.9; }
+            .signature-area canvas { border: 1px solid #000; }
+            .signature-area input[type="date"] { border: none; border-bottom: 1px solid #333; }
         }
 
         /* 移动端优化 */
         @media (max-width: 700px) {
-            .header { flex-direction: column; align-items: start; gap: 1rem; }
+            .header-content { flex-direction: column; align-items: start; gap: 1rem; }
             .doc-meta-header { width: 100%; }
             .doc-meta-header label { width: 100%; }
-            .total-row { font-size: 1.6rem; }
+            .total-row { font-size: 1.8rem; }
             .signature-block { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
 <body>
     <div class="contract-container">
-        <!-- ========== 页眉（嵌入大Logo） ========== -->
+        <!-- ========== 页眉区域（水印Logo） ========== -->
         <div class="header">
-            <div class="logo-header">
-                <img src="images/xmzelin-logo.png" alt="厦门泽林生物科技" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x80?text=Zelin+Bio';">
+            <div class="logo-watermark-header">
+                <img src="images/xmzelin-logo.png" alt="厦门泽林水印" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x80?text=Zelin+Bio';">
             </div>
-            <div class="title-header">
-                <h1 id="contractTitle">生技原料买卖合同</h1>
-            </div>
-            <div class="doc-meta-header no-print">
-                <label>合同编号 <input type="text" id="contractNo" value="ZL-SC-2025-001"></label>
-                <label>签订日期 <input type="date" id="contractDate" value="2025-03-03"></label>
-                <label>签订地点 <input type="text" id="contractPlace" value="厦门市"></label>
+            <div class="header-content">
+                <div class="title-header">
+                    <h1 id="contractTitle">生技原料买卖合同</h1>
+                </div>
+                <div class="doc-meta-header no-print">
+                    <label>合同编号 <input type="text" id="contractNo" value="ZL-SC-2025-001"></label>
+                    <label>签订日期 <input type="date" id="contractDate" value="2025-03-03"></label>
+                    <label>签订地点 <input type="text" id="contractPlace" value="厦门市"></label>
+                </div>
             </div>
         </div>
 
@@ -490,26 +541,26 @@
 六、本合同一式两份，双方各执一份，盖章生效。</textarea>
         </div>
 
-        <!-- ========== 页脚：印章 + 电子签名 + 日期 + 页脚Logo ========== -->
+        <!-- ========== 页脚：印章 + 电子签名 + 日期 + 页脚水印Logo ========== -->
         <div class="signature-footer">
+            <div class="logo-watermark-footer">
+                <img src="images/xmzelin-logo.png" alt="厦门泽林水印" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x80?text=Zelin';">
+            </div>
             <div class="signature-block">
+                <!-- 印章放大到标准尺寸 -->
                 <div class="stamp-box">
-                    <img src="images/stamp.png" alt="公司印章" onerror="this.onerror=null; this.src='https://via.placeholder.com/120x120?text=Seal';">
-                    <p>厦门泽林生物科技<br>合同专用章</p>
+                    <img src="images/stamp.png" alt="公司印章" onerror="this.onerror=null; this.src='https://via.placeholder.com/130x130?text=Seal';">
+                    <p style="font-size:0.85rem; margin-top:0.3rem;">厦门泽林生物科技<br>合同专用章</p>
                 </div>
                 <div class="signature-area">
-                    <p style="font-weight: 600; margin-bottom: 0.3rem;">授权代表签名：</p>
-                    <canvas id="signatureCanvas" width="300" height="120" style="width: 100%; height: auto; border: 1px solid #aaa; border-radius: 12px; background: #fff; touch-action: none;"></canvas>
+                    <p style="font-weight: 600; margin-bottom: 0.4rem;">授权代表签名：</p>
+                    <canvas id="signatureCanvas" width="320" height="130" style="width: 100%; height: auto; border: 1px solid #8bb9d9; border-radius: 16px; background: #fff; touch-action: none;"></canvas>
                     <div class="signature-controls">
                         <button type="button" id="clearSignatureBtn">清除</button>
                         <span style="margin-left: auto;">签字日期：</span>
                         <input type="date" id="signatureDate" value="2025-03-03">
                     </div>
                 </div>
-            </div>
-            <div class="footer-logo">
-                <img src="images/xmzelin-logo.png" alt="厦门泽林" onerror="this.onerror=null; this.src='https://via.placeholder.com/180x70?text=Zelin';">
-                <p>质量为本 · 科技领先</p>
             </div>
         </div>
 
@@ -758,7 +809,7 @@
             renderCompanyCards();
             initTable();
 
-            // ---------- 电子签名画布 ----------
+            // 电子签名画布
             const canvas = document.getElementById('signatureCanvas');
             if (canvas) {
                 let drawing = false;
