@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>厦门泽林 · 生技原料买卖合同</title>
+    <title>厦门泽林 · 生技原料买卖合同 (双Logo精装版)</title>
     <style>
-        /* ----- 全局样式 ----- */
+        /* ========== 全局重置与字体 ========== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', system-ui, sans-serif;
+            font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', system-ui, sans-serif;
         }
 
         body {
-            background: #e2eef9;
+            background: linear-gradient(145deg, #d4e6f5 0%, #eef5fa 100%);
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -22,322 +22,379 @@
             padding: 2rem 1.5rem;
         }
 
+        /* 主合同卡片 */
         .contract-container {
-            max-width: 1280px;
+            max-width: 1300px;
             width: 100%;
-            background: #ffffff;
-            border-radius: 32px;
-            box-shadow: 0 25px 45px -12px rgba(1, 65, 105, 0.3);
-            padding: 2.2rem 2.5rem 2.5rem;
-            border: 1px solid rgba(0, 95, 145, 0.15);
-            transition: all 0.2s;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(4px);
+            border-radius: 42px;
+            box-shadow: 0 30px 55px -15px rgba(0, 60, 100, 0.4), inset 0 1px 3px rgba(255,255,255,0.8);
+            padding: 2.2rem 2.5rem 2rem;
+            border: 1px solid rgba(0, 120, 200, 0.25);
+            transition: all 0.25s;
         }
 
-        /* 打印样式 */
-        @media print {
-            body {
-                background: white;
-                padding: 0.2in;
-            }
-            .contract-container {
-                box-shadow: none;
-                border: 1px solid #ccc;
-                padding: 0.2in;
-                border-radius: 0;
-            }
-            .no-print, .btn, #addRowBtn, .delete-btn, .action-buttons, .type-radio-group {
-                display: none !important;
-            }
-            td:last-child, th:last-child {
-                display: none;  /* 隐藏操作列 */
-            }
-            input, select, textarea {
-                border: none !important;
-                background: transparent !important;
-                border-bottom: 1px solid #333 !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-                appearance: none;
-                padding: 0.1rem 0;
-            }
-            select {
-                -webkit-appearance: none;
-                appearance: none;
-            }
-            .company-card {
-                border: 1px solid #aaa;
-                background: #f9f9f9 !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            .stamp-box img {
-                opacity: 0.8;
-                max-width: 100px;
-            }
-            th {
-                background: #eaeaea !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-        }
-
-        /* 标题区 */
+        /* ========== 页眉区域 ========== */
         .header {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.8rem;
-            border-bottom: 3px solid #1976b0;
+            justify-content: space-between;
+            margin-bottom: 2rem;
             padding-bottom: 1.2rem;
+            border-bottom: 3px solid #2f89c0;
+            background: linear-gradient(to right, #f8fcff, #ffffff);
+            border-radius: 30px 30px 0 0;
+            padding: 1.2rem 1.5rem;
         }
-        .logo img {
-            max-height: 60px;
+
+        .logo-header img {
+            max-height: 80px;  /* 放大页眉logo */
             width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 6px rgba(0,70,120,0.15));
+            transition: transform 0.2s;
         }
-        .title h1 {
-            font-size: 2.3rem;
-            font-weight: 600;
-            background: linear-gradient(145deg, #094d73, #1f6ca0);
+        .logo-header img:hover { transform: scale(1.02); }
+
+        .title-header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #0b4b77, #2273a5);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.2px;
+            margin-bottom: 0.2rem;
+            text-shadow: 2px 2px 4px rgba(0,50,80,0.1);
         }
-        .doc-meta {
+
+        .doc-meta-header {
             display: flex;
             gap: 1.5rem;
             flex-wrap: wrap;
+            background: #ecf5fc;
+            padding: 0.6rem 1.4rem;
+            border-radius: 50px;
         }
-        .doc-meta label {
+        .doc-meta-header label {
             display: flex;
             align-items: center;
             gap: 0.4rem;
             font-size: 0.95rem;
             color: #135b87;
+            font-weight: 500;
         }
-        .doc-meta input {
+        .doc-meta-header input {
             border: 1px solid #bfdaf0;
-            border-radius: 20px;
-            padding: 0.3rem 1rem;
-            width: 140px;
+            border-radius: 40px;
+            padding: 0.4rem 1.2rem;
+            width: 150px;
             background: white;
+            font-size: 0.95rem;
+            transition: 0.15s;
+        }
+        .doc-meta-header input:focus {
+            border-color: #2f89c0;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(47,137,192,0.2);
         }
 
-        /* 角色切换 */
+        /* ========== 角色切换 ========== */
         .role-switch {
-            background: #ecf5fc;
-            border-radius: 40px;
+            background: #ffffffd9;
+            border-radius: 60px;
             display: inline-flex;
-            padding: 0.3rem;
-            margin: 0 0 1.8rem;
-            gap: 0.3rem;
+            padding: 0.4rem;
+            margin: 0 0 2rem 1rem;
+            gap: 0.4rem;
+            border: 1px solid #b0d0eb;
+            box-shadow: 0 6px 12px rgba(0,40,70,0.1);
         }
         .role-switch label {
-            padding: 0.4rem 2rem;
-            border-radius: 40px;
+            padding: 0.5rem 2.2rem;
+            border-radius: 60px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             color: #1e4a72;
-            transition: 0.1s;
+            transition: 0.15s;
         }
-        .role-switch input[type="radio"] {
-            display: none;
-        }
-        .role-switch input[type="radio"]:checked + label {
+        .role-switch input[type="radio"] { display: none; }
+        .role-switch input:checked + label {
             background: #0b4970;
             color: white;
-            box-shadow: 0 4px 10px rgba(0,60,110,0.2);
+            box-shadow: 0 4px 10px #003c6e66;
         }
 
-        /* 公司信息卡 */
+        /* ========== 公司信息卡片 ========== */
         .company-row {
             display: flex;
             flex-wrap: wrap;
             gap: 2rem;
-            margin-bottom: 2rem;
+            margin-bottom: 2.2rem;
         }
         .company-card {
-            flex: 1 1 320px;
+            flex: 1 1 340px;
             background: #f5fafd;
-            border-radius: 24px;
-            padding: 1.8rem 1.5rem;
+            border-radius: 28px;
+            padding: 1.8rem 1.8rem;
             border: 1px solid #cde4f5;
-            box-shadow: 0 6px 16px rgba(0,50,80,0.05);
+            box-shadow: 0 12px 24px -12px rgba(0,70,120,0.2);
         }
         .company-card h3 {
             color: #103f60;
             font-size: 1.3rem;
-            border-left: 6px solid #2f89c0;
+            border-left: 8px solid #2f89c0;
             padding-left: 1rem;
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.4rem;
+            background: linear-gradient(to right, #ffffff, #f0f8ff);
+            border-radius: 0 20px 20px 0;
+            line-height: 2;
         }
         .company-card p {
-            margin: 0.6rem 0;
-            font-size: 0.95rem;
+            margin: 0.7rem 0;
             display: flex;
             align-items: baseline;
         }
         .company-card p strong {
             width: 100px;
             color: #1f537a;
+            font-weight: 600;
         }
-        .company-card input, .company-card textarea {
+        .company-card input {
             border: 1px solid #c0d8ee;
-            border-radius: 20px;
-            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            padding: 0.5rem 1.2rem;
             width: 100%;
             background: white;
             font-size: 0.95rem;
+            transition: 0.15s;
+        }
+        .company-card input:focus {
+            border-color: #2f89c0;
+            box-shadow: 0 0 0 3px rgba(47,137,192,0.15);
+            outline: none;
         }
         .bank-info {
             background: #e7f0f9;
-            border-radius: 16px;
-            padding: 0.8rem 1.2rem;
-            margin-top: 1rem;
+            border-radius: 20px;
+            padding: 1rem 1.3rem;
+            margin-top: 1.2rem;
             font-size: 0.9rem;
+            border-left: 4px solid #1d6fa5;
         }
 
-        /* 表格 */
+        /* ========== 原料明细表格 ========== */
         .items-section {
-            margin: 2rem 0 1.5rem;
+            margin: 2rem 0 1.8rem;
+        }
+        .items-section h3 {
+            color: #154f78;
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            border-radius: 24px;
+            border-radius: 30px;
             overflow: hidden;
-            box-shadow: 0 6px 16px rgba(0,45,70,0.08);
+            box-shadow: 0 10px 25px -8px #002d4640;
         }
         th {
             background: #c7e2f5;
             color: #0c3b57;
             font-weight: 600;
-            padding: 0.8rem 0.3rem;
+            padding: 0.9rem 0.4rem;
             font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
         td {
-            padding: 0.6rem 0.3rem;
+            padding: 0.7rem 0.4rem;
             border-bottom: 1px solid #d9eaf7;
             vertical-align: middle;
         }
         td input, td select {
             width: 100%;
             border: 1px solid #b8d6f0;
-            border-radius: 20px;
-            padding: 0.4rem 0.6rem;
+            border-radius: 30px;
+            padding: 0.5rem 0.8rem;
             font-size: 0.9rem;
+            background: #f9fcff;
+            transition: 0.15s;
+        }
+        td input:focus, td select:focus {
+            border-color: #2f89c0;
+            outline: none;
+            background: white;
         }
         .delete-btn {
             background: none;
             border: none;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
             color: #a13d3d;
-            padding: 0 0.3rem;
+            padding: 0 0.4rem;
+            transition: 0.1s;
         }
+        .delete-btn:hover { color: #c00; transform: scale(1.2); }
+
         .total-row {
             text-align: right;
-            margin: 1.2rem 0 1rem;
-            font-size: 1.6rem;
+            margin: 1.2rem 0 1.5rem;
+            font-size: 2rem;
             font-weight: 700;
             color: #07426b;
+            background: linear-gradient(to right, #e6f2fa, #ffffff);
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            display: inline-block;
+            float: right;
+            box-shadow: 0 4px 10px rgba(0,50,80,0.1);
         }
-        /* 条款区 */
+
+        /* ========== 条款区域 ========== */
         .clause-box {
-            margin: 2rem 0;
+            clear: both;
+            margin: 2rem 0 2rem;
         }
         .clause-box textarea {
             width: 100%;
             border: 1px solid #bcd3e9;
-            border-radius: 24px;
-            padding: 1.2rem;
+            border-radius: 28px;
+            padding: 1.3rem 1.8rem;
             font-size: 0.95rem;
-            line-height: 1.6;
+            line-height: 1.7;
             background: #fcfdff;
             resize: vertical;
+            box-shadow: inset 0 2px 6px rgba(0,30,50,0.05);
         }
 
-        /* 签名/印章 */
-        .signature-area {
+        /* ========== 签章区 + 页脚logo ========== */
+        .signature-footer {
             display: flex;
-            justify-content: space-between;
             flex-wrap: wrap;
-            margin: 2rem 0 1rem;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin: 2rem 0 1.5rem;
+            padding-top: 1rem;
+            border-top: 2px dashed #a0c4e2;
+        }
+        .signature-block {
+            display: flex;
+            gap: 2.5rem;
+            flex-wrap: wrap;
         }
         .stamp-box {
             text-align: center;
             width: 150px;
         }
         .stamp-box img {
-            max-width: 120px;
-            max-height: 120px;
-            border-radius: 8px;
+            max-width: 130px;
+            max-height: 130px;
+            border-radius: 12px;
+            background: #fff;
+            padding: 0.3rem;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        .signature-lines p {
+            margin: 0.5rem 0;
+            font-size: 1rem;
+            color: #1e3e5c;
+        }
+        .footer-logo {
+            text-align: right;
+        }
+        .footer-logo img {
+            max-height: 70px;   /* 页脚logo放大 */
+            width: auto;
+            opacity: 0.9;
+            filter: drop-shadow(0 4px 6px rgba(0,70,100,0.2));
+        }
+        .footer-logo p {
+            font-size: 0.8rem;
+            color: #597b9b;
+            margin-top: 0.2rem;
         }
 
+        /* ========== 操作按钮 ========== */
         .action-buttons {
             display: flex;
-            gap: 1.2rem;
+            gap: 1.5rem;
             justify-content: center;
-            margin-top: 2rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
         }
         .btn {
             border: none;
             background: #1d5f8c;
             color: white;
-            font-size: 1rem;
-            padding: 0.8rem 2.8rem;
-            border-radius: 40px;
+            font-size: 1.05rem;
+            padding: 0.9rem 2.8rem;
+            border-radius: 60px;
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 8px 16px rgba(0,70,120,0.2);
-            transition: 0.15s;
+            box-shadow: 0 12px 22px -6px #004678b3;
+            transition: 0.2s;
+            border: 1px solid rgba(255,255,255,0.2);
         }
         .btn-light {
             background: #eef5fb;
             color: #154f78;
+            box-shadow: 0 6px 14px #00305440;
         }
-        .btn:hover {
-            background: #0e4468;
-            transform: translateY(-2px);
-        }
-        .btn-light:hover {
-            background: #d5e6f5;
+        .btn:hover { background: #0e4468; transform: translateY(-3px); }
+        .btn-light:hover { background: #d5e6f5; transform: translateY(-2px); }
+
+        /* ========== 打印样式 ========== */
+        @media print {
+            body { background: white; padding: 0.15in; }
+            .contract-container { box-shadow: none; border: 1px solid #aaa; padding: 0.2in; border-radius: 0; }
+            .no-print, .btn, #addRowBtn, .delete-btn, .action-buttons, .role-switch { display: none !important; }
+            td:last-child, th:last-child { display: none; }
+            input, select, textarea {
+                border: none !important; background: transparent !important; border-bottom: 1px solid #333 !important;
+                -webkit-print-color-adjust: exact; print-color-adjust: exact;
+            }
+            th { background: #eaeaea !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .company-card, .bank-info { border: 1px solid #aaa; background: #f9f9f9 !important; }
+            .logo-header img, .footer-logo img { max-height: 60px; opacity: 0.8; }
+            .signature-footer { border-top: 2px solid #333; }
         }
 
-        /* 响应式 */
-        @media (max-width: 800px) {
-            .contract-container { padding: 1.5rem; }
+        /* 移动端优化 */
+        @media (max-width: 700px) {
             .header { flex-direction: column; align-items: start; gap: 1rem; }
-            .doc-meta { width: 100%; }
-            .doc-meta label { width: 100%; }
-            .doc-meta input { flex: 1; }
-            .company-row { flex-direction: column; }
+            .doc-meta-header { width: 100%; }
+            .doc-meta-header label { width: 100%; }
+            .total-row { font-size: 1.6rem; }
         }
     </style>
 </head>
 <body>
     <div class="contract-container">
-        <!-- 头部：logo + 标题 + 合同编号/日期 -->
+        <!-- ========== 页眉区域（嵌入大Logo） ========== -->
         <div class="header">
-            <div class="logo">
-                <!-- 请将公司logo放在 images/xmzelin-logo.png -->
-                <img src="images/xmzelin-logo.png" alt="厦门泽林生物科技" onerror="this.onerror=null; this.src='https://via.placeholder.com/180x60?text=Zelin+Bio';">
-                <div style="font-size:0.7rem; color:#aaa;">(logo: images/xmzelin-logo.png)</div>
+            <div class="logo-header">
+                <img src="images/xmzelin-logo.png" alt="厦门泽林生物科技" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x80?text=Zelin+Bio';">
             </div>
-            <div class="title">
+            <div class="title-header">
                 <h1 id="contractTitle">生技原料买卖合同</h1>
             </div>
-            <div class="doc-meta">
+            <div class="doc-meta-header no-print">
                 <label>合同编号 <input type="text" id="contractNo" value="ZL-SC-2025-001"></label>
                 <label>签订日期 <input type="date" id="contractDate" value="2025-03-03"></label>
                 <label>签订地点 <input type="text" id="contractPlace" value="厦门市"></label>
             </div>
         </div>
 
-        <!-- 角色切换：泽林作为卖方还是买方？ -->
+        <!-- 角色切换 -->
         <div class="role-switch no-print" id="roleToggle">
             <input type="radio" name="zelinRole" id="roleSeller" value="seller" checked>
             <label for="roleSeller">🌿 泽林为卖方</label>
@@ -347,34 +404,26 @@
 
         <!-- 买卖双方信息卡片 -->
         <div class="company-row">
-            <!-- 卖方卡片 (动态根据角色显示泽林或对方) -->
             <div class="company-card" id="sellerCard">
                 <h3 id="sellerTitle">卖方（供方）</h3>
-                <div id="sellerContent">
-                    <!-- 由JS动态填充泽林信息或对方输入框 -->
-                </div>
+                <div id="sellerContent"></div>
             </div>
-            <!-- 买方卡片 -->
             <div class="company-card" id="buyerCard">
                 <h3 id="buyerTitle">买方（需方）</h3>
-                <div id="buyerContent">
-                    <!-- 动态填充 -->
-                </div>
+                <div id="buyerContent"></div>
             </div>
         </div>
 
         <!-- 产品明细表格 -->
         <div class="items-section">
-            <h3 style="color: #154f78; margin-bottom:0.8rem;">📋 原料明细</h3>
+            <h3>📋 原料明细</h3>
             <table id="itemsTable">
                 <thead>
                     <tr><th>#</th><th>原料名称</th><th>规格/CAS</th><th>数量</th><th>单位</th><th>单价(¥)</th><th>总价(¥)</th><th class="no-print">操作</th></tr>
                 </thead>
-                <tbody id="itemsBody">
-                    <!-- JS动态生成行 -->
-                </tbody>
+                <tbody id="itemsBody"></tbody>
             </table>
-            <button class="btn-light no-print" id="addRowBtn" style="margin-top:0.8rem;">➕ 增加一行</button>
+            <button class="btn-light no-print" id="addRowBtn" style="margin-top:1rem;">➕ 增加一行</button>
         </div>
 
         <!-- 总计金额 -->
@@ -390,27 +439,28 @@
 六、本合同一式两份，双方各执一份，盖章生效。</textarea>
         </div>
 
-        <!-- 总金额大写（模拟）及签章区 -->
-        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; align-items: flex-end;">
-            <div>
-                <p style="font-weight:500;">金额大写：<span id="amountInWords">人民币 零元整</span></p>
-            </div>
-            <div class="signature-area">
+        <!-- ========== 页脚区域：签名 + 印章 + 页脚Logo ========== -->
+        <div class="signature-footer">
+            <div class="signature-block">
                 <div class="stamp-box">
-                    <!-- 公司印章 images/stamp.png -->
                     <img src="images/stamp.png" alt="公司印章" onerror="this.onerror=null; this.src='https://via.placeholder.com/120x120?text=Seal';">
                     <p>厦门泽林生物科技<br>合同专用章</p>
                 </div>
-                <div style="width:200px;">
+                <div class="signature-lines">
                     <p>授权代表签字：_________________</p>
                     <p>日期：_________________</p>
                 </div>
             </div>
+            <div class="footer-logo">
+                <img src="images/xmzelin-logo.png" alt="厦门泽林" onerror="this.onerror=null; this.src='https://via.placeholder.com/180x70?text=Zelin';">
+                <p>质量为本 · 科技领先</p>
+            </div>
         </div>
 
-        <!-- 按钮区 -->
+        <!-- 操作按钮 -->
         <div class="action-buttons no-print">
             <button class="btn" id="printPDFBtn">🖨️ 打印 / 生成PDF</button>
+            <button class="btn btn-light" id="exportJsonBtn">📥 导出 JSON 备份</button>
         </div>
     </div>
 
@@ -426,39 +476,31 @@
                 bankName: '中国工商银行股份有限公司厦门海沧支行',
                 bankAccount: '4100026009200404571',
                 accountName: '厦门泽林生物科技有限公司',
-                accountNo: 'J9033009110101'  // 基本存款账户编号
+                accountNo: 'J9033009110101'
             };
 
-            // 角色切换
             const roleSeller = document.getElementById('roleSeller');
             const roleBuyer = document.getElementById('roleBuyer');
-            const sellerCard = document.getElementById('sellerCard');
-            const buyerCard = document.getElementById('buyerCard');
-            const sellerContent = document.getElementById('sellerContent');
-            const buyerContent = document.getElementById('buyerContent');
             const sellerTitle = document.getElementById('sellerTitle');
             const buyerTitle = document.getElementById('buyerTitle');
+            const sellerContent = document.getElementById('sellerContent');
+            const buyerContent = document.getElementById('buyerContent');
             const contractTitle = document.getElementById('contractTitle');
 
-            // 表格相关
             const itemsBody = document.getElementById('itemsBody');
             const addRowBtn = document.getElementById('addRowBtn');
             const grandTotalSpan = document.getElementById('grandTotalSpan');
 
-            // 单位选项
             const unitOptions = ['kg', '吨', 'L', 'g', '袋', '桶'];
 
-            // 初始化渲染公司信息
             function renderCompanyCards() {
                 if (roleSeller.checked) {
-                    // 泽林是卖方
                     sellerTitle.innerText = '卖方（供方）· 厦门泽林';
                     sellerContent.innerHTML = buildZelinSellerHTML();
                     buyerTitle.innerText = '买方（需方）';
                     buyerContent.innerHTML = buildBuyerEditableHTML();
                     contractTitle.innerText = '生技原料销售合同';
                 } else {
-                    // 泽林是买方
                     sellerTitle.innerText = '卖方（供方）';
                     sellerContent.innerHTML = buildSellerEditableHTML();
                     buyerTitle.innerText = '买方（需方）· 厦门泽林';
@@ -467,7 +509,6 @@
                 }
             }
 
-            // 泽林作为卖方时的卖方卡片（不可编辑核心信息，但可微调？为了打印方便，保留输入框但预填，用户可以修改）
             function buildZelinSellerHTML() {
                 return `
                     <p><strong>公司名称</strong> <input type="text" value="${ZELIN_INFO.name}" placeholder="公司全称"></p>
@@ -484,7 +525,6 @@
                 `;
             }
 
-            // 泽林作为买方时的买方卡片
             function buildZelinBuyerHTML() {
                 return `
                     <p><strong>公司名称</strong> <input type="text" value="${ZELIN_INFO.name}" placeholder="公司全称"></p>
@@ -492,11 +532,9 @@
                     <p><strong>联系人</strong> <input type="text" value="${ZELIN_INFO.contactPerson}" placeholder="联系人"></p>
                     <p><strong>电话</strong> <input type="text" value="${ZELIN_INFO.phone}" placeholder="电话"></p>
                     <p><strong>统一代码</strong> <input type="text" value="${ZELIN_INFO.taxId}" placeholder="税号"></p>
-                    <!-- 买方一般不需要银行账户，但可以留备注 -->
                 `;
             }
 
-            // 对方作为卖方（泽林是买方时）—— 可编辑
             function buildSellerEditableHTML() {
                 return `
                     <p><strong>公司名称</strong> <input type="text" value="浙江华发生物" placeholder="卖方公司全称"></p>
@@ -509,7 +547,6 @@
                 `;
             }
 
-            // 对方作为买方（泽林是卖方时）—— 可编辑
             function buildBuyerEditableHTML() {
                 return `
                     <p><strong>公司名称</strong> <input type="text" value="江苏正大生物" placeholder="买方公司全称"></p>
@@ -522,7 +559,6 @@
                 `;
             }
 
-            // ---------- 表格动态行逻辑 ----------
             function createRow(seq, name = '', spec = '', qty = 1, unit = 'kg', price = 0) {
                 const unitSelect = `<select class="unit-select">${unitOptions.map(u => `<option value="${u}" ${u === unit ? 'selected' : ''}>${u}</option>`).join('')}</select>`;
                 return `
@@ -543,50 +579,25 @@
                 const rows = itemsBody.querySelectorAll('tr');
                 let grandTotal = 0;
                 rows.forEach((row, idx) => {
-                    row.cells[0].innerText = idx + 1; // 更新序号
-                    const qtyInput = row.querySelector('.item-qty');
-                    const priceInput = row.querySelector('.item-price');
-                    const totalSpan = row.querySelector('.item-total');
-                    const qty = parseFloat(qtyInput?.value) || 0;
-                    const price = parseFloat(priceInput?.value) || 0;
+                    row.cells[0].innerText = idx + 1;
+                    const qty = parseFloat(row.querySelector('.item-qty')?.value) || 0;
+                    const price = parseFloat(row.querySelector('.item-price')?.value) || 0;
                     const rowTotal = qty * price;
-                    if (totalSpan) totalSpan.innerText = rowTotal.toFixed(2);
+                    row.querySelector('.item-total').innerText = rowTotal.toFixed(2);
                     grandTotal += rowTotal;
                 });
                 grandTotalSpan.innerText = '¥ ' + grandTotal.toFixed(2);
-                // 简单金额大写转换（仅演示，不精确）
-                const chineseNum = numberToChinese(grandTotal);
-                document.getElementById('amountInWords').innerText = '人民币 ' + chineseNum;
-            }
-
-            // 极简数字转中文（仅用于展示）
-            function numberToChinese(num) {
-                if (num === 0) return '零元整';
-                const digits = ['零','壹','贰','叁','肆','伍','陆','柒','捌','玖'];
-                const units = ['','拾','佰','仟'];
-                const bigUnits = ['','万','亿'];
-                // 简化版，仅作示意
-                return num.toFixed(2) + '元'; // 实际项目中可引入完整转换，此处保持简单
             }
 
             function attachRowEvents(row) {
-                const qtyInput = row.querySelector('.item-qty');
-                const priceInput = row.querySelector('.item-price');
-                const deleteBtn = row.querySelector('.delete-btn');
-                if (qtyInput) qtyInput.addEventListener('input', refreshRowsAndTotal);
-                if (priceInput) priceInput.addEventListener('input', refreshRowsAndTotal);
-                if (deleteBtn) {
-                    deleteBtn.addEventListener('click', function() {
-                        if (itemsBody.children.length <= 1) {
-                            alert('至少保留一行产品明细');
-                            return;
-                        }
-                        row.remove();
-                        refreshRowsAndTotal();
-                    });
-                }
-                const unitSelect = row.querySelector('.unit-select');
-                if (unitSelect) unitSelect.addEventListener('change', refreshRowsAndTotal);
+                row.querySelector('.item-qty')?.addEventListener('input', refreshRowsAndTotal);
+                row.querySelector('.item-price')?.addEventListener('input', refreshRowsAndTotal);
+                row.querySelector('.delete-btn')?.addEventListener('click', function() {
+                    if (itemsBody.children.length <= 1) { alert('至少保留一行'); return; }
+                    row.remove();
+                    refreshRowsAndTotal();
+                });
+                row.querySelector('.unit-select')?.addEventListener('change', refreshRowsAndTotal);
             }
 
             function addNewRow() {
@@ -599,7 +610,6 @@
                 refreshRowsAndTotal();
             }
 
-            // 初始化表格两行示例
             function initTable() {
                 itemsBody.innerHTML = '';
                 let temp = document.createElement('tbody');
@@ -611,15 +621,84 @@
                 refreshRowsAndTotal();
             }
 
+            // 导出 JSON 功能
+            function collectFormData() {
+                const contractNo = document.getElementById('contractNo').value;
+                const contractDate = document.getElementById('contractDate').value;
+                const contractPlace = document.getElementById('contractPlace').value;
+                const role = roleSeller.checked ? '泽林为卖方' : '泽林为买方';
+                const clauses = document.getElementById('contractClauses').value;
+
+                const sellerInputs = sellerContent.querySelectorAll('input');
+                const seller = {};
+                sellerInputs.forEach(input => {
+                    const label = input.previousElementSibling?.innerText || '';
+                    if (label.includes('公司名称')) seller.name = input.value;
+                    else if (label.includes('地址')) seller.address = input.value;
+                    else if (label.includes('联系人')) seller.contact = input.value;
+                    else if (label.includes('电话')) seller.phone = input.value;
+                    else if (label.includes('统一代码')) seller.taxId = input.value;
+                    else if (label.includes('开户行')) seller.bank = input.value;
+                    else if (label.includes('账号')) seller.account = input.value;
+                });
+
+                const buyerInputs = buyerContent.querySelectorAll('input');
+                const buyer = {};
+                buyerInputs.forEach(input => {
+                    const label = input.previousElementSibling?.innerText || '';
+                    if (label.includes('公司名称')) buyer.name = input.value;
+                    else if (label.includes('地址')) buyer.address = input.value;
+                    else if (label.includes('联系人')) buyer.contact = input.value;
+                    else if (label.includes('电话')) buyer.phone = input.value;
+                    else if (label.includes('统一代码')) buyer.taxId = input.value;
+                    else if (label.includes('开户行')) buyer.bank = input.value;
+                    else if (label.includes('账号')) buyer.account = input.value;
+                });
+
+                const items = [];
+                const rows = itemsBody.querySelectorAll('tr');
+                rows.forEach(row => {
+                    items.push({
+                        name: row.querySelector('.item-name')?.value || '',
+                        spec: row.querySelector('.item-spec')?.value || '',
+                        qty: parseFloat(row.querySelector('.item-qty')?.value) || 0,
+                        unit: row.querySelector('.unit-select')?.value || 'kg',
+                        price: parseFloat(row.querySelector('.item-price')?.value) || 0,
+                        total: parseFloat(row.querySelector('.item-total')?.innerText) || 0
+                    });
+                });
+
+                const totalAmount = parseFloat(grandTotalSpan.innerText.replace('¥ ', '')) || 0;
+
+                return {
+                    contractNo, contractDate, contractPlace, role, seller, buyer, items, totalAmount, clauses,
+                    exportedAt: new Date().toISOString()
+                };
+            }
+
+            function exportJson() {
+                const data = collectFormData();
+                const contractNo = data.contractNo.replace(/[^a-zA-Z0-9\-_]/g, '_') || 'contract';
+                const filename = `${contractNo}.json`;
+                const jsonStr = JSON.stringify(data, null, 2);
+                const blob = new Blob([jsonStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
             // 事件绑定
             roleSeller.addEventListener('change', renderCompanyCards);
             roleBuyer.addEventListener('change', renderCompanyCards);
             addRowBtn.addEventListener('click', addNewRow);
-            document.getElementById('printPDFBtn').addEventListener('click', () => {
-                window.print();
-            });
+            document.getElementById('printPDFBtn').addEventListener('click', () => window.print());
+            document.getElementById('exportJsonBtn').addEventListener('click', exportJson);
 
-            // 启动
             renderCompanyCards();
             initTable();
         })();
