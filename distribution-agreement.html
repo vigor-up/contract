@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>厦门泽林 · 生技原料买卖合同 (绿金精装版)</title>
-    <!-- 引入Google Font (参考倍力素页面) -->
+    <title>泽林生技 · 委托代理区域经销合同 (绿金精装版)</title>
+    <!-- 引入Google Font & Font Awesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome (用于图标) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* ========== 全局重置与字体 (融合倍力素风格) ========== */
+        /* ========== 全局重置与字体 (沿用绿金精装版) ========== */
         * {
             margin: 0;
             padding: 0;
@@ -28,7 +27,6 @@
             padding: 2rem 1.5rem;
         }
 
-        /* 主合同卡片 */
         .contract-container {
             max-width: 1350px;
             width: 100%;
@@ -41,7 +39,7 @@
             position: relative;
         }
 
-        /* ========== 页眉区域 (放大Logo + 粗体公司名) ========== */
+        /* ========== 页眉区域 ========== */
         .header {
             position: relative;
             display: flex;
@@ -154,7 +152,7 @@
             padding-left: 0.2rem;
         }
 
-        /* 角色切换 */
+        /* 角色切换 (委托方/代理方) */
         .role-switch {
             background: #ffffff;
             border-radius: 60px;
@@ -181,7 +179,7 @@
             box-shadow: 0 4px 10px #1B5E20;
         }
 
-        /* 公司卡片 */
+        /* 公司卡片 (委托方 / 代理方) */
         .company-row {
             display: flex;
             flex-wrap: wrap;
@@ -240,7 +238,7 @@
             border-left: 4px solid #FFB300;
         }
 
-        /* 表格区域 */
+        /* 表格区域 — 专为经销合同设计 (产品/区域/目标/佣金) */
         .items-section {
             margin: 2rem 0 1.8rem;
         }
@@ -274,7 +272,7 @@
             border-bottom: 1px solid #e0f2e0;
             vertical-align: middle;
         }
-        td input, td select {
+        td input {
             width: 100%;
             border: 1px solid #c8e6c9;
             border-radius: 30px;
@@ -283,7 +281,7 @@
             background: #f9fff9;
             transition: 0.15s;
         }
-        td input:focus, td select:focus {
+        td input:focus {
             border-color: #2E7D32;
             outline: none;
             background: white;
@@ -430,7 +428,7 @@
             background: white;
         }
 
-        /* ===== 新增的兩個合同連結按鈕 (參考倍力素產品連結樣式) ===== */
+        /* ===== 其他合同連結按鈕 ===== */
         .other-contracts-links {
             display: flex;
             flex-wrap: wrap;
@@ -520,7 +518,7 @@
 </head>
 <body>
     <div class="contract-container">
-        <!-- 页眉：放大Logo + 粗体公司名 -->
+        <!-- 页眉 -->
         <div class="header">
             <div class="header-content">
                 <div class="brand-row">
@@ -529,63 +527,74 @@
                         <span class="company-name">厦门泽林生物科技有限公司</span>
                     </div>
                     <div class="doc-meta-header no-print">
-                        <label>合同编号 <input type="text" id="contractNo" value="ZL-SC-2025-001"></label>
+                        <label>合同编号 <input type="text" id="contractNo" value="ZL-DL-2025-001"></label>
                         <label>签订日期 <input type="date" id="contractDate" value="2025-03-03"></label>
                         <label>签订地点 <input type="text" id="contractPlace" value="厦门市"></label>
                     </div>
                 </div>
                 <div class="title-header">
-                    <h1 id="contractTitle">生技原料买卖合同</h1>
+                    <h1 id="contractTitle">委托代理区域经销合同</h1>
                 </div>
             </div>
         </div>
 
-        <!-- 角色切换 -->
+        <!-- 角色切换：泽林为委托方 / 代理方 -->
         <div class="role-switch no-print" id="roleToggle">
-            <input type="radio" name="zelinRole" id="roleSeller" value="seller" checked>
-            <label for="roleSeller">🌿 泽林为卖方</label>
-            <input type="radio" name="zelinRole" id="roleBuyer" value="buyer">
-            <label for="roleBuyer">🧪 泽林为买方</label>
+            <input type="radio" name="zelinRole" id="rolePrincipal" value="principal" checked>
+            <label for="rolePrincipal">🏢 泽林为委托方</label>
+            <input type="radio" name="zelinRole" id="roleAgent" value="agent">
+            <label for="roleAgent">🤝 泽林为代理方</label>
         </div>
 
-        <!-- 买卖双方卡片 -->
+        <!-- 双方信息卡片：委托方(甲方) 与 代理方(乙方) -->
         <div class="company-row">
-            <div class="company-card" id="sellerCard">
-                <h3 id="sellerTitle">卖方（供方）</h3>
-                <div id="sellerContent"></div>
+            <div class="company-card" id="principalCard">
+                <h3 id="principalTitle">委托方（甲方）</h3>
+                <div id="principalContent"></div>
             </div>
-            <div class="company-card" id="buyerCard">
-                <h3 id="buyerTitle">买方（需方）</h3>
-                <div id="buyerContent"></div>
+            <div class="company-card" id="agentCard">
+                <h3 id="agentTitle">代理方（乙方）</h3>
+                <div id="agentContent"></div>
             </div>
         </div>
 
-        <!-- 原料表格 -->
+        <!-- 产品/区域明细表格 (经销专用) -->
         <div class="items-section">
-            <h3>📋 原料明细</h3>
+            <h3>📋 经销产品与目标</h3>
             <table id="itemsTable">
                 <thead>
-                    <tr><th>#</th><th>原料名称</th><th>规格/CAS</th><th>数量</th><th>单位</th><th>单价(¥)</th><th>总价(¥)</th><th class="no-print">操作</th></tr>
+                    <tr>
+                        <th>#</th>
+                        <th>产品名称</th>
+                        <th>规格/CAS</th>
+                        <th>代理区域</th>
+                        <th>目标销售额(元)</th>
+                        <th>佣金比例(%)</th>
+                        <th>佣金金额(元)</th>
+                        <th class="no-print">操作</th>
+                    </tr>
                 </thead>
                 <tbody id="itemsBody"></tbody>
             </table>
             <button class="btn-light no-print" id="addRowBtn" style="margin-top:1rem;">➕ 增加一行</button>
         </div>
 
-        <!-- 总计金额 -->
+        <!-- 总佣金金额 -->
         <div class="total-row" id="grandTotalSpan">¥ 0.00</div>
 
-        <!-- 合同条款 -->
+        <!-- 合同条款 (可编辑) -->
         <div class="clause-box">
-            <textarea id="contractClauses" rows="6">一、质量标准：按供方企业标准或双方确认的样品/技术资料执行。
-二、交货地点及方式：厦门港 / 供方仓库，运费由供方承担。
-三、结算方式及期限：合同签订后预付30%，货到验收合格付清余款。
-四、违约责任：按《中华人民共和国民法典》执行。
-五、争议解决：协商不成提交厦门仲裁委员会仲裁。
-六、本合同一式两份，双方各执一份，盖章生效。</textarea>
+            <textarea id="contractClauses" rows="7">一、代理区域及产品：乙方在指定区域代理销售甲方产品，具体区域及产品以本合同明细为准。
+二、代理期限：自____年__月__日起至____年__月__日止。期满前30日协商续约。
+三、销售目标：乙方承诺年度销售额不低于人民币____万元，具体分解见上表。
+四、佣金结算：按上表约定比例，于每季度结束后15日内结算。
+五、市场管理：乙方不得跨区销售，不得低价倾销，维护甲方价格体系。
+六、违约责任：任何一方违约，应赔偿对方损失，并支付违约金。
+七、争议解决：协商不成提交厦门仲裁委员会仲裁。
+八、本合同一式两份，双方各执一份，盖章生效。</textarea>
         </div>
 
-        <!-- 页脚签名区 + 水印 -->
+        <!-- 签名区 + 水印 -->
         <div class="signature-footer">
             <div class="logo-watermark-footer">
                 <img src="images/xmzelin-logo.png" alt="厦门泽林水印" onerror="this.onerror=null; this.src='https://via.placeholder.com/200x80?text=Zelin';">
@@ -607,9 +616,9 @@
             </div>
         </div>
 
-        <!-- ===== 新增：其他合同链接 (两个按钮) ===== -->
+        <!-- 其他合同链接 (指向原料合同和代工合同) -->
         <div class="other-contracts-links no-print">
-            <a href="distribution-agreement.html" target="_blank" rel="noopener"><i class="fa-solid fa-file-signature"></i> 澤林生技委託代理區域經銷合同</a>
+            <a href="index.html" target="_blank" rel="noopener"><i class="fa-solid fa-file-contract"></i> 生技原料买卖合同</a>
             <a href="toll-manufacturing-agreement.html" target="_blank" rel="noopener"><i class="fa-solid fa-industry"></i> 澤林生技委託代工製造合同</a>
         </div>
 
@@ -622,7 +631,7 @@
 
     <script>
         (function() {
-            // ---------- 厦门泽林固定信息 (已移除存款编号) ----------
+            // ---------- 厦门泽林固定信息 (同前) ----------
             const ZELIN_INFO = {
                 name: '厦门泽林生物科技有限公司',
                 address: '中国(福建)自由贸易试验区厦门片区嵩屿中路809号航运大厦1102室之260',
@@ -632,41 +641,40 @@
                 bankName: '中国工商银行股份有限公司厦门海沧支行',
                 bankAccount: '4100026009200404571',
                 accountName: '厦门泽林生物科技有限公司'
-                // 已删除 accountNo: 'J9033009110101'
             };
 
-            const roleSeller = document.getElementById('roleSeller');
-            const roleBuyer = document.getElementById('roleBuyer');
-            const sellerTitle = document.getElementById('sellerTitle');
-            const buyerTitle = document.getElementById('buyerTitle');
-            const sellerContent = document.getElementById('sellerContent');
-            const buyerContent = document.getElementById('buyerContent');
+            // 角色 radio
+            const rolePrincipal = document.getElementById('rolePrincipal');
+            const roleAgent = document.getElementById('roleAgent');
+            const principalTitle = document.getElementById('principalTitle');
+            const agentTitle = document.getElementById('agentTitle');
+            const principalContent = document.getElementById('principalContent');
+            const agentContent = document.getElementById('agentContent');
             const contractTitle = document.getElementById('contractTitle');
 
             const itemsBody = document.getElementById('itemsBody');
             const addRowBtn = document.getElementById('addRowBtn');
             const grandTotalSpan = document.getElementById('grandTotalSpan');
 
-            const unitOptions = ['kg', '吨', 'L', 'g', '袋', '桶'];
-
+            // 渲染公司卡片 (根据泽林角色)
             function renderCompanyCards() {
-                if (roleSeller.checked) {
-                    sellerTitle.innerText = '卖方（供方）· 厦门泽林';
-                    sellerContent.innerHTML = buildZelinSellerHTML();
-                    buyerTitle.innerText = '买方（需方）';
-                    buyerContent.innerHTML = buildBuyerEditableHTML();
-                    contractTitle.innerText = '生技原料销售合同';
+                if (rolePrincipal.checked) {
+                    principalTitle.innerText = '委托方（甲方）· 厦门泽林';
+                    principalContent.innerHTML = buildZelinPrincipalHTML();   // 泽林为委托方
+                    agentTitle.innerText = '代理方（乙方）';
+                    agentContent.innerHTML = buildAgentEditableHTML();
+                    contractTitle.innerText = '委托代理区域经销合同 (委托)';
                 } else {
-                    sellerTitle.innerText = '卖方（供方）';
-                    sellerContent.innerHTML = buildSellerEditableHTML();
-                    buyerTitle.innerText = '买方（需方）· 厦门泽林';
-                    buyerContent.innerHTML = buildZelinBuyerHTML();
-                    contractTitle.innerText = '生技原料采购合同';
+                    principalTitle.innerText = '委托方（甲方）';
+                    principalContent.innerHTML = buildPrincipalEditableHTML();
+                    agentTitle.innerText = '代理方（乙方）· 厦门泽林';
+                    agentContent.innerHTML = buildZelinAgentHTML();           // 泽林为代理方
+                    contractTitle.innerText = '委托代理区域经销合同 (代理)';
                 }
             }
 
-            // 泽林卖方卡片 (移除存款编号，统一代码 → 统一社会信用代码)
-            function buildZelinSellerHTML() {
+            // 泽林作为委托方 (甲方) 卡片 (含银行信息)
+            function buildZelinPrincipalHTML() {
                 return `
                     <p><strong>公司名称</strong> <input type="text" value="${ZELIN_INFO.name}" placeholder="公司全称"></p>
                     <p><strong>地址</strong> <input type="text" value="${ZELIN_INFO.address}" placeholder="地址"></p>
@@ -677,13 +685,12 @@
                         <p><strong>开户行</strong> ${ZELIN_INFO.bankName}</p>
                         <p><strong>账号</strong> ${ZELIN_INFO.bankAccount}</p>
                         <p><strong>账户名</strong> ${ZELIN_INFO.accountName}</p>
-                        <!-- 存款编号已删除 -->
                     </div>
                 `;
             }
 
-            // 泽林买方卡片 (统一代码 → 统一社会信用代码)
-            function buildZelinBuyerHTML() {
+            // 泽林作为代理方 (乙方) 卡片 (通常无需银行信息，但保留基本)
+            function buildZelinAgentHTML() {
                 return `
                     <p><strong>公司名称</strong> <input type="text" value="${ZELIN_INFO.name}" placeholder="公司全称"></p>
                     <p><strong>地址</strong> <input type="text" value="${ZELIN_INFO.address}" placeholder="地址"></p>
@@ -693,145 +700,148 @@
                 `;
             }
 
-            // 卖方可编辑 (统一代码 → 统一社会信用代码)
-            function buildSellerEditableHTML() {
+            // 委托方可编辑 (非泽林)
+            function buildPrincipalEditableHTML() {
                 return `
-                    <p><strong>公司名称</strong> <input type="text" value="浙江华发生物" placeholder="卖方公司全称"></p>
-                    <p><strong>地址</strong> <input type="text" value="杭州市萧山科技城" placeholder="地址"></p>
-                    <p><strong>联系人</strong> <input type="text" value="张明" placeholder="联系人"></p>
-                    <p><strong>电话</strong> <input type="text" value="0571-86527890" placeholder="电话"></p>
-                    <p><strong>统一社会信用代码</strong> <input type="text" value="91330100MA27XXXXX" placeholder="税号"></p>
-                    <p><strong>开户行</strong> <input type="text" value="工行杭州萧山支行" placeholder="开户行"></p>
-                    <p><strong>账号</strong> <input type="text" value="1202026209900401234" placeholder="银行账号"></p>
+                    <p><strong>公司名称</strong> <input type="text" value="江苏某生物科技" placeholder="委托方全称"></p>
+                    <p><strong>地址</strong> <input type="text" value="南京市江宁区" placeholder="地址"></p>
+                    <p><strong>联系人</strong> <input type="text" value="张总" placeholder="联系人"></p>
+                    <p><strong>电话</strong> <input type="text" value="025-88888888" placeholder="电话"></p>
+                    <p><strong>统一社会信用代码</strong> <input type="text" value="91320100MA1TEST123" placeholder="税号"></p>
+                    <p><strong>开户行</strong> <input type="text" value="工行南京分行" placeholder="开户行"></p>
+                    <p><strong>账号</strong> <input type="text" value="6228480402564890888" placeholder="银行账号"></p>
                 `;
             }
 
-            // 买方可编辑 (统一代码 → 统一社会信用代码)
-            function buildBuyerEditableHTML() {
+            // 代理方可编辑 (非泽林)
+            function buildAgentEditableHTML() {
                 return `
-                    <p><strong>公司名称</strong> <input type="text" value="江苏正大生物" placeholder="买方公司全称"></p>
-                    <p><strong>地址</strong> <input type="text" value="南京市浦口区" placeholder="地址"></p>
-                    <p><strong>联系人</strong> <input type="text" value="王芳" placeholder="联系人"></p>
-                    <p><strong>电话</strong> <input type="text" value="025-58123456" placeholder="电话"></p>
-                    <p><strong>统一社会信用代码</strong> <input type="text" value="91320100MA1XXXXXX" placeholder="税号"></p>
-                    <p><strong>开户行</strong> <input type="text" value="农行南京分行" placeholder="开户行"></p>
-                    <p><strong>账号</strong> <input type="text" value="6228480402564890012" placeholder="银行账号"></p>
+                    <p><strong>公司名称</strong> <input type="text" value="上海华康贸易" placeholder="代理方全称"></p>
+                    <p><strong>地址</strong> <input type="text" value="上海市浦东新区" placeholder="地址"></p>
+                    <p><strong>联系人</strong> <input type="text" value="李经理" placeholder="联系人"></p>
+                    <p><strong>电话</strong> <input type="text" value="021-12345678" placeholder="电话"></p>
+                    <p><strong>统一社会信用代码</strong> <input type="text" value="91310115MA1TEST456" placeholder="税号"></p>
+                    <p><strong>开户行</strong> <input type="text" value="农行上海分行" placeholder="开户行"></p>
+                    <p><strong>账号</strong> <input type="text" value="6228480402564890999" placeholder="银行账号"></p>
                 `;
             }
 
-            function createRow(seq, name = '', spec = '', qty = 1, unit = 'kg', price = 0) {
-                const unitSelect = `<select class="unit-select">${unitOptions.map(u => `<option value="${u}" ${u === unit ? 'selected' : ''}>${u}</option>`).join('')}</select>`;
+            // 创建一行 (适应新表头)
+            function createRow(seq, product = '', spec = '', region = '', target = 0, commissionRate = 0) {
                 return `
                     <tr>
                         <td style="text-align:center;">${seq}</td>
-                        <td><input type="text" class="item-name" value="${name}" placeholder="原料名"></td>
-                        <td><input type="text" class="item-spec" value="${spec}" placeholder="CAS/规格"></td>
-                        <td><input type="number" class="item-qty" value="${qty}" min="0.001" step="0.001"></td>
-                        <td>${unitSelect}</td>
-                        <td><input type="number" class="item-price" value="${price}" min="0" step="0.01"></td>
-                        <td><span class="item-total">0.00</span></td>
+                        <td><input type="text" class="item-product" value="${product}" placeholder="产品名称"></td>
+                        <td><input type="text" class="item-spec" value="${spec}" placeholder="规格/CAS"></td>
+                        <td><input type="text" class="item-region" value="${region}" placeholder="代理区域"></td>
+                        <td><input type="number" class="item-target" value="${target}" min="0" step="0.01" placeholder="目标销售额"></td>
+                        <td><input type="number" class="item-rate" value="${commissionRate}" min="0" max="100" step="0.1" placeholder="佣金%"></td>
+                        <td><span class="item-commission">0.00</span></td>
                         <td class="no-print"><button class="delete-btn">✖</button></td>
                     </tr>
                 `;
             }
 
+            // 刷新总计 (佣金总和)
             function refreshRowsAndTotal() {
                 const rows = itemsBody.querySelectorAll('tr');
                 let grandTotal = 0;
                 rows.forEach((row, idx) => {
                     row.cells[0].innerText = idx + 1;
-                    const qty = parseFloat(row.querySelector('.item-qty')?.value) || 0;
-                    const price = parseFloat(row.querySelector('.item-price')?.value) || 0;
-                    const rowTotal = qty * price;
-                    row.querySelector('.item-total').innerText = rowTotal.toFixed(2);
-                    grandTotal += rowTotal;
+                    const target = parseFloat(row.querySelector('.item-target')?.value) || 0;
+                    const rate = parseFloat(row.querySelector('.item-rate')?.value) || 0;
+                    const commission = target * rate / 100;
+                    row.querySelector('.item-commission').innerText = commission.toFixed(2);
+                    grandTotal += commission;
                 });
                 grandTotalSpan.innerText = '¥ ' + grandTotal.toFixed(2);
             }
 
+            // 为行绑定事件
             function attachRowEvents(row) {
-                row.querySelector('.item-qty')?.addEventListener('input', refreshRowsAndTotal);
-                row.querySelector('.item-price')?.addEventListener('input', refreshRowsAndTotal);
+                row.querySelector('.item-target')?.addEventListener('input', refreshRowsAndTotal);
+                row.querySelector('.item-rate')?.addEventListener('input', refreshRowsAndTotal);
                 row.querySelector('.delete-btn')?.addEventListener('click', function() {
                     if (itemsBody.children.length <= 1) { alert('至少保留一行'); return; }
                     row.remove();
                     refreshRowsAndTotal();
                 });
-                row.querySelector('.unit-select')?.addEventListener('change', refreshRowsAndTotal);
             }
 
+            // 增加新行
             function addNewRow() {
                 const newSeq = (itemsBody.children.length || 0) + 1;
                 const temp = document.createElement('tbody');
-                temp.innerHTML = createRow(newSeq, '', '', 1, 'kg', 0);
+                temp.innerHTML = createRow(newSeq, '', '', '', 0, 0);
                 const newRow = temp.firstElementChild;
                 itemsBody.appendChild(newRow);
                 attachRowEvents(newRow);
                 refreshRowsAndTotal();
             }
 
+            // 初始化表格 (示例数据)
             function initTable() {
                 itemsBody.innerHTML = '';
                 let temp = document.createElement('tbody');
-                temp.innerHTML = createRow(1, 'L-赖氨酸', 'CAS:56-87-1', 500, 'kg', 12.5);
+                temp.innerHTML = createRow(1, 'L-赖氨酸', '饲料级', '华东区', 500000, 5);
                 itemsBody.appendChild(temp.firstElementChild);
-                temp.innerHTML = createRow(2, '维生素C', 'USP级', 200, 'kg', 38.0);
+                temp.innerHTML = createRow(2, '维生素C', 'USP级', '华南区', 300000, 6);
                 itemsBody.appendChild(temp.firstElementChild);
                 Array.from(itemsBody.children).forEach(row => attachRowEvents(row));
                 refreshRowsAndTotal();
             }
 
-            // 导出 JSON 功能 (与之前相同)
+            // 导出JSON (略作调整，但保留功能)
             function collectFormData() {
                 const contractNo = document.getElementById('contractNo').value;
                 const contractDate = document.getElementById('contractDate').value;
                 const contractPlace = document.getElementById('contractPlace').value;
-                const role = roleSeller.checked ? '泽林为卖方' : '泽林为买方';
+                const role = rolePrincipal.checked ? '泽林为委托方' : '泽林为代理方';
                 const clauses = document.getElementById('contractClauses').value;
 
-                const sellerInputs = sellerContent.querySelectorAll('input');
-                const seller = {};
-                sellerInputs.forEach(input => {
+                const principalInputs = principalContent.querySelectorAll('input');
+                const principal = {};
+                principalInputs.forEach(input => {
                     const label = input.previousElementSibling?.innerText || '';
-                    if (label.includes('公司名称')) seller.name = input.value;
-                    else if (label.includes('地址')) seller.address = input.value;
-                    else if (label.includes('联系人')) seller.contact = input.value;
-                    else if (label.includes('电话')) seller.phone = input.value;
-                    else if (label.includes('统一社会信用代码')) seller.taxId = input.value;
-                    else if (label.includes('开户行')) seller.bank = input.value;
-                    else if (label.includes('账号')) seller.account = input.value;
+                    if (label.includes('公司名称')) principal.name = input.value;
+                    else if (label.includes('地址')) principal.address = input.value;
+                    else if (label.includes('联系人')) principal.contact = input.value;
+                    else if (label.includes('电话')) principal.phone = input.value;
+                    else if (label.includes('统一社会信用代码')) principal.taxId = input.value;
+                    else if (label.includes('开户行')) principal.bank = input.value;
+                    else if (label.includes('账号')) principal.account = input.value;
                 });
 
-                const buyerInputs = buyerContent.querySelectorAll('input');
-                const buyer = {};
-                buyerInputs.forEach(input => {
+                const agentInputs = agentContent.querySelectorAll('input');
+                const agent = {};
+                agentInputs.forEach(input => {
                     const label = input.previousElementSibling?.innerText || '';
-                    if (label.includes('公司名称')) buyer.name = input.value;
-                    else if (label.includes('地址')) buyer.address = input.value;
-                    else if (label.includes('联系人')) buyer.contact = input.value;
-                    else if (label.includes('电话')) buyer.phone = input.value;
-                    else if (label.includes('统一社会信用代码')) buyer.taxId = input.value;
-                    else if (label.includes('开户行')) buyer.bank = input.value;
-                    else if (label.includes('账号')) buyer.account = input.value;
+                    if (label.includes('公司名称')) agent.name = input.value;
+                    else if (label.includes('地址')) agent.address = input.value;
+                    else if (label.includes('联系人')) agent.contact = input.value;
+                    else if (label.includes('电话')) agent.phone = input.value;
+                    else if (label.includes('统一社会信用代码')) agent.taxId = input.value;
+                    else if (label.includes('开户行')) agent.bank = input.value;
+                    else if (label.includes('账号')) agent.account = input.value;
                 });
 
                 const items = [];
                 const rows = itemsBody.querySelectorAll('tr');
                 rows.forEach(row => {
                     items.push({
-                        name: row.querySelector('.item-name')?.value || '',
+                        product: row.querySelector('.item-product')?.value || '',
                         spec: row.querySelector('.item-spec')?.value || '',
-                        qty: parseFloat(row.querySelector('.item-qty')?.value) || 0,
-                        unit: row.querySelector('.unit-select')?.value || 'kg',
-                        price: parseFloat(row.querySelector('.item-price')?.value) || 0,
-                        total: parseFloat(row.querySelector('.item-total')?.innerText) || 0
+                        region: row.querySelector('.item-region')?.value || '',
+                        target: parseFloat(row.querySelector('.item-target')?.value) || 0,
+                        rate: parseFloat(row.querySelector('.item-rate')?.value) || 0,
+                        commission: parseFloat(row.querySelector('.item-commission')?.innerText) || 0
                     });
                 });
 
-                const totalAmount = parseFloat(grandTotalSpan.innerText.replace('¥ ', '')) || 0;
+                const totalCommission = parseFloat(grandTotalSpan.innerText.replace('¥ ', '')) || 0;
 
                 return {
-                    contractNo, contractDate, contractPlace, role, seller, buyer, items, totalAmount, clauses,
+                    contractNo, contractDate, contractPlace, role, principal, agent, items, totalCommission, clauses,
                     exportedAt: new Date().toISOString()
                 };
             }
@@ -853,8 +863,8 @@
             }
 
             // 事件绑定
-            roleSeller.addEventListener('change', renderCompanyCards);
-            roleBuyer.addEventListener('change', renderCompanyCards);
+            rolePrincipal.addEventListener('change', renderCompanyCards);
+            roleAgent.addEventListener('change', renderCompanyCards);
             addRowBtn.addEventListener('click', addNewRow);
             document.getElementById('printPDFBtn').addEventListener('click', () => window.print());
             document.getElementById('exportJsonBtn').addEventListener('click', exportJson);
@@ -862,7 +872,7 @@
             renderCompanyCards();
             initTable();
 
-            // 电子签名画布
+            // 电子签名画布 (同原版)
             const canvas = document.getElementById('signatureCanvas');
             if (canvas) {
                 let drawing = false;
