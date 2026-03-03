@@ -571,7 +571,7 @@
         }
         .btn:hover { background: #1B5E20; transform: translateY(-2px); }
 
-        /* 打印样式强化 */
+        /* ========== 打印样式强化 ========== */
         @media print {
             body {
                 background: white;
@@ -630,18 +630,18 @@
                 color: #1B5E20;
                 background: none;
             }
-            /* 条款区域强制展开 */
+            /* === 核心修复：强制条款区域展开，无滚动条 === */
             .clause-box textarea {
                 height: auto !important;
+                max-height: none !important;
+                min-height: 0 !important;
                 overflow: visible !important;
+                resize: none !important;
                 border: 1px solid #333 !important;
                 background: transparent;
                 white-space: pre-wrap;
-                resize: none;
                 box-shadow: none;
                 padding: 0.2rem;
-                max-height: none;
-                min-height: 0;
             }
             /* 防止签名区跨页 */
             .signature-footer,
