@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>厦门泽林 · 生技原料买卖合同 (证据包版)</title>
+    <title>泽林生技 · 委托代理区域经销合同 (精简一页版)</title>
     <!-- 引入Google Font & Font Awesome -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -246,7 +246,7 @@
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 8px 16px -14px #1B5E20;
-            min-width: 650px;
+            min-width: 900px;
             page-break-inside: avoid;
         }
         th {
@@ -264,7 +264,7 @@
             border-bottom: 1px solid #e0f2e0;
             vertical-align: middle;
         }
-        td input, td select {
+        td input {
             width: 100%;
             border: 1px solid #c8e6c9;
             border-radius: 30px;
@@ -272,7 +272,7 @@
             font-size: 0.9rem;
             background: #f9fff9;
         }
-        td input:focus, td select:focus {
+        td input:focus {
             border-color: #2E7D32;
             outline: none;
             background: white;
@@ -687,7 +687,7 @@
                 color: #1B5E20;
                 background: none;
             }
-            /* === 核心修复：强制条款区域展开，无滚动条 === */
+            /* 强制条款区域展开，无滚动条 */
             .clause-box textarea {
                 height: auto !important;
                 max-height: none !important;
@@ -699,7 +699,6 @@
                 white-space: pre-wrap;
                 box-shadow: none;
                 padding: 0.2rem;
-                /* 添加字体大小和行距压缩，节省空间 */
                 font-size: 0.9rem !important;
                 line-height: 1.2 !important;
             }
@@ -765,55 +764,64 @@
                         <span class="company-name">厦门泽林生物科技有限公司</span>
                     </div>
                     <div class="doc-meta-header no-print">
-                        <label>合同编号 <input type="text" id="contractNo" value="ZL-SC-2025-001"></label>
+                        <label>合同编号 <input type="text" id="contractNo" value="ZL-DL-2025-001"></label>
                         <label>签订日期 <input type="date" id="contractDate" value="2025-03-03"></label>
                         <label>签订地点 <input type="text" id="contractPlace" value="厦门市"></label>
                     </div>
                 </div>
                 <div class="title-header">
-                    <h1 id="contractTitle">生技原料买卖合同</h1>
+                    <h1 id="contractTitle">委托代理区域经销合同</h1>
                 </div>
             </div>
         </div>
 
         <!-- 角色切换 -->
         <div class="role-switch no-print" id="roleToggle">
-            <input type="radio" name="zelinRole" id="roleSeller" value="seller" checked>
-            <label for="roleSeller">🌿 泽林为卖方</label>
-            <input type="radio" name="zelinRole" id="roleBuyer" value="buyer">
-            <label for="roleBuyer">🧪 泽林为买方</label>
+            <input type="radio" name="zelinRole" id="rolePrincipal" value="principal" checked>
+            <label for="rolePrincipal">🏢 泽林为委托方</label>
+            <input type="radio" name="zelinRole" id="roleAgent" value="agent">
+            <label for="roleAgent">🤝 泽林为代理方</label>
         </div>
 
-        <!-- 买卖双方卡片 -->
+        <!-- 双方信息卡片 -->
         <div class="company-row">
-            <div class="company-card" id="sellerCard">
-                <h3 id="sellerTitle">卖方（供方）</h3>
-                <div id="sellerContent"></div>
+            <div class="company-card" id="principalCard">
+                <h3 id="principalTitle">委托方（甲方）</h3>
+                <div id="principalContent"></div>
             </div>
-            <div class="company-card" id="buyerCard">
-                <h3 id="buyerTitle">买方（需方）</h3>
-                <div id="buyerContent"></div>
+            <div class="company-card" id="agentCard">
+                <h3 id="agentTitle">代理方（乙方）</h3>
+                <div id="agentContent"></div>
             </div>
         </div>
 
-        <!-- 原料表格 -->
+        <!-- 经销产品表格 -->
         <div class="items-section">
-            <h3>📋 原料明细</h3>
+            <h3>📋 经销产品与目标</h3>
             <table id="itemsTable">
                 <thead>
-                    <tr><th>#</th><th>原料名称</th><th>规格/CAS</th><th>数量</th><th>单位</th><th>单价(¥)</th><th>总价(¥)</th><th class="no-print">操作</th></tr>
+                    <tr>
+                        <th>#</th>
+                        <th>产品名称</th>
+                        <th>规格/CAS</th>
+                        <th>代理区域</th>
+                        <th>目标销售额(元)</th>
+                        <th>佣金比例(%)</th>
+                        <th>佣金金额(元)</th>
+                        <th class="no-print">操作</th>
+                    </tr>
                 </thead>
                 <tbody id="itemsBody"></tbody>
             </table>
             <button class="btn-light no-print" id="addRowBtn" style="margin-top:0.5rem;">➕ 增加一行</button>
         </div>
 
-        <!-- 总计金额 -->
+        <!-- 总佣金金额 -->
         <div class="total-row" id="grandTotalSpan">¥ 0.00</div>
 
-        <!-- 合同条款 (动态内容由JS控制，rows=25确保无滚动条) -->
+        <!-- 合同条款 (精简版，rows减少至18确保一页) -->
         <div class="clause-box">
-            <textarea id="contractClauses" rows="25"></textarea>
+            <textarea id="contractClauses" rows="18"></textarea>
         </div>
 
         <!-- 页脚签名区：双印章 + 双签名上传 -->
@@ -834,7 +842,7 @@
                         <input type="file" id="stampUpload" accept="image/*" class="stamp-file-input">
                         <div class="stamp-placeholder" id="stampPlaceholder">点击上传<br>对方合同章</div>
                         <img class="stamp-uploaded-img" id="stampUploadedImg" src="#" alt="对方合同章" style="display: none;">
-                        <p style="font-size:0.7rem; margin-top:0.1rem;">（买方/卖方盖章处）</p>
+                        <p style="font-size:0.7rem; margin-top:0.1rem;">（委托方/代理方盖章处）</p>
                     </div>
                 </div>
                 <!-- 双签名行 (上传签名图片) -->
@@ -875,7 +883,7 @@
             </div>
         </div>
 
-        <!-- 证据包与邮件发送区域 (新增) -->
+        <!-- 证据包与邮件发送区域 -->
         <div class="email-section no-print">
             <div class="email-row">
                 <label>甲方邮箱：</label>
@@ -894,7 +902,7 @@
 
         <!-- 其他合同链接 -->
         <div class="other-contracts-links no-print">
-            <a href="distribution-agreement.html" target="_blank"><i class="fa-solid fa-file-signature"></i> 泽林生技委托代理区域经销合同</a>
+            <a href="index.html" target="_blank"><i class="fa-solid fa-file-contract"></i> 生技原料买卖合同</a>
             <a href="toll-manufacturing-agreement.html" target="_blank"><i class="fa-solid fa-industry"></i> 泽林生技委托代工制造合同</a>
         </div>
 
@@ -919,83 +927,35 @@
                 accountName: '厦门泽林生物科技有限公司'
             };
 
-            // 条款文本（优先保护泽林）- 卖方精简版
-            const CLAUSES_SELLER = `一、产品与质量标准
-1. 产品名称、规格、数量、单价及总价详见上表。
-2. 质量：按供方（厦门泽林）企业标准（Q/XL 001-2025）或双方确认样品执行，符合国家法规及行业标准。
-3. 包装：防潮防污染，包装物不回收。
+            // ================= 精简版条款 =================
+            // 泽林为委托方（优先保护泽林）
+            const CLAUSES_PRINCIPAL = `一、代理区域及产品：详见上表，未经甲方书面同意不得变更。甲方有权提前7日通知调整价格。
+二、代理期限：自__年__月__日至__年__月__日，期满前30日协商，甲方有权单方决定续约。
+三、销售目标与佣金：乙方年度销售额不低于__万元（见上表）。佣金每季度结算，以甲方实收货款为基数。乙方须提供发票，否则甲方顺延支付。连续两季未完成80%目标，甲方可解约追责。
+四、市场管理：乙方不得跨区、低价、网络销售，否则甲方可扣佣金并解约。未经授权不得使用甲方商标。
+五、订单与交付：乙方提前5日下单并付清货款，甲方10日内发货。运费乙方承担，风险自交付承运人转移。
+六、质量与售后：按甲方标准。乙方收货后3日内验收，质量问题7日内书面通知，逾期视为合格。乙方保管不善致损，甲方不担责。
+七、违约责任：违约方赔偿全部损失。乙方擅解约支付年度目标20%违约金。甲方逾期发货每日按已收货款0.5%支付违约金。
+八、争议解决：厦门仲裁委员会仲裁。
+九、其他：生效自签字盖章，一式两份，同等效力。补充协议、送达地址邮寄视为送达。`;
 
-二、交货与运输
-1. 交货时间：买方付清全款后5个工作日内发货，具体以买方付款到账时间为准。
-2. 交货地点：厦门港/供方仓库（以卖方通知为准）。
-3. 运输：供方代办，运费供方承担；买方指定物流则费用买方承担。
+            // 泽林为代理方（优先保护泽林）
+            const CLAUSES_AGENT = `一、代理区域及产品：详见上表，甲方不得在同一区域另设代理。价格调整需双方协商。
+二、代理期限：自__年__月__日至__年__月__日，期满前30日协商，乙方有优先续约权。
+三、销售目标与佣金：乙方年度销售额不低于__万元（见上表）。佣金每季度结算，甲方逾期支付每日按应付0.5%违约金。超额完成甲方应奖励。
+四、市场管理：乙方可自定销售策略，但不得损害甲方商誉。甲方应保证产品供应，断货须赔偿乙方损失。
+五、订单与交付：乙方提前5日下单，甲方10日内发货，逾期每日按订单金额0.5%违约金。运费甲方承担。
+六、质量与售后：质量问题由甲方承担，乙方协助处理。客户索赔，甲方应赔偿乙方损失。质保期12个月。
+七、违约责任：甲方违约赔偿乙方全部损失。甲方擅解约支付年度目标20%违约金。
+八、争议解决：厦门仲裁委员会仲裁。
+九、其他：生效自签字盖章，一式两份，同等效力。补充协议、送达地址邮寄视为送达。`;
 
-三、验收与异议
-1. 验收期限：收货后3个工作日内完成数量/外观验收；内在质量问题应在7日内书面提出，否则视为合格无瑕疵。
-2. 质量异议：买方应立即书面通知并提供第三方权威检测报告，供方确认后更换或退货；逾期未通知视为合格。
-
-四、结算方式
-1. 定金：合同签订后3日内支付总金额30%作为定金，余款70%发货前一次性付清，供方收款后发货。
-2. 定金罚则：买方违约无权请求返还，供方违约双倍返还。
-3. 支付：银行转账至供方账户，供方收款后开全额增值税专用发票。
-
-五、违约责任
-1. 供方逾期交货：每日按已收款项0.5%支付违约金；逾期超15日，买方有权解除合同，供方返还款项并支付总金额20%违约金。
-2. 买方逾期付款：每日按应付未付款0.5%支付违约金；逾期超7日，供方有权解除合同，没收定金并追责。
-3. 任何一方擅自解除合同，支付总金额20%违约金。
-
-六、免责条款
-因不可抗力（自然灾害、战争、疫情、政府行为等）不能履约的，及时通知并提供证明，可免除相应责任。
-
-七、争议解决
-协商不成，提交厦门仲裁委员会按其规则仲裁，仲裁地为厦门，使用简体中文。
-
-八、其他
-1. 生效：自双方签字盖章之日起生效，一式两份，双方各执一份，具同等效力。
-2. 补充协议：未尽事宜可签补充协议，具同等效力。
-3. 送达地址：确认的地址为法律文书送达地址，邮寄即视为送达。`;
-
-            // 条款文本 - 买方精简版（与卖方风格保持一致）
-            const CLAUSES_BUYER = `一、产品与质量标准
-1. 产品名称、规格、数量、单价及总价详见上表。
-2. 质量：按供方企业标准或双方确认样品执行，符合国家法规；产品不符时买方有权拒收且不担责。
-3. 包装：防潮防污染，包装物不回收。
-
-二、交货与运输
-1. 交货时间：合同签订后10个工作日内发货，具体以卖方通知为准。
-2. 交货地点：买方指定仓库（厦门市），运输由卖方负责，运费卖方承担；风险自买方验收合格后转移。
-
-三、验收与异议
-1. 验收期限：收货后10个工作日内进行验收，质量问题15日内书面提出，卖方必须接受。
-2. 质量异议：产品不符时，买方有权要求5日内更换、退货或降价，费用卖方承担。
-
-四、结算方式
-1. 买方在货物验收合格后10日内支付全部货款。
-2. 卖方应付款前提供全额增值税专用发票，否则买方顺延付款不担责。
-3. 银行转账至卖方账户。
-
-五、违约责任
-1. 卖方逾期交货：每日按未交付货物价值0.5%支付违约金；逾期超10日，买方有权解除合同，卖方赔偿全部损失。
-2. 质量不符：卖方承担修理、重作、减价或赔偿，买方有权从货款中扣除。
-3. 买方逾期付款：每日按应付未付款0.5%支付违约金；逾期超15日，卖方有权解除合同但应返还已收款。
-
-六、免责条款
-因不可抗力不能履约的，及时通知并提供证明，可免除相应责任。
-
-七、争议解决
-协商不成，提交厦门仲裁委员会按其规则仲裁，仲裁裁决为终局。
-
-八、其他
-1. 生效：自双方签字盖章之日起生效，一式两份，双方各执一份，具同等效力。
-2. 补充协议：未尽事宜可签补充协议，具同等效力。
-3. 送达地址：确认的地址为法律文书送达地址，邮寄即视为送达。`;
-
-            const roleSeller = document.getElementById('roleSeller');
-            const roleBuyer = document.getElementById('roleBuyer');
-            const sellerTitle = document.getElementById('sellerTitle');
-            const buyerTitle = document.getElementById('buyerTitle');
-            const sellerContent = document.getElementById('sellerContent');
-            const buyerContent = document.getElementById('buyerContent');
+            const rolePrincipal = document.getElementById('rolePrincipal');
+            const roleAgent = document.getElementById('roleAgent');
+            const principalTitle = document.getElementById('principalTitle');
+            const agentTitle = document.getElementById('agentTitle');
+            const principalContent = document.getElementById('principalContent');
+            const agentContent = document.getElementById('agentContent');
             const contractTitle = document.getElementById('contractTitle');
             const contractClauses = document.getElementById('contractClauses');
 
@@ -1003,27 +963,25 @@
             const addRowBtn = document.getElementById('addRowBtn');
             const grandTotalSpan = document.getElementById('grandTotalSpan');
 
-            const unitOptions = ['kg', '吨', 'L', 'g', '袋', '桶'];
-
             function renderCompanyCards() {
-                if (roleSeller.checked) {
-                    sellerTitle.innerText = '卖方（供方）· 厦门泽林';
-                    sellerContent.innerHTML = buildZelinSellerHTML();
-                    buyerTitle.innerText = '买方（需方）';
-                    buyerContent.innerHTML = buildBuyerEditableHTML();
-                    contractTitle.innerText = '生技原料销售合同';
-                    contractClauses.value = CLAUSES_SELLER;
+                if (rolePrincipal.checked) {
+                    principalTitle.innerText = '委托方（甲方）· 厦门泽林';
+                    principalContent.innerHTML = buildZelinPrincipalHTML();
+                    agentTitle.innerText = '代理方（乙方）';
+                    agentContent.innerHTML = buildAgentEditableHTML();
+                    contractTitle.innerText = '委托代理区域经销合同 (委托)';
+                    contractClauses.value = CLAUSES_PRINCIPAL;
                 } else {
-                    sellerTitle.innerText = '卖方（供方）';
-                    sellerContent.innerHTML = buildSellerEditableHTML();
-                    buyerTitle.innerText = '买方（需方）· 厦门泽林';
-                    buyerContent.innerHTML = buildZelinBuyerHTML();
-                    contractTitle.innerText = '生技原料采购合同';
-                    contractClauses.value = CLAUSES_BUYER;
+                    principalTitle.innerText = '委托方（甲方）';
+                    principalContent.innerHTML = buildPrincipalEditableHTML();
+                    agentTitle.innerText = '代理方（乙方）· 厦门泽林';
+                    agentContent.innerHTML = buildZelinAgentHTML();
+                    contractTitle.innerText = '委托代理区域经销合同 (代理)';
+                    contractClauses.value = CLAUSES_AGENT;
                 }
             }
 
-            function buildZelinSellerHTML() {
+            function buildZelinPrincipalHTML() {
                 return `
                     <p><strong>公司名称</strong> <input type="text" value="${ZELIN_INFO.name}"></p>
                     <p><strong>地址</strong> <input type="text" value="${ZELIN_INFO.address}"></p>
@@ -1038,7 +996,7 @@
                 `;
             }
 
-            function buildZelinBuyerHTML() {
+            function buildZelinAgentHTML() {
                 return `
                     <p><strong>公司名称</strong> <input type="text" value="${ZELIN_INFO.name}"></p>
                     <p><strong>地址</strong> <input type="text" value="${ZELIN_INFO.address}"></p>
@@ -1048,75 +1006,75 @@
                 `;
             }
 
-            function buildSellerEditableHTML() {
+            function buildPrincipalEditableHTML() {
                 return `
-                    <p><strong>公司名称</strong> <input type="text" value="浙江华发生物"></p>
-                    <p><strong>地址</strong> <input type="text" value="杭州市萧山科技城"></p>
-                    <p><strong>联系人</strong> <input type="text" value="张明"></p>
-                    <p><strong>电话</strong> <input type="text" value="0571-86527890"></p>
-                    <p><strong>统一社会信用代码</strong> <input type="text" value="91330100MA27XXXXX"></p>
-                    <p><strong>开户行</strong> <input type="text" value="工行杭州萧山支行"></p>
-                    <p><strong>账号</strong> <input type="text" value="1202026209900401234"></p>
+                    <p><strong>公司名称</strong> <input type="text" value="江苏某生物科技"></p>
+                    <p><strong>地址</strong> <input type="text" value="南京市江宁区"></p>
+                    <p><strong>联系人</strong> <input type="text" value="张总"></p>
+                    <p><strong>电话</strong> <input type="text" value="025-88888888"></p>
+                    <p><strong>统一社会信用代码</strong> <input type="text" value="91320100MA1TEST123"></p>
+                    <p><strong>开户行</strong> <input type="text" value="工行南京分行"></p>
+                    <p><strong>账号</strong> <input type="text" value="6228480402564890888"></p>
                 `;
             }
 
-            function buildBuyerEditableHTML() {
+            function buildAgentEditableHTML() {
                 return `
-                    <p><strong>公司名称</strong> <input type="text" value="江苏正大生物"></p>
-                    <p><strong>地址</strong> <input type="text" value="南京市浦口区"></p>
-                    <p><strong>联系人</strong> <input type="text" value="王芳"></p>
-                    <p><strong>电话</strong> <input type="text" value="025-58123456"></p>
-                    <p><strong>统一社会信用代码</strong> <input type="text" value="91320100MA1XXXXXX"></p>
-                    <p><strong>开户行</strong> <input type="text" value="农行南京分行"></p>
-                    <p><strong>账号</strong> <input type="text" value="6228480402564890012"></p>
+                    <p><strong>公司名称</strong> <input type="text" value="上海华康贸易"></p>
+                    <p><strong>地址</strong> <input type="text" value="上海市浦东新区"></p>
+                    <p><strong>联系人</strong> <input type="text" value="李经理"></p>
+                    <p><strong>电话</strong> <input type="text" value="021-12345678"></p>
+                    <p><strong>统一社会信用代码</strong> <input type="text" value="91310115MA1TEST456"></p>
+                    <p><strong>开户行</strong> <input type="text" value="农行上海分行"></p>
+                    <p><strong>账号</strong> <input type="text" value="6228480402564890999"></p>
                 `;
             }
 
-            function createRow(seq, name = '', spec = '', qty = 1, unit = 'kg', price = 0) {
-                const unitSelect = `<select class="unit-select">${unitOptions.map(u => `<option value="${u}" ${u === unit ? 'selected' : ''}>${u}</option>`).join('')}</select>`;
+            // 创建一行 (经销表格)
+            function createRow(seq, product = '', spec = '', region = '', target = 0, rate = 0) {
                 return `
                     <tr>
                         <td style="text-align:center;">${seq}</td>
-                        <td><input type="text" class="item-name" value="${name}" placeholder="原料名"></td>
-                        <td><input type="text" class="item-spec" value="${spec}" placeholder="CAS/规格"></td>
-                        <td><input type="number" class="item-qty" value="${qty}" min="0.001" step="0.001"></td>
-                        <td>${unitSelect}</td>
-                        <td><input type="number" class="item-price" value="${price}" min="0" step="0.01"></td>
-                        <td><span class="item-total">0.00</span></td>
+                        <td><input type="text" class="item-product" value="${product}" placeholder="产品名称"></td>
+                        <td><input type="text" class="item-spec" value="${spec}" placeholder="规格/CAS"></td>
+                        <td><input type="text" class="item-region" value="${region}" placeholder="代理区域"></td>
+                        <td><input type="number" class="item-target" value="${target}" min="0" step="0.01" placeholder="目标销售额"></td>
+                        <td><input type="number" class="item-rate" value="${rate}" min="0" max="100" step="0.1" placeholder="佣金%"></td>
+                        <td><span class="item-commission">0.00</span></td>
                         <td class="no-print"><button class="delete-btn">✖</button></td>
                     </tr>
                 `;
             }
 
+            // 刷新总计 (佣金总和)
             function refreshRowsAndTotal() {
                 const rows = itemsBody.querySelectorAll('tr');
                 let grandTotal = 0;
                 rows.forEach((row, idx) => {
                     row.cells[0].innerText = idx + 1;
-                    const qty = parseFloat(row.querySelector('.item-qty')?.value) || 0;
-                    const price = parseFloat(row.querySelector('.item-price')?.value) || 0;
-                    const rowTotal = qty * price;
-                    row.querySelector('.item-total').innerText = rowTotal.toFixed(2);
-                    grandTotal += rowTotal;
+                    const target = parseFloat(row.querySelector('.item-target')?.value) || 0;
+                    const rate = parseFloat(row.querySelector('.item-rate')?.value) || 0;
+                    const commission = target * rate / 100;
+                    row.querySelector('.item-commission').innerText = commission.toFixed(2);
+                    grandTotal += commission;
                 });
                 grandTotalSpan.innerText = '¥ ' + grandTotal.toFixed(2);
             }
 
             function attachRowEvents(row) {
-                row.querySelector('.item-qty')?.addEventListener('input', refreshRowsAndTotal);
-                row.querySelector('.item-price')?.addEventListener('input', refreshRowsAndTotal);
+                row.querySelector('.item-target')?.addEventListener('input', refreshRowsAndTotal);
+                row.querySelector('.item-rate')?.addEventListener('input', refreshRowsAndTotal);
                 row.querySelector('.delete-btn')?.addEventListener('click', function() {
                     if (itemsBody.children.length <= 1) { alert('至少保留一行'); return; }
                     row.remove();
                     refreshRowsAndTotal();
                 });
-                row.querySelector('.unit-select')?.addEventListener('change', refreshRowsAndTotal);
             }
 
             function addNewRow() {
                 const newSeq = (itemsBody.children.length || 0) + 1;
                 const temp = document.createElement('tbody');
-                temp.innerHTML = createRow(newSeq, '', '', 1, 'kg', 0);
+                temp.innerHTML = createRow(newSeq, '', '', '', 0, 0);
                 const newRow = temp.firstElementChild;
                 itemsBody.appendChild(newRow);
                 attachRowEvents(newRow);
@@ -1126,9 +1084,9 @@
             function initTable() {
                 itemsBody.innerHTML = '';
                 let temp = document.createElement('tbody');
-                temp.innerHTML = createRow(1, 'L-赖氨酸', 'CAS:56-87-1', 500, 'kg', 12.5);
+                temp.innerHTML = createRow(1, 'L-赖氨酸', '饲料级', '华东区', 500000, 5);
                 itemsBody.appendChild(temp.firstElementChild);
-                temp.innerHTML = createRow(2, '维生素C', 'USP级', 200, 'kg', 38.0);
+                temp.innerHTML = createRow(2, '维生素C', 'USP级', '华南区', 300000, 6);
                 itemsBody.appendChild(temp.firstElementChild);
                 Array.from(itemsBody.children).forEach(row => attachRowEvents(row));
                 refreshRowsAndTotal();
@@ -1138,52 +1096,52 @@
                 const contractNo = document.getElementById('contractNo').value;
                 const contractDate = document.getElementById('contractDate').value;
                 const contractPlace = document.getElementById('contractPlace').value;
-                const role = roleSeller.checked ? '泽林为卖方' : '泽林为买方';
+                const role = rolePrincipal.checked ? '泽林为委托方' : '泽林为代理方';
                 const clauses = document.getElementById('contractClauses').value;
 
-                const sellerInputs = sellerContent.querySelectorAll('input');
-                const seller = {};
-                sellerInputs.forEach(input => {
+                const principalInputs = principalContent.querySelectorAll('input');
+                const principal = {};
+                principalInputs.forEach(input => {
                     const label = input.previousElementSibling?.innerText || '';
-                    if (label.includes('公司名称')) seller.name = input.value;
-                    else if (label.includes('地址')) seller.address = input.value;
-                    else if (label.includes('联系人')) seller.contact = input.value;
-                    else if (label.includes('电话')) seller.phone = input.value;
-                    else if (label.includes('统一社会信用代码')) seller.taxId = input.value;
-                    else if (label.includes('开户行')) seller.bank = input.value;
-                    else if (label.includes('账号')) seller.account = input.value;
+                    if (label.includes('公司名称')) principal.name = input.value;
+                    else if (label.includes('地址')) principal.address = input.value;
+                    else if (label.includes('联系人')) principal.contact = input.value;
+                    else if (label.includes('电话')) principal.phone = input.value;
+                    else if (label.includes('统一社会信用代码')) principal.taxId = input.value;
+                    else if (label.includes('开户行')) principal.bank = input.value;
+                    else if (label.includes('账号')) principal.account = input.value;
                 });
 
-                const buyerInputs = buyerContent.querySelectorAll('input');
-                const buyer = {};
-                buyerInputs.forEach(input => {
+                const agentInputs = agentContent.querySelectorAll('input');
+                const agent = {};
+                agentInputs.forEach(input => {
                     const label = input.previousElementSibling?.innerText || '';
-                    if (label.includes('公司名称')) buyer.name = input.value;
-                    else if (label.includes('地址')) buyer.address = input.value;
-                    else if (label.includes('联系人')) buyer.contact = input.value;
-                    else if (label.includes('电话')) buyer.phone = input.value;
-                    else if (label.includes('统一社会信用代码')) buyer.taxId = input.value;
-                    else if (label.includes('开户行')) buyer.bank = input.value;
-                    else if (label.includes('账号')) buyer.account = input.value;
+                    if (label.includes('公司名称')) agent.name = input.value;
+                    else if (label.includes('地址')) agent.address = input.value;
+                    else if (label.includes('联系人')) agent.contact = input.value;
+                    else if (label.includes('电话')) agent.phone = input.value;
+                    else if (label.includes('统一社会信用代码')) agent.taxId = input.value;
+                    else if (label.includes('开户行')) agent.bank = input.value;
+                    else if (label.includes('账号')) agent.account = input.value;
                 });
 
                 const items = [];
                 const rows = itemsBody.querySelectorAll('tr');
                 rows.forEach(row => {
                     items.push({
-                        name: row.querySelector('.item-name')?.value || '',
+                        product: row.querySelector('.item-product')?.value || '',
                         spec: row.querySelector('.item-spec')?.value || '',
-                        qty: parseFloat(row.querySelector('.item-qty')?.value) || 0,
-                        unit: row.querySelector('.unit-select')?.value || 'kg',
-                        price: parseFloat(row.querySelector('.item-price')?.value) || 0,
-                        total: parseFloat(row.querySelector('.item-total')?.innerText) || 0
+                        region: row.querySelector('.item-region')?.value || '',
+                        target: parseFloat(row.querySelector('.item-target')?.value) || 0,
+                        rate: parseFloat(row.querySelector('.item-rate')?.value) || 0,
+                        commission: parseFloat(row.querySelector('.item-commission')?.innerText) || 0
                     });
                 });
 
-                const totalAmount = parseFloat(grandTotalSpan.innerText.replace('¥ ', '')) || 0;
+                const totalCommission = parseFloat(grandTotalSpan.innerText.replace('¥ ', '')) || 0;
 
                 return {
-                    contractNo, contractDate, contractPlace, role, seller, buyer, items, totalAmount, clauses,
+                    contractNo, contractDate, contractPlace, role, principal, agent, items, totalCommission, clauses,
                     exportedAt: new Date().toISOString()
                 };
             }
@@ -1204,8 +1162,8 @@
                 URL.revokeObjectURL(url);
             }
 
-            roleSeller.addEventListener('change', renderCompanyCards);
-            roleBuyer.addEventListener('change', renderCompanyCards);
+            rolePrincipal.addEventListener('change', renderCompanyCards);
+            roleAgent.addEventListener('change', renderCompanyCards);
             addRowBtn.addEventListener('click', addNewRow);
             document.getElementById('printPDFBtn').addEventListener('click', () => window.print());
             document.getElementById('exportJsonBtn').addEventListener('click', exportJson);
@@ -1262,13 +1220,12 @@
             initSignatureUpload('signatureUpload1', 'signaturePreview1', 'clearSignature1', 'signatureUploadBtn1');
             initSignatureUpload('signatureUpload2', 'signaturePreview2', 'clearSignature2', 'signatureUploadBtn2');
 
-            // ---------- 新增：证据包生成与邮件发送 ----------
+            // ---------- 证据包生成与邮件发送 ----------
             const generateBtn = document.getElementById('generateEvidenceBtn');
             const sendBtn = document.getElementById('sendEmailBtn');
             const hashDisplay = document.getElementById('hashDisplay');
             let currentHash = '';
 
-            // 辅助函数：将DataURL转换为Blob
             function dataURLtoBlob(dataurl) {
                 const arr = dataurl.split(',');
                 const mime = arr[0].match(/:(.*?);/)[1];
@@ -1281,46 +1238,28 @@
                 return new Blob([u8arr], { type: mime });
             }
 
-            // 生成证据包
             generateBtn.addEventListener('click', async function() {
                 try {
-                    // 收集所有数据
                     const contractData = collectFormData();
 
-                    // 获取签名图片的Blob
                     const sig1Preview = document.querySelector('#signaturePreview1 img');
                     const sig2Preview = document.querySelector('#signaturePreview2 img');
                     const stampImg = document.getElementById('stampUploadedImg');
 
                     let sig1Blob = null, sig2Blob = null, stampBlob = null;
-                    if (sig1Preview) {
-                        const dataURL = sig1Preview.src;
-                        sig1Blob = dataURLtoBlob(dataURL);
-                    }
-                    if (sig2Preview) {
-                        const dataURL = sig2Preview.src;
-                        sig2Blob = dataURLtoBlob(dataURL);
-                    }
-                    if (stampImg && stampImg.style.display !== 'none') {
-                        const dataURL = stampImg.src;
-                        stampBlob = dataURLtoBlob(dataURL);
-                    }
+                    if (sig1Preview) sig1Blob = dataURLtoBlob(sig1Preview.src);
+                    if (sig2Preview) sig2Blob = dataURLtoBlob(sig2Preview.src);
+                    if (stampImg && stampImg.style.display !== 'none') stampBlob = dataURLtoBlob(stampImg.src);
 
-                    // 创建ZIP
                     const zip = new JSZip();
-                    // 添加合同JSON
                     zip.file('contract.json', JSON.stringify(contractData, null, 2));
-                    // 添加签名图片
                     if (sig1Blob) zip.file('signature_A.png', sig1Blob);
                     if (sig2Blob) zip.file('signature_B.png', sig2Blob);
                     if (stampBlob) zip.file('stamp_opponent.png', stampBlob);
-                    // 添加签署时间
                     zip.file('signature_timestamp.txt', new Date().toISOString());
 
-                    // 生成ZIP文件
                     const zipBlob = await zip.generateAsync({ type: 'blob' });
 
-                    // 计算哈希值 (SHA-256)
                     const buffer = await zipBlob.arrayBuffer();
                     const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
                     const hashArray = Array.from(new Uint8Array(hashBuffer));
@@ -1328,7 +1267,6 @@
                     currentHash = hashHex;
                     hashDisplay.innerText = '证据包哈希值 (SHA-256): ' + hashHex;
 
-                    // 下载ZIP文件
                     const url = URL.createObjectURL(zipBlob);
                     const a = document.createElement('a');
                     a.href = url;
@@ -1342,7 +1280,6 @@
                 }
             });
 
-            // 发送邮件
             sendBtn.addEventListener('click', function() {
                 const emailA = document.getElementById('emailPartyA').value.trim();
                 const emailB = document.getElementById('emailPartyB').value.trim();
