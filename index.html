@@ -306,7 +306,7 @@
 
         .clause-box {
             clear: both;
-            margin: 0.2rem 0 0.2rem; /* 极大压缩上下边距 */
+            margin: 0.2rem 0 0; /* 底部外边距设为0，消除下方空白 */
         }
         .clause-box textarea {
             width: 100%;
@@ -323,7 +323,7 @@
         /* 页脚签名区 (双印章 + 双签名上传) */
         .signature-footer {
             position: relative;
-            margin: 0.2rem 0 0.1rem;
+            margin: 0 0 0.1rem; /* 上边距设为0，使签名区紧贴条款区域 */
             padding: 0.3rem 0.4rem 0.2rem; /* 缩小签名区内边距 */
             border-top: 2px dashed #a5d6a7;
             background: rgba(255, 255, 255, 0.5);
@@ -516,7 +516,7 @@
 
         /* 证据包相关样式 */
         .email-section {
-            margin: 0.2rem 0 0.1rem;
+            margin: 0 0 0.1rem; /* 上边距设为0，消除上方空白 */
             padding: 0.2rem 0.5rem;
             background: #f0f8f0;
             border-radius: 16px;
